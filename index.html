@@ -539,6 +539,19 @@
       --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
 
+    html,
+    body {
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    .max-w-6xl,
+    .max-w-7xl,
+    .section-shell {
+      width: 100%;
+      max-width: 100%;
+    }
+
     header.nav-header-enhanced {
       padding-top: calc(var(--safe-top) * 0.6);
     }
@@ -572,6 +585,9 @@
       gap: 14px;
       overflow-x: auto;
       padding: 4px 2px 12px;
+      justify-content: flex-start;
+      scroll-padding-left: 16px;
+      scroll-padding-right: 16px;
       scroll-snap-type: x mandatory;
     }
     #portfolioScroll .portfolio-ticket {
