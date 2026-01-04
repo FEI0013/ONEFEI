@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Automation Lab 02 · 文案 & 策略 · ONEFEI LAB</title>
+  <meta name="description" content="DashScope / GPT · 文案与策略链路：Brief -> Plan -> Output -> 多维建议。">
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+  :root{--bg:#0b0b0b;--fg:#f2f2f2;--muted:#bdbdbd;--faint:#7c7c7c;--line:#262626;--line2:#333;--panel:#0f0f0f;--accent:#e9e9e9;}
+  *{box-sizing:border-box}html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;line-height:1.6;}
+  a{color:inherit;text-decoration:none}
+  .container{max-width:1180px;margin:0 auto;padding:0 24px}
+  header.hero{padding:96px 0 56px;border-bottom:1px solid var(--line);}
+  .kicker{color:var(--faint);letter-spacing:.18em;text-transform:uppercase;font-size:12px;}
+  h1{font-size:52px;font-weight:520;margin:18px 0 18px;line-height:1.05;}
+  .lead{color:var(--muted);max-width:820px;font-size:16px;margin:0 0 22px;}
+  .hero-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;}
+  .chip{border:1px solid var(--line2);padding:8px 10px;border-radius:999px;font-size:12px;color:#d6d6d6;background:rgba(255,255,255,.02);}
+  .hero-media{border:1px solid var(--line2);background:rgba(255,255,255,.03);aspect-ratio:21/9;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  .hero-media img{width:100%;height:100%;object-fit:cover;display:block;}
+  .caption{font-size:12px;color:#8c8c8c;margin-top:10px;}
+  main{padding:54px 0 120px}
+  .section{padding-top:54px;border-top:1px solid var(--line);}
+  h2{font-size:28px;font-weight:520;margin:0 0 14px;}
+  p{color:var(--muted);max-width:820px;margin:0 0 18px;}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;align-items:start;}
+  .grid.three{grid-template-columns:repeat(3,1fr);}
+  .img-frame{border:1px solid var(--line2);background:rgba(255,255,255,.02);overflow:hidden;aspect-ratio:16/9;}
+  .img-frame img{width:100%;height:100%;object-fit:cover;display:block;}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px;}
+  .prompt-frame{position:relative;cursor:pointer;}
+  .prompt-overlay{position:absolute;inset:0;background:rgba(0,0,0,.86);color:#f2f2f2;padding:18px;font-size:12px;line-height:1.5;opacity:0;transition:opacity .3s ease;overflow:auto;}
+  .prompt-frame:hover .prompt-overlay{opacity:1;}
+  .prompt-overlay::-webkit-scrollbar{width:4px;}
+  .prompt-overlay::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);}
+  .prompt-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px;}
+  @media(max-width:960px){h1{font-size:42px}.grid,.grid.three,.cards{grid-template-columns:1fr}}
+  </style>
+</head>
+
+<body class="page-project02">
+  <div class="bg-layer bg-particles"></div>
+  <div class="bg-layer bg-noise"></div>
+
+  <header class="site-header glass-nav">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <span class="brand-label">ONEFEI · LAB</span>
+        <span class="brand-sub">Experimental Automation & Visual System</span>
+      </div>
+      <nav class="nav-menu">
+        <a href="index.html#lab-module-02">Home</a>
+        <a href="automation-lab-01.html">Lab 01</a>
+        <a href="automation-lab-02.html" class="active">Lab 02</a>
+        <a href="automation-lab-03.html">Lab 03</a>
+        <a href="automation-lab-04.html">Lab 04</a>
+      </nav>
+    </div>
+  </header>
+
+<header class="hero">
+  <div class="container">
+    <div class="kicker">AI-assisted copy & strategy</div>
+    <h1>Copy & Strategy · Lab 02</h1>
+    <p class="lead">Brief -> Plan -> Output -> 多维建议生成系统。用 DashScope / GPT 收集、分解、生成，并以版本化输出 + 策略评分闭环。</p>
+    <div class="hero-meta">
+      <span class="chip">Brief · Plan · Output</span>
+      <span class="chip">DashScope · GPT</span>
+      <span class="chip">多版生成 · 策略评分</span>
+      <span class="chip">自动化动作链</span>
+    </div>
+    <div class="grid" style="gap:12px;margin-top:24px;">
+      <div class="hero-media">
+        <img src="assets/img/lab-02/未来运动太阳眼镜主图.png" alt="Hero · 21:9 主图 A">
+      </div>
+      <div class="hero-media">
+        <img src="assets/img/lab-02/未来运动太阳眼镜主图2.jpeg" alt="Hero · 21:9 主图 B">
+      </div>
+    </div>
+    <div class="caption">主图 2 张：横屏 21:9，便于 AB 对比。</div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- 01 Problem & Research -->
+    <section class="section" id="problem">
+      <h2>01 · Problem & Research</h2>
+      <p>01- 前缀：问题分析、简明图解、用户研究、视觉体验，聚焦视觉压力与佩戴稳定性。</p>
+      <div class="grid">
+        <div class="img-frame"><img src="assets/img/lab-02/01-眼镜设计问题分析.png" alt="问题分析"></div>
+        <div class="img-frame"><img src="assets/img/lab-02/01-眼镜问题简明图解.png" alt="问题简明图解"></div>
+        <div class="img-frame"><img src="assets/img/lab-02/01-运动眼镜用户研究图.png" alt="用户研究"></div>
+        <div class="img-frame"><img src="assets/img/lab-02/01-眼镜下的视觉体验.png" alt="视觉体验"></div>
+      </div>
+    </section>
+
+    <!-- 02 Sketch & Forming -->
+    <section class="section" id="sketch">
+      <h2>02 · Sketch & Forming</h2>
+      <p>02- 前缀：草图与形态推导，从手绘到 X 光透视。</p>
+      <div class="grid three">
+        <div class="img-frame"><img src="assets/img/lab-02/02-未来运动太阳镜设计草图.png" alt="设计草图 A"></div>
+        <div class="img-frame"><img src="assets/img/lab-02/02-未来运动太阳镜设计草图1.png" alt="设计草图 B"></div>
+        <div class="img-frame"><img src="assets/img/lab-02/02-未来感运动太阳镜- X光透视图.png" alt="X 光透视"></div>
+      </div>
+    </section>
+
+    <!-- 03 Variants & Linework -->
+    <section class="section" id="variant">
+      <h2>03 · Variants & Linework</h2>
+      <p>03- 前缀：线条雕刻 / 机械 / 生物风格 / 草图。</p>
+      <div class="grid">
+        <div class="img-frame"><img src="assets/img/lab-02/03-未来感太阳镜线条雕刻-变体未来线条风格.png" alt="线条雕刻"></div>
+        <div class="img-frame"><img src="assets/img/lab-02/03-未来运动太阳镜设计图-变体机械风格.png" alt="机械风格"></div>
+        <div class="img-frame"><img src="assets/img/lab-02/03-未来感运动太阳镜设计-变体生物风格.png" alt="生物风格"></div>
+        <div class="img-frame"><img src="assets/img/lab-02/03-运动太阳镜设计草图.png" alt="草图补充"></div>
+      </div>
+    </section>
+
+    <!-- 04 Product & Material -->
+    <section class="section" id="product">
+      <h2>04 · Product & Material</h2>
+      <p>04- 前缀：设计主图与材质特写，统一 16:9 比例。</p>
+      <div class="grid">
+        <div class="img-frame"><img src="assets/img/lab-02/04-未来运动太阳镜设计.png" alt="设计主图"></div>
+        <div class="img-frame"><img src="assets/img/lab-02/04-运动风护目镜水珠特写.png" alt="水珠特写"></div>
+      </div>
+    </section>
+
+    <!-- 05 Outputs -->
+    <section class="section" id="outputs">
+      <h2>05 · Outputs</h2>
+      <p>05- 前缀：效果输出合集，统一 16:9 比例。</p>
+      <div class="grid three">
+        <div class="img-frame"><img src="assets/img/lab-02/05.jpeg" alt="输出 05"></div>
+        <div class="img-frame"><img src="assets/img/lab-02/05-1.png" alt="输出 05-1"></div>
+        <div class="img-frame"><img src="assets/img/lab-02/05-2.jpeg" alt="输出 05-2"></div>
+      </div>
+    </section>
+
+    <!-- 06 Colorway -->
+    <section class="section" id="colorway">
+      <h2>06 · Product Colorway</h2>
+      <p>06- 前缀：量产配色（黑/白/灰），统一 16:9 比例。</p>
+      <div class="grid three">
+        <div class="img-frame"><img src="assets/img/lab-02/06-眼镜-黑色款.png" alt="黑色款"></div>
+        <div class="img-frame"><img src="assets/img/lab-02/06-眼镜-白色款.png" alt="白色款"></div>
+        <div class="img-frame"><img src="assets/img/lab-02/06-眼镜-灰色款.png" alt="灰色款"></div>
+      </div>
+    </section>
+
+    <!-- 07 Effects -->
+    <section class="section" id="effects">
+      <h2>07 · Generated Effects</h2>
+      <p>07- 前缀：6 张效果图，三列并排，统一 16:9 比例。</p>
+      <div class="grid three">
+        <div class="img-frame prompt-frame">
+          <img src="assets/img/lab-02/07-1.jpeg" alt="Effect 07-1">
+          <div class="prompt-overlay">
+            <span class="prompt-label">Prompt</span>
+            <p>foreground obstruction such as poles, passing figures, or vehicles,<br />
+partial view of the subject,<br /><br />
+camera shooting from concealment,<br />
+off-balance framing,<br /><br />
+the subject unaware,<br />
+image feels stolen, not permitted,<br /><br />
+raw, imperfect,<br />
+true street photography aesthetic</p>
+          </div>
+        </div>
+        <div class="img-frame prompt-frame">
+          <img src="assets/img/lab-02/07-2.jpeg" alt="Effect 07-2">
+          <div class="prompt-overlay">
+            <span class="prompt-label">Prompt</span>
+            <p>modern city street with glass storefronts,<br />
+the subject passing reflective surfaces,<br />
+double image created by reflection,<br />
+the eyewear mirrored in glass,<br />
+camera slightly oblique,<br />
+layered depth between reflection and reality,<br />
+quiet, analytical,<br />
+street photography with visual complexity</p>
+          </div>
+        </div>
+        <div class="img-frame prompt-frame">
+          <img src="assets/img/lab-02/07-3.jpeg" alt="Effect 07-3">
+          <div class="prompt-overlay">
+            <span class="prompt-label">Prompt</span>
+            <p>foreground obstruction such as poles, passing figures, or vehicles,<br />
+partial view of the subject,<br /><br />
+camera shooting from concealment,<br />
+off-balance framing,<br /><br />
+the subject unaware,<br />
+image feels stolen, not permitted,<br /><br />
+raw, imperfect,<br />
+true street photography aesthetic</p>
+          </div>
+        </div>
+        <div class="img-frame prompt-frame">
+          <img src="assets/img/lab-02/07-4.jpeg" alt="Effect 07-4">
+          <div class="prompt-overlay">
+            <span class="prompt-label">Prompt</span>
+            <p>Landscape orientation, aspect ratio 16:9,<br /><br />
+dense city street with heavy pedestrian traffic,<br />
+the subject walking directly toward the camera,<br />
+crowd flowing around the subject,<br />
+foreground and background figures partially blurred,<br /><br />
+the model unaware of being photographed,<br />
+neutral face, self-contained presence,<br />
+the sunglasses acting as a visual barrier,<br /><br />
+street-level camera position,<br />
+medium telephoto compression,<br />
+background motion blur, subject relatively sharp,<br /><br />
+natural city light,<br />
+strong contrast, mixed highlights and shadow,<br /><br />
+documentary street photography,<br />
+decisive moment,<br />
+found image, not staged</p>
+          </div>
+        </div>
+        <div class="img-frame prompt-frame">
+          <img src="assets/img/lab-02/07-5.jpeg" alt="Effect 07-5">
+          <div class="prompt-overlay">
+            <span class="prompt-label">Prompt</span>
+            <p>urban street after rain,<br />
+wet asphalt reflecting buildings and sky,<br />
+residual moisture on skin and eyewear,<br />
+the subject walking through reflective surfaces,<br />
+light bouncing upward from the ground,<br />
+subtle reflections visible on the lens,<br />
+cool color temperature,<br />
+found moment,<br />
+no dramatization,<br />
+industrial realism</p>
+          </div>
+        </div>
+        <div class="img-frame prompt-frame">
+          <img src="assets/img/lab-02/07-6.jpeg" alt="Effect 07-6">
+          <div class="prompt-overlay">
+            <span class="prompt-label">Prompt</span>
+            <p>the exact same sunglasses design as the reference,<br />
+a single-piece monocoque wraparound sunglasses,<br />
+compressed horizontal shield lens,<br />
+vertically reduced lens height,<br />
+thick structural upper frame with minimal lower edge,<br />
+continuous aerodynamic curvature flowing into elongated side arms,<br />
+no visible hinge, no screws,<br />
+sharp structural break along the side silhouette,<br />
+arms taper and slightly rise toward the rear,<br />
+matte industrial polymer with micro-grain texture,<br />
+dark graphite to deep charcoal tone,<br />
+no redesign, no variation, no reinterpretation,<br /><br />
+Landscape orientation, aspect ratio 16:9,<br /><br />
+dense European city environment,<br />
+stone architecture, narrow streets, urban textures,<br />
+industrial city realism mixed with high-fashion context,<br />
+natural city light filtered through buildings,<br /><br />
+a young adult white male model,<br />
+lean and sharp facial structure,<br />
+long hair tied into a low or mid bun,<br />
+high cheekbones, narrow jawline,<br />
+calm, distant expression,<br />
+strong presence without performance,<br /><br />
+fashion-forward but restrained styling,<br />
+dark tailored outerwear,<br />
+clean silhouettes, minimal color palette,<br />
+no visible branding,<br />
+the model moves naturally through the city,<br />
+unaware of the camera,<br /><br />
+the sunglasses integrate as a cold industrial interface,<br />
+acting as a visual barrier,<br />
+side silhouette occasionally catching light during movement,<br /><br />
+street-level fashion photography camera language,<br />
+slightly low or oblique angle,<br />
+off-center framing,<br />
+partial body cropping,<br />
+foreground pedestrians or architecture creating visual interference,<br /><br />
+natural available light,<br />
+strong contrast between highlights and shadow,<br />
+no studio lighting,<br />
+no beauty retouching,<br />
+skin texture preserved,<br /><br />
+high-end fashion editorial photography,<br />
+modern European fashion sensibility,<br />
+cool, detached, confident,<br />
+cinematic but restrained,<br />
+feels observed, not posed,<br /><br />
+not commercial advertising,<br />
+not lifestyle imagery,<br /><br />
+realistic texture, realistic optics,<br /><br />
+no branding,<br />
+no logo,<br />
+no text,<br />
+no typography,<br />
+no heroic posing,<br />
+no redesign of the eyewear</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 Deliverables -->
+    <section class="section" id="deliver">
+      <h2>08 · Deliverables</h2>
+      <p>按命名归档后的展示清单：研究 → 草图 → 变体 → 材质 → 输出 → 配色 → Generated 效果。</p>
+      <div class="cards">
+        <div class="card">
+          <h3>MVP</h3>
+          <ul>
+            <li>1× 主视图 / 配色主图</li>
+            <li>2× 问题 & 研究（分析 / 用户）</li>
+            <li>2× 草图 / 透视</li>
+            <li>2× 变体（线条 / 机械）</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Nice to Have</h3>
+          <ul>
+            <li>2× 材质/界面特写</li>
+            <li>3× 输出合集（05 组）</li>
+            <li>3× 配色量产款</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>How to Use</h3>
+          <ul>
+            <li>按命名分组，保持横屏比例</li>
+            <li>如有新增图，放入对应前缀分组</li>
+            <li>展示时按模块顺序输出即可</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="section section-bottom-nav">
+      <div class="bottom-nav-inner">
+        <a href="automation-lab-01.html" class="btn-ghost">&larr; 上一页</a>
+        <a href="automation-lab-03.html" class="btn-outline">下一页 &rarr;</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+  <script src="assets/js/protect.js" defer></script>
+</body>
+</html>

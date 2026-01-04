@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Product Design - 01 (Mark?Clennon Style)</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <style>
+    :root{
+      --bg:#0b111c;
+      --ink:#e2e8f0;
+      --muted: rgba(226,232,240,.6);
+      --line: rgba(148,163,184,.18);
+      --chip: rgba(148,163,184,.12);
+      --radius: 14px;
+      --max: 1280px;
+      --side: 210px;
+      --gap: 18px;
+      --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{ margin:0; font-family: var(--font); background: var(--bg); color: var(--ink); }
+
+    /* Layout */
+    .shell{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 28px 18px 70px;
+    }
+    @media (max-width: 980px){
+      .shell{ padding-top: 18px; }
+    }
+
+
+    /* Main */
+    .main{ min-width: 0; }
+    .topline{ display:flex; align-items:flex-end; justify-content:space-between; gap: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--line); margin-bottom: 18px; }
+    .topline h1{ margin:0; font-size: 20px; letter-spacing:.06em; text-transform: uppercase; font-weight: 700; }
+    .topline .meta{ font-size: 12px; color: var(--muted); letter-spacing:.08em; text-transform: uppercase; white-space: nowrap; }
+
+    /* ====== Strips layout (reference) ====== */
+    .strips{ display:grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0; border-left: 1px solid var(--line); border-right: 1px solid var(--line); }
+    @media (max-width: 1200px){ .strips{ grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+    @media (max-width: 860px){ .strips{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 520px){ .strips{ grid-template-columns: 1fr; } }
+
+    .strip{ min-height: 680px; border-right: 1px solid var(--line); position:relative; cursor:pointer; background: rgba(15, 23, 42, 0.4); overflow:hidden; }
+    .strip:hover{ background: rgba(148,163,184,.08); }
+
+    .strip-inner{ height: 100%; padding: 16px 14px 14px; display:flex; flex-direction:column; gap: 12px; }
+    .strip-top{ display:flex; align-items:flex-start; justify-content:space-between; gap: 10px; }
+    .strip-num{ font-size: 92px; line-height: .9; font-weight: 800; letter-spacing: -.02em; }
+    .strip-meta{ margin-top: 10px; text-align:right; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+
+    .strip-mid{ border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 12px 0; display:flex; flex-direction:column; gap: 10px; }
+    .strip-author{ font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: rgba(226,232,240,.75); }
+    .strip-quote{ font-size: 13px; line-height: 1.7; color: rgba(226,232,240,.75); min-height: 50px; font-weight: 400; }
+    .strip-page{ display:flex; align-items:center; justify-content:space-between; gap: 10px; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: rgba(226,232,240,.6); }
+
+    .strip-thumb{ width:100%; height: 180px; border: 1px solid var(--line); border-radius: 12px; overflow:hidden; background: rgba(15,23,42,.6); }
+    .strip-thumb img{ width:100%; height:100%; object-fit: cover; display:block; }
+
+    .strip-vtitle{ margin-top: auto; display:flex; align-items:flex-end; justify-content:center; min-height: 240px; }
+    .vtext{ font-size: 62px; line-height: .85; font-weight: 900; letter-spacing: -.01em; writing-mode: vertical-rl; transform: rotate(180deg); text-transform: uppercase; }
+
+    /* ====== Lightbox modal ====== */
+    .modal{ position:fixed; inset:0; display:none; place-items:center; background: rgba(2,6,23,.78); backdrop-filter: blur(12px); z-index: 50; }
+    .modal.open{ display:grid; }
+
+    .modal-card{ width: min(1120px, calc(100vw - 26px)); border: 1px solid var(--line); background: rgba(15,23,42,.92); border-radius: 18px; overflow:hidden; box-shadow: 0 30px 120px rgba(0,0,0,.45); }
+
+    .modal-top{ display:flex; align-items:center; justify-content:space-between; gap: 10px; padding: 12px 12px; border-bottom: 1px solid var(--line); }
+    .modal-top .left{ display:flex; flex-direction:column; gap: 4px; min-width:0; }
+    .modal-top .left .tt{ font-size: 13px; font-weight: 700; letter-spacing:.02em; white-space: nowrap; overflow:hidden; text-overflow: ellipsis; color: var(--ink); }
+    .modal-top .left .ss{ font-size: 11px; color: var(--muted); letter-spacing:.14em; text-transform: uppercase; }
+
+    .x{ cursor:pointer; border: 1px solid var(--line); background: transparent; padding: 9px 10px; border-radius: 999px; font-size: 12px; letter-spacing:.10em; text-transform: uppercase; color: var(--ink); }
+    .x:hover{ background: var(--chip); }
+
+    .modal-body{ display:grid; grid-template-columns: 1.35fr .65fr; min-height: 520px; }
+    @media (max-width: 980px){ .modal-body{ grid-template-columns: 1fr; } }
+
+    .preview{ background: rgba(15,23,42,.7); border-right: 1px solid var(--line); display:flex; flex-direction:column; }
+    .preview-main{ height: 360px; display:flex; align-items:center; justify-content:center; background: rgba(2,6,23,.6); }
+    .preview-main img,
+    .preview-main video{ width:100%; height:100%; object-fit: cover; display:block; background: rgba(2,6,23,.6); }
+    .preview-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; padding: 10px; background: rgba(15,23,42,.6); border-top: 1px solid var(--line); max-height: 220px; overflow:auto; }
+    .preview-item{ border: 1px solid var(--line); border-radius: 10px; overflow:hidden; background: rgba(2,6,23,.6); cursor:pointer; aspect-ratio: 4 / 3; }
+    .preview-item img,
+    .preview-item video{ width:100%; height:100%; object-fit: cover; display:block; }
+    .preview-item.is-active{ outline: 2px solid rgba(226,232,240,.9); outline-offset: 1px; }
+
+    .side{ padding: 14px; }
+    .side h3{ margin:0 0 8px; font-size: 18px; letter-spacing:.01em; }
+    .side p{ margin:0 0 14px; font-size: 14px; line-height: 1.8; color: rgba(226,232,240,.75); font-weight: 400; }
+
+    .links{ display:flex; flex-wrap:wrap; gap: 10px; }
+    .a{ text-decoration:none; border: 1px solid var(--line); padding: 10px 12px; border-radius: 999px; font-size: 12px; letter-spacing:.10em; text-transform: uppercase; color: var(--ink); background: rgba(15,23,42,.6); transition: background .15s ease, transform .15s ease; }
+    .a:hover{ background: var(--chip); transform: translateY(-1px); }
+
+    .footer{ margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); display:flex; gap: 10px; justify-content:space-between; flex-wrap:wrap; }
+
+    /* tiny test output */
+    .tests{ margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line); font-size: 12px; color: rgba(11,11,11,.65); display:none; }
+    .tests.show{ display:block; }
+    .tests .ok{ color:#0b7a31; }
+    .tests .bad{ color:#b00020; }
+  </style>
+</head>
+
+<body>
+  <header class="nav-header-enhanced">
+    <div class="top-inner">
+      <div class="top-brand">
+        <div class="k">ONEFEI - LAB</div>
+        <div class="t">Architectural Design</div>
+      </div>
+      <nav class="top-nav">
+        <a class="nav-link" href="index.html#portfolio-arch">Home</a>
+        <a class="nav-link" href="project-01.html">Product</a>
+        <a class="nav-link" href="animation-xian.html">Motion</a>
+        <a class="nav-link nav-active" href="Architectural-Design.html">Architecture</a>
+        <a class="nav-link" href="web-design-01.html">Web</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="shell" id="app">
+    <main class="main">
+      <div class="topline">
+        <h1>Commissioned</h1>
+        <div class="meta"><span id="count"></span> projects - <span id="year"></span></div>
+      </div>
+
+      <section class="strips" id="strips"></section>
+
+      <div class="footer">
+        <div>(c) FEI - product-design-01</div>
+        <div>Paths: assets/img/Architectural-Design/01.jpg ... 06.jpg</div>
+      </div>
+
+      <div class="tests" id="tests"></div>
+    </main>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div class="modal" id="modal">
+    <div class="modal-card">
+      <div class="modal-top">
+        <div class="left">
+          <div class="tt" id="mTitle">PROJECT</div>
+          <div class="ss" id="mSub">COMMISSIONED</div>
+        </div>
+        <button class="x" id="mClose" type="button">Close</button>
+      </div>
+      <div class="modal-body">
+        <div class="preview">
+          <div class="preview-main" id="mPreview"></div>
+          <div class="preview-grid" id="mGallery"></div>
+        </div>
+        <div class="side">
+          <h3 id="mH3">Project Name</h3>
+          <p id="mDesc">Description</p>
+          <div class="links" style="margin-top:14px">
+            <a class="a" id="mDetail" href="#" target="_self">Open Detail</a>
+            <a class="a" id="mCopy" href="#" onclick="return false;">Copy Asset Path</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const PROJECTS = [
+      {
+        id:"01",
+        title:"Urban Pavilion / Commissioned",
+        vtitle:"NEXUS",
+        author:"FEI",
+        quote:"城市界面入口的结构秩序与导向张力。",
+        page:"PAGE 36",
+        year:"2025",
+        tag:"Commissioned",
+        tags:["pavilion","urban","glass"],
+        cover:"assets/img/Architectural-Design/01/效果图 (1).jpg",
+        folder:"assets/img/Architectural-Design/01/",
+        detail:"product-design-01-detail-01.html",
+        desc:"城市界面中的轻量体块与结构秩序：入口、动线、视觉张力与材料层级。",
+        assets:[
+          "assets/img/Architectural-Design/01/效果图 (1).jpg",
+          "assets/img/Architectural-Design/01/效果图 (2).jpg",
+          "assets/img/Architectural-Design/01/效果图 (3).jpg",
+          "assets/img/Architectural-Design/01/效果图 (4).jpg",
+          "assets/img/Architectural-Design/01/效果图 (5).jpg",
+          "assets/img/Architectural-Design/01/概念图 (1).jpg",
+          "assets/img/Architectural-Design/01/概念图 (2).jpg"
+        ]
+      },
+      {
+        id:"02",
+        title:"Sunset Edge / Massing Study",
+        vtitle:"BLOCK",
+        author:"FEI",
+        quote:"退台切片与天际线边缘的光照逻辑。",
+        page:"PAGE 48",
+        year:"2025",
+        tag:"Commissioned",
+        tags:["massing","sunset","concept"],
+        cover:"assets/img/Architectural-Design/02/效果图 (1).jpg",
+        folder:"assets/img/Architectural-Design/02/",
+        detail:"product-design-01-detail-02.html",
+        desc:"以天际线为基准的体块分割：水平切片、退台与光线边缘。",
+        assets:[
+          "assets/img/Architectural-Design/02/效果图 (1).jpg",
+          "assets/img/Architectural-Design/02/效果图 (2).jpg",
+          "assets/img/Architectural-Design/02/效果图 (3).jpg",
+          "assets/img/Architectural-Design/02/效果图 (4).jpg",
+          "assets/img/Architectural-Design/02/效果图 (5).jpg",
+          "assets/img/Architectural-Design/02/效果图 (6).jpg",
+          "assets/img/Architectural-Design/02/效果图 (7).jpg",
+          "assets/img/Architectural-Design/02/概念图 (1).png",
+          "assets/img/Architectural-Design/02/概念图 (2).png",
+          "assets/img/Architectural-Design/02/立面图.png"
+        ]
+      },
+      {
+        id:"03",
+        title:"Fluid Facade / Museum Skin",
+        vtitle:"TORSION",
+        author:"FEI",
+        quote:"曲面表皮与结构骨架的连续协同。",
+        page:"PAGE 60",
+        year:"2025",
+        tag:"Commissioned",
+        tags:["facade","museum","curve"],
+        cover:"assets/img/Architectural-Design/03/Generated Image December 30, 2025 - 7_00PM.jpeg",
+        folder:"assets/img/Architectural-Design/03/",
+        detail:"product-design-01-detail-03.html",
+        desc:"曲面表皮与结构骨架的协同：连续性、反射与尺度控制。",
+        assets:[
+          "assets/img/Architectural-Design/03/Generated Image December 30, 2025 - 7_00PM.jpeg",
+          "assets/img/Architectural-Design/03/内部结构图.jpeg",
+          "assets/img/Architectural-Design/03/分析图 (1).jpeg",
+          "assets/img/Architectural-Design/03/分析图 (2).jpeg",
+          "assets/img/Architectural-Design/03/分析图 (3).jpeg",
+          "assets/img/Architectural-Design/03/分析图 (4).jpeg",
+          "assets/img/Architectural-Design/03/平面图 (1).png",
+          "assets/img/Architectural-Design/03/平面图 (2).png",
+          "assets/img/Architectural-Design/03/平面图 (3).png",
+          "assets/img/Architectural-Design/03/效果图 (1).jpeg",
+          "assets/img/Architectural-Design/03/效果图 (1).png",
+          "assets/img/Architectural-Design/03/立面图.jpeg"
+        ]
+      },
+      {
+        id:"04",
+        title:"Transit Diagram / Urban Strategy",
+        vtitle:"VECTOR",
+        author:"FEI",
+        quote:"节点—流线—层级的策略可视化。",
+        page:"PAGE 68",
+        year:"2025",
+        tag:"Commissioned",
+        tags:["diagram","masterplan","transport"],
+        cover:"assets/img/Architectural-Design/04/效果图 (1).jpg",
+        folder:"assets/img/Architectural-Design/04/",
+        detail:"product-design-01-detail-04.html",
+        desc:"交通与城市策略图：节点、流线、层级、可达性与功能拼接。",
+        assets:[
+          "assets/img/Architectural-Design/04/效果图 (1).jpg",
+          "assets/img/Architectural-Design/04/效果图 (2).jpg",
+          "assets/img/Architectural-Design/04/图片7.png",
+          "assets/img/Architectural-Design/04/分析图 (1).png",
+          "assets/img/Architectural-Design/04/分析图 (2).png",
+          "assets/img/Architectural-Design/04/分析图 (3).png",
+          "assets/img/Architectural-Design/04/日照分析.mp4"
+        ]
+      },
+      {
+        id:"05",
+        title:"Landscape Horizon / Site Mood",
+        vtitle:"HORIZON",
+        author:"FEI",
+        quote:"地形与远景共同决定的情绪色温。",
+        page:"PAGE 78",
+        year:"2025",
+        tag:"Commissioned",
+        tags:["site","mood","landscape"],
+        cover:"assets/img/Architectural-Design/05/场景图 (1).png",
+        folder:"assets/img/Architectural-Design/05/",
+        detail:"product-design-01-detail-05.html",
+        desc:"场地情绪与光照氛围：地形、远景、风向与材料色温。",
+        assets:[
+          "assets/img/Architectural-Design/05/场景图 (1).png",
+          "assets/img/Architectural-Design/05/场景图 (10).png",
+          "assets/img/Architectural-Design/05/场景图 (11).png",
+          "assets/img/Architectural-Design/05/场景图 (12).png",
+          "assets/img/Architectural-Design/05/场景图 (13).png",
+          "assets/img/Architectural-Design/05/场景图 (2).png",
+          "assets/img/Architectural-Design/05/场景图 (3).png",
+          "assets/img/Architectural-Design/05/场景图 (4).png",
+          "assets/img/Architectural-Design/05/场景图 (5).png",
+          "assets/img/Architectural-Design/05/场景图 (6).png",
+          "assets/img/Architectural-Design/05/场景图 (7).png",
+          "assets/img/Architectural-Design/05/场景图 (8).png",
+          "assets/img/Architectural-Design/05/场景图 (9).png",
+          "assets/img/Architectural-Design/05/方案图.jpg",
+          "assets/img/Architectural-Design/05/概念图 (1).jpeg",
+          "assets/img/Architectural-Design/05/概念图 (1).png",
+          "assets/img/Architectural-Design/05/概念图 (2).jpeg"
+        ]
+      },
+      {
+        id:"06",
+        title:"Twin Towers / Concept Elevation",
+        vtitle:"STRUCTURE",
+        author:"FEI",
+        quote:"竖向秩序、分缝与克制的焦点留白。",
+        page:"PAGE 86",
+        year:"2025",
+        tag:"Commissioned",
+        tags:["tower","elevation","minimal"],
+        cover:"assets/img/Architectural-Design/06/效果图 (1).png",
+        folder:"assets/img/Architectural-Design/06/",
+        detail:"product-design-01-detail-06.html",
+        desc:"极简立面与比例控制：竖向秩序、分缝、体块克制与焦点留白。",
+        assets:[
+          "assets/img/Architectural-Design/06/效果图 (1).png",
+          "assets/img/Architectural-Design/06/效果图 (2).png",
+          "assets/img/Architectural-Design/06/效果图 (3).jfif",
+          "assets/img/Architectural-Design/06/效果图 (3).png",
+          "assets/img/Architectural-Design/06/效果图 (4).png",
+          "assets/img/Architectural-Design/06/白膜.jpg"
+        ]
+      }
+    ];
+
+    const stripsEl = document.getElementById('strips');
+    const countEl = document.getElementById('count');
+    const yearEl = document.getElementById('year');
+    yearEl.textContent = String(new Date().getFullYear());
+
+    // modal
+    const modal = document.getElementById('modal');
+    const mClose = document.getElementById('mClose');
+    const mPreview = document.getElementById('mPreview');
+    const mGallery = document.getElementById('mGallery');
+    const mTitle = document.getElementById('mTitle');
+    const mSub = document.getElementById('mSub');
+    const mH3 = document.getElementById('mH3');
+    const mDesc = document.getElementById('mDesc');
+    const mDetail = document.getElementById('mDetail');
+    const mCopy = document.getElementById('mCopy');
+
+    // Clipboard helpers
+    // Fix: avoid embedding raw control characters in regex ranges.
+    // Remove C0 controls except \t/\n/\r (keep them for normalization), plus DEL.
+    function sanitizeClipboardText(raw){
+      const s = String(raw ?? '');
+      const noControls = s.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '');
+      const normalized = noControls
+        .replace(/\r\n?/g, '\n')
+        .replace(/\n+/g, ' ');
+      return normalized.trim();
+    }
+
+    async function safeCopyToClipboard(text){
+      const cleaned = sanitizeClipboardText(text);
+      if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+        await navigator.clipboard.writeText(cleaned);
+        return cleaned;
+      }
+      const ta = document.createElement('textarea');
+      ta.value = cleaned;
+      ta.setAttribute('readonly','');
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      ta.style.top = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      if (!ok) throw new Error('Copy failed');
+      return cleaned;
+    }
+
+    function stripTemplate(p){
+      const num = String(p.id).replace(/^0+/, '') || p.id;
+      const author = (p.author || 'FEI STUDIO').toUpperCase();
+      const quote = p.quote || p.desc || '一句话描述项目的核心张力/叙事。';
+      const page = p.page || `PAGE ${(30 + Number(num || 1) * 6)}`;
+      const cover = (p.cover && p.cover !== 'PLACEHOLDER') ? p.cover : '';
+
+      const vtitle = (p.vtitle || (p.title || 'PROJECT')).split('/')[0].trim().toUpperCase();
+
+      return `
+        <article class="strip" data-id="${p.id}">
+          <div class="strip-inner">
+            <div class="strip-top">
+              <div class="strip-num">${num}</div>
+              <div class="strip-meta">${(p.tag || 'Commissioned')}</div>
+            </div>
+
+            <div class="strip-mid">
+              <div class="strip-author">${author}</div>
+              <div class="strip-quote">${quote}</div>
+              <div class="strip-page"><span>${page}</span><span>${p.year || new Date().getFullYear()}</span></div>
+            </div>
+
+            <div class="strip-thumb">
+              ${cover ? `<img src="${cover}" alt="${p.title || 'Project'}" loading="lazy" />` : ''}
+            </div>
+
+            <div class="strip-vtitle">
+              <div class="vtext">${vtitle}</div>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function isVideo(src){
+      return /\.(mp4|webm|ogg)$/i.test(String(src || ''));
+    }
+
+    function renderPreview(src){
+      if (!src) {
+        mPreview.innerHTML = '';
+        return;
+      }
+      if (isVideo(src)) {
+        mPreview.innerHTML = `<video controls playsinline muted><source src="${src}" type="video/mp4" /></video>`;
+        return;
+      }
+      mPreview.innerHTML = `<img src="${src}" alt="preview" />`;
+    }
+
+    function renderGallery(assets){
+      mGallery.innerHTML = assets.map((src, idx) => {
+        if (isVideo(src)) {
+          return `<div class="preview-item${idx === 0 ? ' is-active' : ''}" data-src="${src}"><video muted playsinline preload="metadata"><source src="${src}" type="video/mp4" /></video></div>`;
+        }
+        return `<div class="preview-item${idx === 0 ? ' is-active' : ''}" data-src="${src}"><img src="${src}" alt="thumb" loading="lazy" /></div>`;
+      }).join('');
+
+      mGallery.querySelectorAll('.preview-item').forEach(item => {
+        item.addEventListener('click', () => {
+          mGallery.querySelectorAll('.preview-item').forEach(el => el.classList.remove('is-active'));
+          item.classList.add('is-active');
+          renderPreview(item.getAttribute('data-src'));
+        });
+      });
+    }
+
+    function openModal(p){
+      mTitle.textContent = `${p.id} · ${p.title}`;
+      mSub.textContent = (p.tag || 'PROJECT').toUpperCase();
+      mH3.textContent = p.title;
+      mDesc.textContent = p.desc || '';
+      const assets = Array.isArray(p.assets) && p.assets.length ? p.assets : ((p.cover && p.cover !== 'PLACEHOLDER') ? [p.cover] : []);
+      renderPreview(assets[0] || '');
+      renderGallery(assets);
+      mDetail.href = p.detail || '#';
+
+      mCopy.onclick = async () => {
+        const raw = p.folder || p.cover || '';
+        try{
+          await safeCopyToClipboard(raw);
+          mCopy.textContent = 'Copied ✓';
+          setTimeout(()=> mCopy.textContent = 'Copy Asset Path', 1100);
+        }catch(e){
+          alert('Clipboard not allowed. Path:\n' + sanitizeClipboardText(raw));
+        }
+        return false;
+      };
+
+      modal.classList.add('open');
+    }
+
+    function closeModal(){ modal.classList.remove('open'); }
+
+    function bindClicks(container){
+      container.querySelectorAll('[data-id]').forEach(el => {
+        el.addEventListener('click', () => {
+          const id = el.getAttribute('data-id');
+          const p = PROJECTS.find(x => x.id === id);
+          if (p) openModal(p);
+        });
+      });
+    }
+
+    function render(list){
+      countEl.textContent = String(list.length);
+      stripsEl.innerHTML = list.map(stripTemplate).join('');
+      bindClicks(stripsEl);
+    }
+
+    // events
+    modal.addEventListener('click', (e)=>{ if (e.target === modal) closeModal(); });
+    mClose.addEventListener('click', closeModal);
+    window.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closeModal(); });
+
+    // init
+    render(PROJECTS);
+
+    // ===== Minimal tests (run with ?tests=1) =====
+    (function runTests(){
+      const params = new URLSearchParams(location.search);
+      const show = params.get('tests') === '1';
+      const panel = document.getElementById('tests');
+      if (!panel || !show) return;
+      panel.classList.add('show');
+
+      const results = [];
+      const assert = (name, cond) => results.push({name, ok: !!cond});
+
+      // existing tests were embedding raw control characters/newlines, which can corrupt JS parsing.
+      // Keep the same intent using escaped sequences.
+      assert('sanitize trims', sanitizeClipboardText('  a  ') === 'a');
+      assert('sanitize removes control chars', sanitizeClipboardText('a\u0000b') === 'ab');
+      assert('sanitize normalizes newlines to space', sanitizeClipboardText('a\n\n b') === 'a b');
+      assert('sanitize keeps slashes', sanitizeClipboardText('assets/img/01/') === 'assets/img/01/');
+
+      // add tests
+      assert('stripTemplate returns string', typeof stripTemplate(PROJECTS[0]) === 'string');
+      assert('render creates strips', stripsEl.querySelectorAll('.strip').length === PROJECTS.length);
+
+      panel.innerHTML = results.map(r => (
+        `<div class="${r.ok ? 'ok' : 'bad'}">${r.ok ? '✓' : '✗'} ${r.name}</div>`
+      )).join('');
+
+      const failed = results.filter(r => !r.ok);
+      if (failed.length) console.error('[tests failed]', failed);
+      else console.log('[tests ok]', results.length);
+    })();
+  </script>
+  <script src="assets/js/protect.js" defer></script>
+</body>
+</html>

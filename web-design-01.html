@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Projects – Poster Layout</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    :root{--bg:#0b0b0b;--ink:#f2f2f2;--muted:rgba(242,242,242,.55);--line:rgba(242,242,242,.18);--black:#000;--white:#fff;--r:20px}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"PingFang SC","Microsoft YaHei",sans-serif;letter-spacing:-.01em}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:1240px;margin:0 auto;padding:28px 22px 90px}
+    .topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}
+    .topbar .kicker{font-size:14px;opacity:.7}
+    .topbar .right{text-align:right;font-size:13px;opacity:.55;white-space:nowrap}
+    .title{font-size:clamp(52px,6vw,92px);line-height:1.05;font-weight:700;letter-spacing:-.03em;margin:10px 0 24px;max-width:900px}
+    .sub{font-size:15px;color:var(--muted);max-width:700px;margin-bottom:28px;line-height:1.8;font-weight:400}
+    .hr{height:1px;background:var(--line);margin:18px 0 0}
+    .rows{margin-top:18px;border-top:1px solid var(--line)}
+    .row{display:grid;grid-template-columns:1.3fr .7fr;min-height:240px;border-bottom:1px solid var(--line)}
+    .cell{position:relative;padding:24px}
+    .cell+.cell{border-left:1px solid var(--line)}
+    .left{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:stretch}
+    .card{background:var(--black);border-radius:var(--r);position:relative;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.06) inset;min-height:170px}
+    .card.embed{min-height:170px}
+    .card .wordmark{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;padding:22px;color:var(--white);font-size:clamp(28px,4vw,48px);font-weight:700;letter-spacing:-.02em;text-transform:uppercase;background:radial-gradient(circle at 20% 20%, rgba(255,255,255,.12), transparent 55%),linear-gradient(135deg, rgba(255,255,255,.08), transparent 55%)}
+    .card .wordmark span{font-size:11px;letter-spacing:.35em;color:rgba(255,255,255,.6)}
+    .card.embed .noise{opacity:.25}
+    .card .noise{position:absolute;inset:0;background:radial-gradient(circle at 30% 20%, rgba(255,255,255,.12), transparent 45%),radial-gradient(circle at 70% 70%, rgba(255,255,255,.08), transparent 55%),linear-gradient(135deg, rgba(255,255,255,.06), transparent 55%);opacity:.7;pointer-events:none}
+    .card .label{position:absolute;left:22px;bottom:18px;font-size:34px;font-weight:650;color:var(--white);letter-spacing:-.02em}
+    .card .tiny{position:absolute;left:22px;top:18px;font-size:12px;color:rgba(255,255,255,.55);display:flex;gap:10px;flex-wrap:wrap;max-width:80%}
+    .card .tiny span{padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.16)}
+    .num{font-size:clamp(120px,12vw,230px);line-height:.85;font-weight:700;letter-spacing:-.06em;opacity:.95;align-self:center;justify-self:end;padding-right:8px}
+    .rightcol{display:flex;flex-direction:column;justify-content:space-between;gap:20px;min-height:240px}
+    .projtitle{font-size:19px;font-weight:700;margin:0 0 12px;letter-spacing:-.02em}
+    .projdesc{margin:0;color:var(--muted);font-size:15px;line-height:1.8;max-width:36ch;font-weight:400}
+    .actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px}
+    .btn{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(17,17,17,.28);padding:10px 14px;border-radius:999px;font-size:13px;background:rgba(255,255,255,.35);backdrop-filter:blur(6px)}
+    .btn:hover{border-color:rgba(17,17,17,.6)}
+    .dot{width:12px;height:12px;border-radius:999px;background:var(--ink);opacity:.85}
+    .footnote{font-size:12px;color:rgba(17,17,17,.45);text-align:right}
+    @media (max-width:860px){.row{grid-template-columns:1fr}.cell+.cell{border-left:0;border-top:1px solid var(--line)}.left{grid-template-columns:1fr}.num{justify-self:start}.projdesc{max-width:none}}
+  </style>
+</head>
+<body>
+  <header class="nav-header-enhanced">
+    <div class="top-inner">
+      <div class="top-brand">
+        <div class="k">ONEFEI · LAB</div>
+        <div class="t">Web Design</div>
+      </div>
+      <nav class="top-nav">
+        <a class="nav-link" href="index.html#portfolio-web">Home</a>
+        <a class="nav-link" href="project-01.html">Product</a>
+        <a class="nav-link" href="animation-xian.html">Motion</a>
+        <a class="nav-link" href="Architectural-Design.html">Architecture</a>
+        <a class="nav-link nav-active" href="web-design-01.html">Web</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="topbar"><div class="kicker">PROJECTS</div><div class="right">FEI0013 · Portfolio</div></div>
+    <div class="title">Fragments of Systems,<br/>Experiments in Use</div>
+    <div class="sub">这是一些仍在生长中的界面与系统片段。它们不追求完成态，而是记录我如何通过结构、节奏与交互，探索「可被使用的抽象」。</div>
+    <div class="hr"></div>
+    <div class="rows">
+      <div class="row">
+        <div class="cell"><div class="left"><a class="card" href="https://fei0013.github.io/bazi/public/home.html" target="_blank" rel="noopener"><div class="wordmark"><div>Bazibirth<br/>data</div><span>Interactive Reading</span></div><div class="noise"></div><div class="tiny"><span>Web UI</span><span>Input</span><span>Bazi</span></div><div class="label">bazi</div></a><div class="num">01</div></div></div>
+        <div class="cell"><div class="rightcol"><div><h3 class="projtitle">Bazi · 命理系统（Home）</h3><p class="projdesc">一个关于秩序的实验。以“主页”为索引，组织输入、结果与解释的层级关系：让复杂推演保持可读、可追踪、可回溯。它不试图给出答案，而是设计一条进入答案的路径。</p><div class="actions"><a class="btn" href="https://fei0013.github.io/bazi/public/home.html" target="_blank" rel="noopener"><span class="dot"></span> Open page</a><div class="footnote">/bazi/public/home.html</div></div></div></div></div>
+      </div>
+      <div class="row">
+        <div class="cell"><div class="left"><div class="num">02</div><div class="card embed">
+              <iframe
+                src="https://fei0013.github.io/Gray-Stickman/"
+                title="Gray Stickman – Embedded Demo"
+                loading="lazy"
+                allow="fullscreen"
+              ></iframe>
+              <div class="noise"></div>
+              <div class="tiny"><span>Canvas</span><span>React</span><span>Playable</span></div>
+              <div class="label">gray-stickman</div>
+            </div></div></div>
+        <div class="cell"><div class="rightcol"><div><h3 class="projtitle">Gray‑Stickman · 可交互实验</h3><p class="projdesc">一个关于对立与反馈的小游戏原型。黑与白、允许与禁止、行动与停滞在这里被转译为可被操控的规则，而不是叙事。</p><div class="actions"><a class="btn" href="https://fei0013.github.io/Gray-Stickman/" target="_blank" rel="noopener"><span class="dot"></span> Open demo</a><div class="footnote">/Gray-Stickman/</div></div></div></div></div>
+      </div>
+    </div>
+  </div>
+  <script src="assets/js/protect.js" defer></script>
+</body>
+</html>

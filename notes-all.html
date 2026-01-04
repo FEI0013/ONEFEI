@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>全部笔记 · 工作流合集 · ONEFEI LAB</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    body {
+      background: radial-gradient(circle at 30% 30%, rgba(56,189,248,0.06), transparent 40%),
+                  radial-gradient(circle at 70% 60%, rgba(148,163,184,0.08), transparent 45%),
+                  #0a0f1a;
+      color: #e2e8f0;
+    }
+    .glow-card {
+      border: 1px solid rgba(148,163,184,0.25);
+      background: rgba(15,23,42,0.65);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(56,189,248,0.12);
+      border: 1px solid rgba(56,189,248,0.3);
+      color: #a5f3fc;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+  <header class="site-header glass-nav">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <span class="brand-label">ONEFEI · LAB</span>
+        <span class="brand-sub">Experimental Automation & Visual System</span>
+      </div>
+      <nav class="nav-menu">
+        <a href="index.html#home">Home</a>
+        <a href="index.html#portfolio">Product</a>
+        <a href="index.html#lab">Lab</a>
+        <a href="index.html#process">Method</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#blog" class="active">Notes</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-6 pb-16 pt-24">
+    <section class="mt-12 mb-14">
+      <p class="text-sm uppercase tracking-[0.35em] text-cyan-200 mb-4">Notes · Workflow · Demo</p>
+      <h1 class="text-5xl sm:text-6xl font-thin leading-tight text-slate-50 mb-6">自动化 / 工作流 · 全部合集</h1>
+      <p class="text-lg text-slate-200/80 max-w-3xl leading-relaxed">
+        汇总近期的 ComfyUI 工作流、Dify 工作流 Demo 以及 n8n 官方示例，集中在一个页面快速浏览与下载。
+      </p>
+    </section>
+
+    <!-- ComfyUI -->
+    <section class="mb-14">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h2 class="text-2xl font-light text-slate-50">ComfyUI 工作流</h2>
+          <p class="text-sm text-slate-300">PNG 预览 + JSON 文件，可直接下载导入</p>
+        </div>
+        <span class="pill">路径：assets/comfyui-workflow</span>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        <article class="glow-card rounded-2xl overflow-hidden p-4 flex flex-col gap-3">
+          <div class="aspect-[4/3] rounded-xl overflow-hidden bg-slate-900/60">
+            <img src="assets/comfyui-workflow/HCF_ALL workflow.png" alt="HCF_ALL workflow" class="w-full h-full object-cover" />
+          </div>
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-lg font-light text-slate-100">HCF_ALL workflow</h3>
+              <p class="text-xs text-slate-300">全能流程 · 重绘/细化</p>
+            </div>
+            <a class="pill" href="assets/comfyui-workflow/HCF_ALL workflow.json" download>下载 JSON</a>
+          </div>
+        </article>
+        <article class="glow-card rounded-2xl overflow-hidden p-4 flex flex-col gap-3">
+          <div class="aspect-[4/3] rounded-xl overflow-hidden bg-slate-900/60">
+            <img src="assets/comfyui-workflow/HCF_Flux Tools_workflow.png" alt="HCF Flux Tools" class="w-full h-full object-cover" />
+          </div>
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-lg font-light text-slate-100">HCF Flux Tools</h3>
+              <p class="text-xs text-slate-300">工具集 · Flux 基础</p>
+            </div>
+            <a class="pill" href="assets/comfyui-workflow/HCF_Flux Tools_workflow.json" download>下载 JSON</a>
+          </div>
+        </article>
+        <article class="glow-card rounded-2xl overflow-hidden p-4 flex flex-col gap-3">
+          <div class="aspect-[4/3] rounded-xl overflow-hidden bg-slate-900/60">
+            <img src="assets/comfyui-workflow/HCF_Flux产品迁移workflow.png" alt="HCF Flux 产品迁移" class="w-full h-full object-cover" />
+          </div>
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-lg font-light text-slate-100">产品迁移 workflow</h3>
+              <p class="text-xs text-slate-300">Flux · 迁移/重制</p>
+            </div>
+            <a class="pill" href="assets/comfyui-workflow/HCF_Flux产品迁移workflow.json" download>下载 JSON</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Dify -->
+    <section class="mb-14">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h2 class="text-2xl font-light text-slate-50">Dify 工作流 Demo</h2>
+          <p class="text-sm text-slate-300">界面截图 / 快速浏览</p>
+        </div>
+        <span class="pill">路径：assets/Dify工作流Demo/snapshots</span>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        <article class="glow-card rounded-2xl overflow-hidden">
+          <img src="assets/Dify工作流Demo/snapshots/Xnip-01.jpg" alt="Dify Snapshot 1" class="w-full h-full object-cover" />
+        </article>
+        <article class="glow-card rounded-2xl overflow-hidden">
+          <img src="assets/Dify工作流Demo/snapshots/Xnip-11-14_14-03-53.jpg" alt="Dify Snapshot 2" class="w-full h-full object-cover" />
+        </article>
+        <article class="glow-card rounded-2xl overflow-hidden">
+          <img src="assets/Dify工作流Demo/snapshots/Xnip2025-01-21_09-30-46.jpg" alt="Dify Snapshot 3" class="w-full h-full object-cover" />
+        </article>
+      </div>
+    </section>
+
+    <!-- n8n -->
+    <section class="mb-10">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h2 class="text-2xl font-light text-slate-50">n8n 官方工作流合集</h2>
+          <p class="text-sm text-slate-300">分类目录 + 目录结构文本</p>
+        </div>
+        <span class="pill">路径：assets/n8n-workflows-main</span>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+        <article class="glow-card rounded-2xl p-6">
+          <h3 class="text-lg font-light text-slate-100 mb-3">分类概览</h3>
+          <p class="text-sm text-slate-300 leading-relaxed mb-4">
+            已整理的官方示例，按领域拆分：数据集成、自动化、API/Webhooks、通信、数据转换、分析与文档处理等。
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="pill">data-integration</span>
+            <span class="pill">automation</span>
+            <span class="pill">api-webhooks</span>
+            <span class="pill">communication</span>
+            <span class="pill">data-transformation</span>
+            <span class="pill">document-processing</span>
+            <span class="pill">analytics</span>
+          </div>
+        </article>
+        <article class="glow-card rounded-2xl p-6 flex flex-col gap-4">
+          <div class="flex items-center gap-3">
+            <div class="pill">目录文件</div>
+            <a href="assets/n8n-workflows-main/directory_structure.txt" class="text-cyan-200 text-sm hover:text-cyan-100 underline">查看目录</a>
+          </div>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            目录文件包含每个示例的路径，便于复制到本地 n8n。若需详细说明，可直接打开 README。
+          </p>
+          <a href="assets/n8n-workflows-main/README.md" class="inline-flex items-center gap-2 text-slate-100 hover:text-cyan-100 transition text-sm">
+            浏览 README
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </a>
+        </article>
+      </div>
+    </section>
+  </main>
+  <script src="assets/js/protect.js" defer></script>
+</body>
+</html>

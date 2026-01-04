@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Automation Lab 03 · RPA & Agent · ONEFEI LAB</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+  :root{--bg:#0b0b0b;--fg:#f2f2f2;--muted:#bdbdbd;--faint:#7c7c7c;--line:#262626;--line2:#333;--panel:#0f0f0f;--accent:#e9e9e9;--text-main:#eaf0ff;--text-sub:#d7dce8;}
+  *{box-sizing:border-box}html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;line-height:1.6;}
+  a{color:inherit;text-decoration:none}
+  .container{max-width:1180px;margin:0 auto;padding:0 24px}
+  header.hero{padding:96px 0 56px;border-bottom:1px solid var(--line);}
+  .kicker{color:var(--faint);letter-spacing:.18em;text-transform:uppercase;font-size:12px;}
+  h1{font-size:52px;font-weight:520;margin:18px 0 18px;line-height:1.05;}
+  .lead{color:var(--muted);max-width:820px;font-size:16px;margin:0 0 22px;}
+  .hero-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;}
+  .chip{border:1px solid var(--line2);padding:8px 10px;border-radius:999px;font-size:12px;color:#d6d6d6;background:rgba(255,255,255,.02);}
+  .hero-media{border:1px solid var(--line2);background:rgba(255,255,255,.03);aspect-ratio:21/9;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  .hero-media img{width:100%;height:100%;object-fit:cover;display:block;}
+  .caption{font-size:12px;color:#8c8c8c;margin-top:10px;}
+  main{padding:54px 0 120px}
+  .section{padding-top:54px;border-top:1px solid var(--line);}
+  h2{font-size:28px;font-weight:520;margin:0 0 14px;}
+  p{color:var(--muted);max-width:820px;margin:0 0 18px;}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;align-items:start;}
+  .grid.three{grid-template-columns:repeat(3,1fr);}
+  .img-frame{position:relative;border:none !important;background:transparent;overflow:hidden;aspect-ratio:16/9;padding:12px;}
+  .img-frame img{width:100%;height:100%;object-fit:contain;display:block;border:none !important;box-shadow:none;}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px;}
+  @media(max-width:960px){h1{font-size:42px}.grid,.grid.three,.cards{grid-template-columns:1fr}}
+  /* cards */
+  .lab-card{border-radius:18px;border:1px solid rgba(255,255,255,.04);padding:16px 18px;backdrop-filter:blur(8px);background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,0));}
+  .lab-card h3{margin:0 0 8px;font-size:13px;letter-spacing:.12em;color:var(--text-main);text-transform:uppercase;}
+  .lab-card ul{margin:0;padding-left:16px;color:var(--text-sub);font-size:12.5px;line-height:1.65;word-break:break-word;}
+  .lab-card li{white-space:normal;}
+  .lab-text{padding:10px 14px;}
+  .glow-card{box-shadow:0 10px 24px rgba(0,0,0,.18);}
+  .glow-blue{background:linear-gradient(180deg,rgba(90,213,255,.18),rgba(90,213,255,0));}
+  .glow-orange{background:linear-gradient(180deg,rgba(255,140,90,.18),rgba(255,140,90,0));}
+  .glow-purple{background:linear-gradient(180deg,rgba(168,115,255,.18),rgba(168,115,255,0));}
+  .glow-green{background:linear-gradient(180deg,rgba(70,220,165,.18),rgba(70,220,165,0));}
+  </style>
+</head>
+
+<body class="page-project02">
+  <div class="bg-layer bg-particles"></div>
+  <div class="bg-layer bg-noise"></div>
+
+  <header class="site-header glass-nav">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <span class="brand-label">ONEFEI · LAB</span>
+        <span class="brand-sub">Experimental Automation & Visual System</span>
+      </div>
+      <nav class="nav-menu">
+        <a href="index.html#lab-module-03">Home</a>
+        <a href="automation-lab-01.html">Lab 01</a>
+        <a href="automation-lab-02.html">Lab 02</a>
+        <a href="automation-lab-03.html" class="active">Lab 03</a>
+        <a href="automation-lab-04.html">Lab 04</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page-wrapper lab-wrap">
+    <!-- Hero -->
+    <section class="section glass-section" id="top">
+      <div class="section-header">
+        <div class="section-label">
+          <span class="section-index">LAB 03</span>
+          <span class="section-tag">RPA / AGENT / DATA</span>
+        </div>
+      </div>
+      <div class="section-intro">
+        <div class="lab-tags">
+          <span class="lab-tag">Data</span><span class="lab-tag">RPA</span><span class="lab-tag">Agent</span><span class="lab-tag">Ops</span>
+        </div>
+        <h1 class="section-title" style="font-size:36px;">Automation Lab 03 · RPA & Agent</h1>
+        <p class="section-desc" style="max-width:840px;">自动化数据驾驶舱 + 虚拟机器人调度 + Agent 跨平台流程，展示从数据汇聚、任务编排到 AI 生成的全链路自动化。</p>
+      </div>
+    </section>
+
+    <!-- 01 自动化数据驾驶舱 -->
+    <section class="section glass-section" id="lab03-dashboard">
+      <div class="section-header">
+        <div class="section-label">
+          <span class="section-index">01</span>
+          <span class="section-tag">DATA COCKPIT</span>
+        </div>
+      </div>
+      <div class="section-intro">
+        <div class="lab-tags"><span class="lab-tag">Dashboard</span><span class="lab-tag">KPI</span></div>
+        <h2 class="section-title">自动化数据驾驶舱</h2>
+        <p class="section-desc">自动化流水线汇聚多源业务数据，KPI 看板 + 订单趋势，一目了然异常与波动。</p>
+      </div>
+      <div class="lab-pair">
+        <div class="img-frame wide-21">
+          <img src="assets/img/lab-03/自动化数据驾驶舱.png" alt="自动化数据驾驶舱" />
+        </div>
+        <div class="lab-text">
+          <h3 style="margin:0 0 8px;font-size:13px;letter-spacing:.12em;color:var(--text-main);text-transform:uppercase;">看板说明</h3>
+          <ul style="margin:0;padding-left:16px;color:var(--text-sub);font-size:12.5px;line-height:1.65;word-break:break-word;">
+            <li>KPI：待发货、库存、GMV、订单数，自动汇总</li>
+            <li>列表：仓库/包裹号/状态，支持异常快速定位</li>
+            <li>趋势：按日/小时发货曲线，波动预警</li>
+            <li>价值：减少人工汇总，数据驱动决策</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 自动化虚拟机器人 -->
+    <section class="section glass-section" id="lab03-robot">
+      <div class="section-header">
+        <div class="section-label">
+          <span class="section-index">02</span>
+          <span class="section-tag">VIRTUAL ROBOT</span>
+        </div>
+      </div>
+      <div class="section-intro">
+        <div class="lab-tags"><span class="lab-tag">VM Pool</span><span class="lab-tag">Remote Ops</span></div>
+        <h2 class="section-title">自动化虚拟机器人</h2>
+        <p class="section-desc">数据中心分配虚拟机任务，远程监控多屏执行，日志可追溯，支持批量操作与远程办公。</p>
+      </div>
+      <div class="lab-pair">
+        <div class="img-frame wide-21">
+          <img src="assets/img/lab-03/自动化虚拟机器人.png" alt="自动化虚拟机器人" />
+        </div>
+        <div class="lab-text">
+          <h3 style="margin:0 0 8px;font-size:13px;letter-spacing:.12em;color:var(--text-main);text-transform:uppercase;">调度说明</h3>
+          <ul style="margin:0;padding-left:16px;color:var(--text-sub);font-size:12.5px;line-height:1.65;word-break:break-word;">
+            <li>多屏远程：批量操作/监控 6 机位</li>
+            <li>任务日志：启动/结束/状态全链记录</li>
+            <li>调度中心：统一分配 VM 与账号任务</li>
+            <li>价值：远程办公、批量执行、状态可追溯</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 Agent 流程 -->
+    <section class="section glass-section" id="lab03-agent">
+      <div class="section-header">
+        <div class="section-label">
+          <span class="section-index">03</span>
+          <span class="section-tag">AGENT FLOWS</span>
+        </div>
+      </div>
+      <div class="section-intro">
+        <div class="lab-tags"><span class="lab-tag">Agent</span><span class="lab-tag">Orchestration</span><span class="lab-tag">Data</span></div>
+        <h2 class="section-title">Agent 流程 · 落地自动化</h2>
+        <p class="section-desc">跨平台自动化编排、AI 生成调度、人工流程替代与数据中心联动，形成可视化全链路。</p>
+      </div>
+      <div class="grid" style="grid-template-columns:repeat(2,1fr);gap:14px;">
+        <div class="lab-card glow-blue" style="padding:12px 14px;">
+          <div class="img-frame" style="margin-bottom:10px;">
+            <img src="assets/img/lab-03/Agent流程图.png" alt="Agent 流程图" />
+          </div>
+          <h3 style="margin:0 0 6px;font-size:12px;letter-spacing:.1em;color:var(--text-main);text-transform:uppercase;">Agent 流程</h3>
+          <ul style="padding-left:14px;margin:0;color:var(--text-sub);font-size:12.5px;line-height:1.6;">
+            <li>跨平台编排与任务触发</li>
+            <li>可视化节点与分支逻辑</li>
+            <li>异常分流与重试链路</li>
+          </ul>
+        </div>
+        <div class="lab-card glow-orange" style="padding:12px 14px;">
+          <div class="img-frame" style="margin-bottom:10px;">
+            <img src="assets/img/lab-03/生成流程图.png" alt="生成流程图" />
+          </div>
+          <h3 style="margin:0 0 6px;font-size:12px;letter-spacing:.1em;color:var(--text-main);text-transform:uppercase;">生成流程</h3>
+          <ul style="padding-left:14px;margin:0;color:var(--text-sub);font-size:12.5px;line-height:1.6;">
+            <li>可视化 AI 生成路径与模型调用</li>
+            <li>Prompt/模型版本管理</li>
+            <li>输出落地与质量校验</li>
+          </ul>
+        </div>
+        <div class="lab-card glow-purple" style="padding:12px 14px;">
+          <div class="img-frame" style="margin-bottom:10px;">
+            <img src="assets/img/lab-03/自动化流程图.png" alt="自动化流程图" />
+          </div>
+          <h3 style="margin:0 0 6px;font-size:12px;letter-spacing:.1em;color:var(--text-main);text-transform:uppercase;">自动化执行</h3>
+          <ul style="padding-left:14px;margin:0;color:var(--text-sub);font-size:12.5px;line-height:1.6;">
+            <li>替代重复人工操作</li>
+            <li>多节点编排与调度</li>
+            <li>执行日志与可追溯</li>
+          </ul>
+        </div>
+        <div class="lab-card glow-green" style="padding:12px 14px;">
+          <div class="img-frame" style="margin-bottom:10px;">
+            <img src="assets/img/lab-03/数据库管理图.png" alt="数据库管理图" />
+          </div>
+          <h3 style="margin:0 0 6px;font-size:12px;letter-spacing:.1em;color:var(--text-main);text-transform:uppercase;">数据管理</h3>
+          <ul style="padding-left:14px;margin:0;color:var(--text-sub);font-size:12.5px;line-height:1.6;">
+            <li>数据统一管理与联动</li>
+            <li>多系统接口与模型同步</li>
+            <li>权限与审计可视化</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="section section-bottom-nav">
+      <div class="bottom-nav-inner">
+        <a href="automation-lab-02.html" class="btn-ghost">&larr; 上一页</a>
+        <a href="automation-lab-04.html" class="btn-outline">下一页 &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer glass-footer">
+    <div class="footer-inner">
+      <p>(c) ONEFEI / RPA & Agent Lab 03</p>
+    </div>
+  </footer>
+  <script src="assets/js/protect.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Motion Design · Xian Studies</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    :root {
+      --bg: #0d0e12;
+      --bg-alt: #151724;
+      --ink: #f3f2ee;
+      --muted: #a5a6b3;
+      --accent: #e6362b;
+      --accent-soft: rgba(230, 54, 43, 0.25);
+      --line: rgba(255, 255, 255, 0.08);
+      --glass: rgba(18, 20, 32, 0.72);
+      --shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Futura", "Avenir Next", "Century Gothic", sans-serif;
+      background: radial-gradient(circle at 20% 20%, #2a2c3c 0%, transparent 45%),
+        radial-gradient(circle at 80% 10%, #352829 0%, transparent 35%),
+        linear-gradient(135deg, var(--bg), #0b0c10 55%, #16192c 100%);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -20% -10% auto -10%;
+      height: 60%;
+      background: radial-gradient(circle, rgba(230, 54, 43, 0.16), transparent 60%),
+        radial-gradient(circle at 30% 70%, rgba(214, 214, 255, 0.12), transparent 55%);
+      filter: blur(10px);
+      animation: drift 18s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(120deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 6px);
+      opacity: 0.2;
+      mix-blend-mode: screen;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      padding: 36px 6vw 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 64px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 36px;
+      align-items: center;
+    }
+
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      font-size: 13px;
+      letter-spacing: 0.32em;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .hero-title {
+      font-size: clamp(48px, 8vw, 84px);
+      margin: 0;
+      line-height: 1.05;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    .hero-title span {
+      color: var(--accent);
+    }
+
+    .hero-desc {
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 580px;
+      font-weight: 400;
+    }
+
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+
+    .hero-pill {
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: var(--glass);
+      border: 1px solid var(--line);
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+    }
+
+    .hero-visual {
+      position: relative;
+      display: grid;
+      gap: 12px;
+    }
+
+    .hero-frame {
+      border-radius: 26px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .hero-frame img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.02);
+      filter: contrast(1.05);
+    }
+
+    .hero-slice {
+      position: absolute;
+      inset: auto 16px -22px auto;
+      width: 180px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 14px 16px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+    }
+
+    .section {
+      padding: 30px clamp(20px, 3vw, 40px);
+      border-radius: 28px;
+      border: 1px solid var(--line);
+      background: rgba(14, 16, 24, 0.82);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: clamp(22px, 3vw, 34px);
+      margin: 0;
+      font-family: "Bodoni MT", "Didot", "Garamond", serif;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .section-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.4em;
+      color: var(--muted);
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: minmax(240px, 1.6fr) minmax(200px, 1fr);
+      gap: 24px;
+      align-items: center;
+    }
+
+    .video-frame {
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: var(--shadow);
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: #0b0c12;
+    }
+
+    .video-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(10, 12, 20, 0.6);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .timeline-index {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(11, 12, 18, 0.7);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(0.2) contrast(1.05);
+    }
+
+    .card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+    }
+
+    .masonry {
+      columns: 3 220px;
+      column-gap: 18px;
+    }
+
+    .masonry-item {
+      break-inside: avoid;
+      margin-bottom: 18px;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(12, 13, 20, 0.6);
+    }
+
+    .masonry-item img {
+      width: 100%;
+      display: block;
+      height: auto;
+    }
+
+    .caption {
+      padding: 10px 14px 14px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.7s ease;
+      transition-delay: var(--delay, 0s);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes drift {
+      0%, 100% {
+        transform: translateY(0) translateX(0);
+      }
+      50% {
+        transform: translateY(40px) translateX(30px);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .video-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-slice {
+        position: static;
+        width: auto;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        padding: 24px 5vw 60px;
+      }
+      .masonry {
+        columns: 1 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal {
+        transition: none;
+      }
+      body::before {
+        animation: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav-header-enhanced">
+    <div class="top-inner">
+      <div class="top-brand">
+        <div class="k">ONEFEI · LAB</div>
+        <div class="t">Motion Design</div>
+      </div>
+      <nav class="top-nav">
+        <a class="nav-link" href="index.html#portfolio-motion">Home</a>
+        <a class="nav-link" href="project-01.html">Product</a>
+        <a class="nav-link nav-active" href="animation-xian.html">Motion</a>
+        <a class="nav-link" href="Architectural-Design.html">Architecture</a>
+        <a class="nav-link" href="web-design-01.html">Web</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page">
+    <section class="hero">
+      <div class="hero-copy reveal" style="--delay: 0.1s;">
+        <div class="eyebrow">Motion / Animation / Storyboard</div>
+        <h1 class="hero-title">Xian <span>Motion</span> Design</h1>
+        <p class="hero-desc">
+          A compact case page for animation design: cinematic staging, contrast-heavy storyboards,
+          and a single continuous motion reel that leads the viewer through the visual rhythm.
+        </p>
+        <div class="hero-meta">
+          <div class="hero-pill">Role · Visual + Motion</div>
+          <div class="hero-pill">Tools · Blender / AE</div>
+          <div class="hero-pill">Year · 2025</div>
+        </div>
+      </div>
+      <div class="hero-visual reveal" style="--delay: 0.2s;">
+        <div class="hero-frame">
+          <img src="assets/img/xian/01_hero.jpeg" alt="Hero storyboard" />
+        </div>
+        <div class="hero-slice">Signature Contrast + Red Accent</div>
+      </div>
+    </section>
+
+    <section class="section reveal" style="--delay: 0.15s;">
+      <div class="section-header">
+        <h2 class="section-title">Motion Reel</h2>
+        <span class="section-tag">Sequence Overview</span>
+      </div>
+      <div class="video-grid">
+        <div class="video-frame">
+          <video autoplay muted loop playsinline poster="assets/img/xian/01_hero.jpeg">
+            <source src="assets/video/xian.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="video-copy">
+          <p>
+            The reel emphasizes acceleration and pause: impact beats, silhouettes, and red-flash
+            marks that guide attention. The cut cadence follows a three-act build: reveal, clash,
+            and resolve.
+          </p>
+          <div class="timeline">
+            <div class="timeline-item"><span class="timeline-index">01</span> Prologue · Silence + Silhouette</div>
+            <div class="timeline-item"><span class="timeline-index">02</span> Mid Act · Rapid Gesture Sweep</div>
+            <div class="timeline-item"><span class="timeline-index">03</span> Finale · Light Burst + Freeze</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" style="--delay: 0.2s;">
+      <div class="section-header">
+        <h2 class="section-title">Sketch Board</h2>
+        <span class="section-tag">Frames + Timing Notes</span>
+      </div>
+      <div class="gallery-grid">
+        <div class="card"><img src="assets/img/xian/01-sketch.jpeg" alt="Sketch 01" /></div>
+        <div class="card"><img src="assets/img/xian/02-sketch.jpeg" alt="Sketch 02" /></div>
+        <div class="card"><img src="assets/img/xian/03-sketch.jpeg" alt="Sketch 03" /></div>
+        <div class="card"><img src="assets/img/xian/04-sketch.jpeg" alt="Sketch 04" /></div>
+        <div class="card"><img src="assets/img/xian/05-sketch.jpeg" alt="Sketch 05" /></div>
+        <div class="card"><img src="assets/img/xian/06-sketch.jpeg" alt="Sketch 06" /></div>
+      </div>
+    </section>
+
+    <section class="section reveal" style="--delay: 0.25s;">
+      <div class="section-header">
+        <h2 class="section-title">Storyboard Grid</h2>
+        <span class="section-tag">Cinematic Beats</span>
+      </div>
+      <div class="masonry">
+        <div class="masonry-item">
+          <img src="assets/img/xian/Storyboard Design (1).png" alt="Storyboard 1" />
+          <div class="caption">Storyboard 01</div>
+        </div>
+        <div class="masonry-item">
+          <img src="assets/img/xian/Storyboard Design (2).png" alt="Storyboard 2" />
+          <div class="caption">Storyboard 02</div>
+        </div>
+        <div class="masonry-item">
+          <img src="assets/img/xian/Storyboard Design (3).png" alt="Storyboard 3" />
+          <div class="caption">Storyboard 03</div>
+        </div>
+        <div class="masonry-item">
+          <img src="assets/img/xian/Storyboard Design (4).png" alt="Storyboard 4" />
+          <div class="caption">Storyboard 04</div>
+        </div>
+        <div class="masonry-item">
+          <img src="assets/img/xian/Storyboard Design (5).png" alt="Storyboard 5" />
+          <div class="caption">Storyboard 05</div>
+        </div>
+        <div class="masonry-item">
+          <img src="assets/img/xian/Storyboard Design (6).png" alt="Storyboard 6" />
+          <div class="caption">Storyboard 06</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="footer reveal" style="--delay: 0.3s;">
+      ONEFEI LAB · MOTION DESIGN PAGE
+    </section>
+  </div>
+
+  <script>
+    const items = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    items.forEach((item) => observer.observe(item));
+  </script>
+  <script src="assets/js/protect.js" defer></script>
+</body>
+</html>

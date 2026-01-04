@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>Data Center · Detailed Visualization Preview</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    :root{
+      --bg0:#0b0d10;
+      --bg1:#0f1218;
+      --panel:rgba(255,255,255,.045);
+      --panel2:rgba(255,255,255,.03);
+      --line:rgba(255,255,255,.08);
+      --text:#e9edf5;
+      --sub:rgba(233,237,245,.58);
+      --muted:rgba(233,237,245,.38);
+      --done:#9effc1;
+      --run:#ffe08a;
+      --pend:#8a8f98;
+      --accent:#a8c7ff;
+      --danger:#ff9fb2;
+      --good:#9effc1;
+      --warn:#ffe08a;
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Inter","Helvetica Neue",Arial,sans-serif;
+      background:
+        radial-gradient(900px 500px at 18% 12%, rgba(68,120,255,.14), transparent 55%),
+        radial-gradient(700px 420px at 82% 24%, rgba(255,224,138,.10), transparent 55%),
+        radial-gradient(900px 520px at 35% 92%, rgba(158,255,193,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg1), var(--bg0));
+      overflow-x:hidden;
+    }
+
+    /* Subtle grid */
+    body:before{
+      content:"";
+      position:fixed; inset:0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+      background-size: 64px 64px;
+      opacity:.06;
+      pointer-events:none;
+    }
+
+    .wrap{max-width:1240px; margin:0 auto; padding:88px 24px 120px;}
+    .top{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:24px;
+      align-items:start;
+      margin-bottom:26px;
+    }
+    @media (max-width: 980px){
+      .top{grid-template-columns:1fr}
+    }
+
+    .hero{
+      padding:28px 28px 22px;
+      border:none;
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.01));
+      backdrop-filter: blur(10px);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero:after{
+      content:"";
+      position:absolute; inset:-1px;
+      background: radial-gradient(600px 240px at 18% 20%, rgba(168,199,255,.18), transparent 60%);
+      pointer-events:none;
+    }
+    .kicker{
+      font-size:12px; letter-spacing:.34em; text-transform:uppercase;
+      color:var(--muted);
+      margin-bottom:10px;
+    }
+    h1{
+      font-weight:520; letter-spacing:.04em;
+      margin:0 0 14px; font-size:40px; line-height:1.1;
+    }
+    .desc{
+      margin:0;
+      color:var(--sub);
+      max-width: 58ch;
+      font-size:14px;
+    }
+    .chips{display:flex; flex-wrap:wrap; gap:10px; margin-top:18px}
+    .chip{
+      font-size:12px; color:var(--sub);
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      padding:8px 10px;
+      border-radius: 999px;
+    }
+
+    .rightStack{display:grid;gap:10px;}
+    .card{
+      border:none;
+      border-radius: var(--radius);
+      background: transparent;
+      padding:10px 12px;
+    }
+    .cardTitle{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px;
+      color:var(--sub);
+      font-size:12px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      margin-bottom:10px;
+    }
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;}
+    .big{
+      font-size:28px; letter-spacing:.02em;
+      margin:0 0 4px;
+      font-weight:520;
+    }
+    .small{color:var(--sub); font-size:12px; margin:0}
+    .row{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      margin-top:12px;
+    }
+    .pill{
+      font-size:12px; color:var(--sub);
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.025);
+      padding:7px 10px;
+      border-radius: 999px;
+      white-space:nowrap;
+    }
+
+    /* Layout sections */
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:18px;
+      margin-top: 18px;
+      align-items: stretch;
+    }
+    @media (max-width: 980px){ .grid{grid-template-columns:1fr} }
+
+    .sectionHeader{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:18px;
+      margin: 44px 0 14px;
+    }
+    .sectionHeader h2{
+      margin:0;
+      font-size:18px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      font-weight:520;
+      color:var(--sub);
+    }
+    .sectionHeader .hint{
+      margin:0;
+      font-size:12px;
+      color:var(--muted);
+      max-width: 60ch;
+    }
+
+    /* Tables */
+    .table{
+      width:100%;
+      border-collapse: collapse;
+      background: transparent;
+      border-radius: var(--radius);
+      overflow:hidden;
+    }
+    .table thead{background: rgba(255,255,255,.02)}
+    .table th, .table td{
+      padding: 12px 14px;
+      font-size:12px;
+      text-align:left;
+      border-bottom:1px solid var(--line);
+      white-space: nowrap;
+    }
+    .table th{
+      color:var(--muted);
+      font-weight:520;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .table tbody tr:hover{ background: rgba(255,255,255,.03) }
+    .status{font-weight:600}
+    .done{color:var(--done)}
+    .running{color:var(--run)}
+    .pending{color:var(--pend)}
+    .link{
+      color: var(--accent);
+      text-decoration:none;
+      border-bottom:1px dotted rgba(168,199,255,.35);
+    }
+    .btnMini{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.02);
+      color: var(--sub);
+      font-size:12px;
+      padding:7px 10px;
+      border-radius: 999px;
+      cursor:pointer;
+    }
+    .btnMini:hover{background: rgba(255,255,255,.04)}
+    .detail{
+      display:none;
+      padding: 0;
+      border-bottom:1px solid var(--line);
+    }
+    .detail > div{
+      padding: 14px;
+      color: var(--sub);
+      background: rgba(255,255,255,.02);
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px 18px;
+    }
+    @media (max-width: 680px){
+      .detail > div{ grid-template-columns:1fr }
+    }
+    .kv{display:flex; gap:10px; align-items:baseline}
+    .kv b{color:var(--text); font-weight:520}
+    .kv span{color:var(--sub)}
+    .hr{height:1px; background: var(--line); margin: 10px 0 0}
+
+    /* Charts */
+    .chartBox{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(5,10,18,0.6);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.28);
+      backdrop-filter: blur(10px);
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      height:100%;
+    }
+    .chartHead{
+      display:flex; align-items:center; justify-content:space-between;
+      margin-bottom: 10px;
+      gap:12px;
+    }
+    .chartHead h3{
+      margin:0;
+      font-size:12px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--sub);
+      font-weight:520;
+    }
+    .chartHead .meta{
+      color:var(--muted);
+      font-size:12px;
+      white-space:nowrap;
+    }
+    canvas{
+      width:100%;
+      height:140px;
+      display:block;
+      flex:1;
+      filter: brightness(0.8);
+    }
+    .miniRow{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+      margin-top: 14px;
+    }
+    @media (max-width: 680px){ .miniRow{grid-template-columns:1fr} }
+
+    .kpi{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.02);
+      border-radius: 14px;
+      padding: 14px;
+    }
+    .kpi .label{font-size:12px; color:var(--muted); letter-spacing:.12em; text-transform:uppercase}
+    .kpi .val{font-size:22px; margin:6px 0 0; font-weight:520}
+    .kpi .sub{font-size:12px; color:var(--sub); margin-top:4px}
+
+    /* Asset grid */
+    .assetGrid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+    }
+    @media (max-width: 980px){ .assetGrid{grid-template-columns: repeat(2, 1fr)} }
+    @media (max-width: 560px){ .assetGrid{grid-template-columns: 1fr} }
+
+    .asset{
+      border:none;
+      background: transparent;
+      border-radius: 16px;
+      overflow:hidden;
+    }
+    .thumb{
+      height: 92px;
+      background:
+        radial-gradient(120px 90px at 30% 30%, rgba(168,199,255,.14), transparent 60%),
+        radial-gradient(140px 90px at 70% 55%, rgba(255,224,138,.10), transparent 62%),
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.005));
+      border-bottom:1px dashed var(--line);
+      position:relative;
+    }
+    .thumb:after{
+      content:"";
+      position:absolute; inset:12px;
+      border:1px dashed rgba(255,255,255,.10);
+      border-radius: 12px;
+    }
+    .assetBody{padding: 12px 12px 14px}
+    .assetTop{display:flex; justify-content:space-between; gap:10px; align-items:flex-start}
+    .assetId{font-size:12px; color:var(--sub)}
+    .tag{
+      font-size:11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border:1px solid var(--line);
+      color: var(--sub);
+      background: rgba(255,255,255,.02);
+      white-space:nowrap;
+    }
+    .assetName{margin:8px 0 0; font-size:13px; color:var(--text); font-weight:520}
+    .assetMeta{
+      margin-top:10px;
+      display:flex; flex-wrap:wrap; gap:10px;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    /* Flow diagram */
+    .flowWrap{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      backdrop-filter: blur(14px);
+      padding: 16px;
+      overflow:hidden;
+    }
+    .flowHead{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:10px}
+    .flowHead h3{margin:0; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--sub); font-weight:520}
+    .flowHead p{margin:0; font-size:12px; color:var(--muted)}
+    svg{width:100%; height:auto; display:block}
+    .foot{
+      margin-top: 92px;
+      color: var(--sub);
+      font-size: 12px;
+      max-width: 78ch;
+      opacity:.9;
+    }
+  </style>
+</head>
+<body class="page-project02">
+  <div class="bg-layer bg-particles"></div>
+  <div class="bg-layer bg-noise"></div>
+
+  <header class="site-header glass-nav">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <span class="brand-label">ONEFEI · LAB</span>
+        <span class="brand-sub">Experimental Automation & Visual System</span>
+      </div>
+      <nav class="nav-menu">
+        <a href="index.html#lab-module-04">Home</a>
+        <a href="automation-lab-01.html">Lab 01</a>
+        <a href="automation-lab-02.html">Lab 02</a>
+        <a href="automation-lab-03.html">Lab 03</a>
+        <a href="automation-lab-04.html" class="active">Lab 04</a>
+      </nav>
+    </div>
+  </header>
+  <main class="wrap">
+
+    <section class="top">
+      <div class="hero">
+        <div class="kicker">DATA LAYER · FEISHU BITABLE · SYSTEM VIEW</div>
+        <h1>Data Center</h1>
+        <p class="desc">
+          把零散的 <b>任务</b>、<b>素材</b>、<b>结果</b> 统一沉淀为可分析、可复用、可自动化的数据资产。
+          这里展示的是“系统快照”（演示数据），结构对应真实生产逻辑。
+        </p>
+        <div class="chips">
+          <span class="chip">Task Pool / 调度</span>
+          <span class="chip">Asset Hub / 资产化</span>
+          <span class="chip">Result & Insight / 运营分析</span>
+          <span class="chip mono">n8n → ComfyUI → Feishu</span>
+        </div>
+      </div>
+
+      <div class="rightStack">
+        <div class="card">
+          <div class="cardTitle"><span>Today Snapshot</span><span class="mono">UTC+8</span></div>
+          <p class="big mono">51</p>
+          <p class="small">Total Tasks (rolling 24h)</p>
+          <div class="row">
+            <span class="pill">Automation: <b class="mono">81%</b></span>
+            <span class="pill">Human Loop: <b class="mono">19%</b></span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="cardTitle"><span>Quality Signals</span><span class="mono">v0.8 demo</span></div>
+          <p class="big mono">94%</p>
+          <p class="small">Success Rate</p>
+          <div class="row">
+            <span class="pill">Rework: <b class="mono">8%</b></span>
+            <span class="pill">Avg Turns: <b class="mono">1.6</b></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Flow -->
+    <section class="sectionHeader">
+      <div>
+        <h2>System Flow</h2>
+        <p class="hint">从需求输入 → 任务生成 → 自动化执行 → 结果回写 → 分析复用。</p>
+      </div>
+      <button class="btnMini" id="toggleFlow">Toggle Labels</button>
+    </section>
+
+    <div class="flowWrap">
+      <div class="flowHead">
+        <h3>Pipeline Overview</h3>
+        <p class="mono">request → task → workflow → output → insight</p>
+      </div>
+
+      <svg viewBox="0 0 1200 260" role="img" aria-label="System flow diagram">
+        <defs>
+          <linearGradient id="g1" x1="0" x2="1">
+            <stop offset="0" stop-color="rgba(168,199,255,.55)"/>
+            <stop offset="1" stop-color="rgba(255,224,138,.35)"/>
+          </linearGradient>
+          <linearGradient id="g2" x1="0" x2="1">
+            <stop offset="0" stop-color="rgba(255,224,138,.40)"/>
+            <stop offset="1" stop-color="rgba(158,255,193,.40)"/>
+          </linearGradient>
+        </defs>
+
+        <!-- nodes -->
+        <g>
+          <rect x="30" y="78" width="210" height="110" rx="18" fill="rgba(255,255,255,.035)" stroke="rgba(255,255,255,.10)"/>
+          <rect x="270" y="48" width="260" height="170" rx="18" fill="rgba(255,255,255,.035)" stroke="rgba(255,255,255,.10)"/>
+          <rect x="560" y="48" width="260" height="170" rx="18" fill="rgba(255,255,255,.035)" stroke="rgba(255,255,255,.10)"/>
+          <rect x="850" y="78" width="320" height="110" rx="18" fill="rgba(255,255,255,.035)" stroke="rgba(255,255,255,.10)"/>
+        </g>
+
+        <!-- connectors -->
+        <path d="M240 133 C255 133, 258 133, 270 133" stroke="url(#g1)" stroke-width="3" fill="none" opacity=".9"/>
+        <path d="M530 133 C545 133, 548 133, 560 133" stroke="url(#g1)" stroke-width="3" fill="none" opacity=".9"/>
+        <path d="M820 133 C835 133, 838 133, 850 133" stroke="url(#g2)" stroke-width="3" fill="none" opacity=".9"/>
+
+        <!-- micro streams -->
+        <path d="M400 68 C420 30, 560 30, 690 66" stroke="rgba(168,199,255,.28)" stroke-width="2" fill="none"/>
+        <path d="M400 198 C420 236, 560 236, 690 200" stroke="rgba(255,224,138,.22)" stroke-width="2" fill="none"/>
+
+        <!-- labels -->
+        <g id="flowLabels" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace" fill="rgba(233,237,245,.78)">
+          <text x="58" y="115" font-size="12" opacity=".8">INPUT</text>
+          <text x="58" y="140" font-size="16">需求 / Brief</text>
+          <text x="58" y="162" font-size="12" opacity=".7">Prompt · Ref · Goal</text>
+
+          <text x="298" y="78" font-size="12" opacity=".8">TASK POOL</text>
+          <text x="298" y="106" font-size="16">任务生成 & 排队</text>
+          <text x="298" y="130" font-size="12" opacity=".7">Status · Priority · Owner</text>
+          <text x="298" y="152" font-size="12" opacity=".7">Links → Assets → Runs</text>
+
+          <text x="588" y="78" font-size="12" opacity=".8">WORKFLOWS</text>
+          <text x="588" y="106" font-size="16">自动化执行</text>
+          <text x="588" y="130" font-size="12" opacity=".7">n8n · ComfyUI · Agents</text>
+          <text x="588" y="152" font-size="12" opacity=".7">Retries · Logs · Params</text>
+
+          <text x="878" y="115" font-size="12" opacity=".8">OUTPUT</text>
+          <text x="878" y="140" font-size="16">结果回写 & 复用</text>
+          <text x="878" y="162" font-size="12" opacity=".7">Assets · Metrics · Reports</text>
+        </g>
+
+        <!-- minimal label dots -->
+        <g opacity=".9">
+          <circle cx="235" cy="133" r="4" fill="rgba(168,199,255,.75)"/>
+          <circle cx="525" cy="133" r="4" fill="rgba(168,199,255,.75)"/>
+          <circle cx="815" cy="133" r="4" fill="rgba(158,255,193,.70)"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Task + charts -->
+    <div class="sectionHeader">
+      <div>
+        <h2>Task Pool</h2>
+        <p class="hint">任务可排期、可追踪、可复盘：用“状态 + 时间 + 返工”</p>
+      </div>
+      <button class="btnMini" id="expandAll">Expand Details</button>
+    </div>
+
+    <div class="grid">
+      <div>
+        <table class="table" id="taskTable">
+          <thead>
+            <tr>
+              <th>Task ID</th>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Workflow</th>
+              <th>Status</th>
+              <th>ETA</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-detail="d1">
+              <td class="mono">TSK-0412</td>
+              <td>Outdoor Eyewear Scenario</td>
+              <td>Image</td>
+              <td>n8n → ComfyUI</td>
+              <td class="status done">Done</td>
+              <td class="mono">00:18</td>
+              <td><button class="btnMini" data-toggle="d1">View</button></td>
+            </tr>
+            <tr class="detail" id="d1"><td colspan="7"><div>
+              <div class="kv"><b class="mono">Inputs</b><span>Brief + Ref(3) + Prompt(1)</span></div>
+              <div class="kv"><b class="mono">Outputs</b><span>Images(12) · Selected(3)</span></div>
+              <div class="kv"><b class="mono">Auto Steps</b><span>Queue → Generate → Upload → Writeback</span></div>
+              <div class="kv"><b class="mono">Quality</b><span>Score 8.9 · Rework 1</span></div>
+            </div></td></tr>
+
+            <tr data-detail="d2">
+              <td class="mono">TSK-0413</td>
+              <td>Industrial Design Sketch</td>
+              <td>Image</td>
+              <td>AI Agent</td>
+              <td class="status running">Running</td>
+              <td class="mono">00:27</td>
+              <td><button class="btnMini" data-toggle="d2">View</button></td>
+            </tr>
+            <tr class="detail" id="d2"><td colspan="7"><div>
+              <div class="kv"><b class="mono">Inputs</b><span>Design Language Lock + Sketch Style</span></div>
+              <div class="kv"><b class="mono">Outputs</b><span>Panels(4) · Variants(6)</span></div>
+              <div class="kv"><b class="mono">Auto Steps</b><span>Prompt Mix → Render → QA → Archive</span></div>
+              <div class="kv"><b class="mono">Quality</b><span>Est. 9.1 · Risk: Low</span></div>
+            </div></td></tr>
+
+            <tr data-detail="d3">
+              <td class="mono">TSK-0414</td>
+              <td>Prompt Asset Refactor</td>
+              <td>Analysis</td>
+              <td>Manual + AI</td>
+              <td class="status pending">Pending</td>
+              <td class="mono">01:10</td>
+              <td><button class="btnMini" data-toggle="d3">View</button></td>
+            </tr>
+            <tr class="detail" id="d3"><td colspan="7"><div>
+              <div class="kv"><b class="mono">Goal</b><span>Normalize prompts into reusable templates</span></div>
+              <div class="kv"><b class="mono">Deliver</b><span>Prompt Pack v2 + Tags + Scores</span></div>
+              <div class="kv"><b class="mono">Auto Steps</b><span>Parse → Cluster → Score → Save</span></div>
+              <div class="kv"><b class="mono">Impact</b><span>Reuse ↑ · Variance ↓</span></div>
+            </div></td></tr>
+
+            <tr data-detail="d4">
+              <td class="mono">TSK-0415</td>
+              <td>Result Quality Review</td>
+              <td>Review</td>
+              <td>Human Loop</td>
+              <td class="status done">Done</td>
+              <td class="mono">00:12</td>
+              <td><button class="btnMini" data-toggle="d4">View</button></td>
+            </tr>
+            <tr class="detail" id="d4"><td colspan="7"><div>
+              <div class="kv"><b class="mono">Checks</b><span>Brand Safe · No Logo · Proportion Lock</span></div>
+              <div class="kv"><b class="mono">Findings</b><span>2 rejects · 1 retry</span></div>
+              <div class="kv"><b class="mono">Outcome</b><span>Approved(3) · Archived(9)</span></div>
+              <div class="kv"><b class="mono">Notes</b><span>Improve light-direction constraints</span></div>
+            </div></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="chartBox">
+        <div class="chartHead">
+          <h3>Throughput Trend</h3>
+          <div class="meta mono">7 days · tasks/day</div>
+        </div>
+        <canvas id="trend"></canvas>
+
+        <div class="miniRow">
+          <div class="kpi">
+            <div class="label">Avg ETA</div>
+            <div class="val mono">00:26</div>
+            <div class="sub">median time-to-done</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Rework Rate</div>
+            <div class="val mono">8%</div>
+            <div class="sub">retry / total outputs</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Automation</div>
+            <div class="val mono">81%</div>
+            <div class="sub">auto steps coverage</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Asset Hub + charts -->
+    <div class="sectionHeader">
+      <div>
+        <h2>Asset Hub</h2>
+        <p class="hint">把 Prompt / JSON / 图像 / 参数当“可复用资产”，核心指标是 Reuse 与 Quality。</p>
+      </div>
+      <button class="btnMini" id="shuffleAssets">Shuffle</button>
+    </div>
+
+    <div class="grid">
+      <div class="chartBox">
+        <div class="chartHead">
+          <h3>Asset Composition</h3>
+          <div class="meta mono">Image · Prompt · JSON · Video</div>
+        </div>
+        <canvas id="donut"></canvas>
+        <div class="miniRow">
+          <div class="kpi">
+            <div class="label">Total Assets</div>
+            <div class="val mono">402</div>
+            <div class="sub">active in library</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Avg Reuse</div>
+            <div class="val mono">12.4</div>
+            <div class="sub">times per asset</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Quality Avg</div>
+            <div class="val mono">9.1</div>
+            <div class="sub">human + system score</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="assetGrid" id="assetGrid">
+          <!-- assets injected by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Result & Insight -->
+    <div class="sectionHeader">
+      <div>
+        <h2>Result & Insight</h2>
+        <p class="hint">用“成功率、人工介入、返工、轮次”讲清楚：系统运行得是否稳定、是否可扩张。</p>
+      </div>
+      <button class="btnMini" id="regenMetrics">Regenerate</button>
+    </div>
+
+    <div class="grid">
+      <div>
+        <table class="table" id="insightTable">
+          <thead>
+            <tr>
+              <th>Date</th><th>Total Tasks</th><th>Success</th><th>Automation</th><th>Human Loop</th><th>Avg Turns</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="mono">2025-04-12</td><td class="mono">42</td><td class="mono">92%</td><td class="mono">78%</td><td class="mono">22%</td><td class="mono">1.8</td></tr>
+            <tr><td class="mono">2025-04-13</td><td class="mono">36</td><td class="mono">89%</td><td class="mono">74%</td><td class="mono">26%</td><td class="mono">2.1</td></tr>
+            <tr><td class="mono">2025-04-14</td><td class="mono">51</td><td class="mono">94%</td><td class="mono">81%</td><td class="mono">19%</td><td class="mono">1.6</td></tr>
+            <tr><td class="mono">2025-04-15</td><td class="mono">48</td><td class="mono">91%</td><td class="mono">79%</td><td class="mono">21%</td><td class="mono">1.7</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="chartBox">
+        <div class="chartHead">
+          <h3>Stability Panel</h3>
+          <div class="meta mono">success / rework / turns</div>
+        </div>
+        <canvas id="bars"></canvas>
+        <div class="miniRow">
+          <div class="kpi">
+            <div class="label">Stability</div>
+            <div class="val mono" id="stability">A-</div>
+            <div class="sub">based on variance</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Human Cost</div>
+            <div class="val mono" id="humanCost">Low</div>
+            <div class="sub">intervention ratio</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Scale Ready</div>
+            <div class="val mono" id="scaleReady">Yes</div>
+            <div class="sub">automation coverage</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="foot">
+      <span class="mono">NOTE</span>：本页为“演示数据可视化”，用于作品集呈现与系统叙事。
+      字段结构与指标口径对齐真实生产（任务调度 / 资产化 / 结果分析），内容不包含敏感业务数据。
+    </p>
+    <div class="section section-bottom-nav">
+      <div class="bottom-nav-inner">
+        <a href="automation-lab-03.html" class="btn-ghost">&larr; 上一页</a>
+        <a href="index.html#lab" class="btn-outline">下一页 &rarr;</a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // ---- Helpers ----
+    const $ = (sel, el=document) => el.querySelector(sel);
+    const $$ = (sel, el=document) => Array.from(el.querySelectorAll(sel));
+
+    function fitCanvas(c){
+      const rect = c.getBoundingClientRect();
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      c.width = Math.floor(rect.width * dpr);
+      c.height = Math.floor(rect.height * dpr);
+      const ctx = c.getContext("2d");
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      return ctx;
+    }
+
+    function clear(ctx, w, h){
+      ctx.clearRect(0,0,w,h);
+    }
+
+    function drawGrid(ctx, w, h){
+      ctx.globalAlpha = 0.18;
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = "rgba(255,255,255,.10)";
+      const step = 28;
+      for(let x=0; x<=w; x+=step){
+        ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke();
+      }
+      for(let y=0; y<=h; y+=step){
+        ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    function lineChart(canvasId, series){
+      const c = document.getElementById(canvasId);
+      const ctx = fitCanvas(c);
+      const w = c.clientWidth, h = c.clientHeight;
+      clear(ctx,w,h);
+      drawGrid(ctx,w,h);
+
+      const pad = {l:12,r:12,t:12,b:18};
+      const min = Math.min(...series), max = Math.max(...series);
+      const xStep = (w - pad.l - pad.r) / (series.length - 1 || 1);
+      const yMap = (v) => {
+        if(max === min) return h/2;
+        const t = (v - min) / (max - min);
+        return (h - pad.b) - t * (h - pad.t - pad.b);
+      };
+
+      // line
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "rgba(168,199,255,.85)";
+      ctx.beginPath();
+      series.forEach((v,i)=>{
+        const x = pad.l + i*xStep;
+        const y = yMap(v);
+        if(i===0) ctx.moveTo(x,y);
+        else ctx.lineTo(x,y);
+      });
+      ctx.stroke();
+
+      // points
+      series.forEach((v,i)=>{
+        const x = pad.l + i*xStep;
+        const y = yMap(v);
+        ctx.fillStyle = "rgba(255,255,255,.85)";
+        ctx.beginPath(); ctx.arc(x,y,3,0,Math.PI*2); ctx.fill();
+      });
+
+      // baseline
+      ctx.strokeStyle = "rgba(255,255,255,.20)";
+      ctx.beginPath(); ctx.moveTo(pad.l, h - pad.b); ctx.lineTo(w - pad.r, h - pad.b); ctx.stroke();
+
+      // labels
+      ctx.fillStyle = "rgba(233,237,245,.55)";
+      ctx.font = "12px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace";
+      ctx.fillText(String(min), pad.l, h - 4);
+      ctx.fillText(String(max), pad.l, 12);
+    }
+
+    function donutChart(canvasId, parts){
+      const c = document.getElementById(canvasId);
+      const ctx = fitCanvas(c);
+      const w = c.clientWidth, h = c.clientHeight;
+      clear(ctx,w,h);
+
+      const cx = w/2, cy = h/2, r = Math.min(w,h)*0.35;
+      const total = parts.reduce((a,p)=>a+p.value,0);
+      let ang = -Math.PI/2;
+
+      const colors = [
+        "rgba(168,199,255,.85)",
+        "rgba(255,224,138,.78)",
+        "rgba(158,255,193,.78)",
+        "rgba(255,159,178,.65)"
+      ];
+
+      parts.forEach((p, idx)=>{
+        const slice = (p.value/total) * Math.PI*2;
+        ctx.beginPath();
+        ctx.strokeStyle = colors[idx % colors.length];
+        ctx.lineWidth = 18;
+        ctx.arc(cx,cy,r,ang,ang+slice);
+        ctx.stroke();
+        ang += slice;
+      });
+
+      // inner cut
+      ctx.beginPath();
+      ctx.fillStyle = "rgba(13,15,18,.62)";
+      ctx.arc(cx,cy,r-12,0,Math.PI*2);
+      ctx.fill();
+
+      // center text
+      ctx.fillStyle = "rgba(233,237,245,.85)";
+      ctx.font = "600 18px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace";
+      ctx.textAlign = "center";
+      ctx.fillText(total + " assets", cx, cy+6);
+
+      // legend
+      ctx.textAlign = "left";
+      ctx.font = "12px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace";
+      let ly = 18;
+      parts.forEach((p, idx)=>{
+        ctx.fillStyle = colors[idx % colors.length];
+        ctx.fillRect(14, ly-9, 10, 10);
+        ctx.fillStyle = "rgba(233,237,245,.65)";
+        ctx.fillText(p.label + " · " + p.value, 30, ly);
+        ly += 18;
+      });
+    }
+
+    function barPanel(canvasId, items){
+      const c = document.getElementById(canvasId);
+      const ctx = fitCanvas(c);
+      const w = c.clientWidth, h = c.clientHeight;
+      clear(ctx,w,h);
+      drawGrid(ctx,w,h);
+
+      const pad = {l:18,r:12,t:14,b:20};
+      const max = Math.max(...items.map(d=>d.value));
+      const barW = (w - pad.l - pad.r) / items.length * 0.62;
+      const gap = (w - pad.l - pad.r) / items.length * 0.38;
+
+      items.forEach((d,i)=>{
+        const x0 = pad.l + i*(barW+gap);
+        const bh = (d.value/max) * (h - pad.t - pad.b);
+        const y0 = (h - pad.b) - bh;
+
+        ctx.fillStyle = d.color;
+        ctx.fillRect(x0, y0, barW, bh);
+
+        ctx.fillStyle = "rgba(233,237,245,.55)";
+        ctx.font = "12px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace";
+        ctx.fillText(d.label, x0, h - 6);
+      });
+
+      // title numbers
+      ctx.fillStyle = "rgba(233,237,245,.65)";
+      ctx.font = "12px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace";
+      ctx.fillText(String(max), 8, 12);
+    }
+
+    // ---- Task detail toggles ----
+    function toggleDetail(id, open){
+      const row = document.getElementById(id);
+      if(!row) return;
+      const isOpen = row.style.display === "table-row";
+      const next = (open === undefined) ? !isOpen : open;
+      row.style.display = next ? "table-row" : "none";
+    }
+
+    document.addEventListener("click", (e)=>{
+      const btn = e.target.closest("[data-toggle]");
+      if(btn){
+        toggleDetail(btn.getAttribute("data-toggle"));
+      }
+    });
+
+    $("#expandAll").addEventListener("click", ()=>{
+      const details = ["d1","d2","d3","d4"];
+      const anyClosed = details.some(id => document.getElementById(id).style.display !== "table-row");
+      details.forEach(id => toggleDetail(id, anyClosed));
+    });
+
+    // ---- Flow labels toggle ----
+    $("#toggleFlow").addEventListener("click", ()=>{
+      const g = document.getElementById("flowLabels");
+      const hidden = g.style.display === "none";
+      g.style.display = hidden ? "block" : "none";
+    });
+
+    // ---- Assets ----
+    const assets = [
+      {id:"AST-IMG-2391", type:"Image", tag:"AI", name:"Outdoor scene v3", reuse:17, score:8.9},
+      {id:"AST-PRM-1104", type:"Prompt", tag:"Human", name:"AEROFORCE prompt template", reuse:31, score:9.3},
+      {id:"AST-JSON-0402", type:"JSON", tag:"System", name:"ComfyUI workflow params", reuse:52, score:9.7},
+      {id:"AST-IMG-2407", type:"Image", tag:"AI", name:"Industrial sketch sheet", reuse:9, score:8.2},
+      {id:"AST-VID-0189", type:"Video", tag:"API", name:"Panoramic outdoor cut", reuse:6, score:8.6},
+      {id:"AST-PRM-1132", type:"Prompt", tag:"System", name:"QA / compliance rules", reuse:44, score:9.4},
+    ];
+
+    function renderAssets(list){
+      const el = $("#assetGrid");
+      el.innerHTML = "";
+      list.forEach(a=>{
+        const div = document.createElement("div");
+        div.className = "asset";
+        div.innerHTML = `
+          <div class="thumb" aria-hidden="true"></div>
+          <div class="assetBody">
+            <div class="assetTop">
+              <div class="assetId mono">${a.id}</div>
+              <div class="tag">${a.type} · ${a.tag}</div>
+            </div>
+            <div class="assetName">${a.name}</div>
+            <div class="assetMeta">
+              <span class="mono">reuse ${a.reuse}</span>
+              <span class="mono">score ${a.score}</span>
+              <span class="mono">status active</span>
+            </div>
+          </div>
+        `;
+        el.appendChild(div);
+      });
+    }
+
+    $("#shuffleAssets").addEventListener("click", ()=>{
+      const shuffled = [...assets].sort(()=>Math.random()-0.5);
+      renderAssets(shuffled);
+    });
+
+    renderAssets(assets);
+
+    // ---- Metrics regeneration ----
+    function regenInsight(){
+      const base = [
+        {d:"2025-04-12", t:42, s:92, a:78, h:22, r:8, turns:1.8},
+        {d:"2025-04-13", t:36, s:89, a:74, h:26, r:10, turns:2.1},
+        {d:"2025-04-14", t:51, s:94, a:81, h:19, r:7, turns:1.6},
+        {d:"2025-04-15", t:48, s:91, a:79, h:21, r:8, turns:1.7},
+      ].map(x=>{
+        // small random drift
+        const drift = () => (Math.random()*2 - 1);
+        return {
+          ...x,
+          t: Math.max(20, Math.round(x.t + drift()*4)),
+          s: Math.max(80, Math.min(98, Math.round(x.s + drift()*3))),
+          a: Math.max(60, Math.min(95, Math.round(x.a + drift()*4))),
+          h: null, // derived
+          r: Math.max(3, Math.min(18, Math.round(x.r + drift()*3))),
+          turns: Math.max(1.2, Math.min(2.6, +(x.turns + drift()*0.2).toFixed(1))),
+        };
+      }).map(x=>({ ...x, h: 100 - x.a }));
+
+      // table update
+      const tbody = $("#insightTable tbody");
+      tbody.innerHTML = base.map(x=>`
+        <tr>
+          <td class="mono">${x.d}</td>
+          <td class="mono">${x.t}</td>
+          <td class="mono">${x.s}%</td>
+          <td class="mono">${x.a}%</td>
+          <td class="mono">${x.h}%</td>
+          <td class="mono">${x.turns}</td>
+        </tr>
+      `).join("");
+
+      // bars: success, rework, turns*10
+      const avgS = base.reduce((a,x)=>a+x.s,0)/base.length;
+      const avgR = base.reduce((a,x)=>a+x.r,0)/base.length;
+      const avgT = base.reduce((a,x)=>a+x.turns,0)/base.length;
+
+      barPanel("bars", [
+        {label:"success", value: avgS, color:"rgba(158,255,193,.75)"},
+        {label:"rework", value: avgR*5, color:"rgba(255,159,178,.60)"},
+        {label:"turns", value: avgT*40, color:"rgba(168,199,255,.75)"},
+      ]);
+
+      // grade heuristics
+      const variance = (arr) => {
+        const m = arr.reduce((a,v)=>a+v,0)/arr.length;
+        return arr.reduce((a,v)=>a+(v-m)*(v-m),0)/arr.length;
+      };
+      const vS = variance(base.map(x=>x.s));
+      const vA = variance(base.map(x=>x.a));
+      const stabilityScore = 100 - (vS*3 + vA*2);
+      const grade = stabilityScore > 92 ? "A" : stabilityScore > 86 ? "A-" : stabilityScore > 80 ? "B+" : "B";
+      $("#stability").textContent = grade;
+
+      const avgH = base.reduce((a,x)=>a+x.h,0)/base.length;
+      $("#humanCost").textContent = avgH < 18 ? "Low" : avgH < 28 ? "Medium" : "High";
+      $("#scaleReady").textContent = (avgS > 90 && avgH < 25) ? "Yes" : "Maybe";
+    }
+
+    $("#regenMetrics").addEventListener("click", regenInsight);
+
+    // ---- Init charts ----
+    function init(){
+      lineChart("trend", [28, 34, 31, 42, 39, 48, 51]);
+      donutChart("donut", [
+        {label:"Image", value: 238},
+        {label:"Prompt", value: 98},
+        {label:"JSON", value: 52},
+        {label:"Video", value: 14},
+      ]);
+      regenInsight();
+    }
+
+    window.addEventListener("resize", ()=>{
+      // redraw on resize
+      init();
+    });
+
+    init();
+  </script>
+  <script src="assets/js/protect.js" defer></script>
+</body>
+</html>

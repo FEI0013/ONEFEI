@@ -1,0 +1,412 @@
+{
+  "last_node_id": 47,
+  "last_link_id": 68,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "LayerMask: SAM2Ultra",
+      "pos": [
+        1222.059326171875,
+        546.2731323242188
+      ],
+      "size": [
+        315,
+        366
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 60,
+          "label": "图像"
+        },
+        {
+          "name": "bboxes",
+          "type": "BBOXES",
+          "link": 2,
+          "label": "BBoxes"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [
+            4,
+            34
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "图像"
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "links": [],
+          "slot_index": 1,
+          "shape": 3,
+          "label": "遮罩"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LayerMask: SAM2Ultra"
+      },
+      "widgets_values": [
+        "sam2.1_hiera_large.safetensors",
+        "fp16",
+        "all",
+        "0,",
+        true,
+        "VITMatte",
+        6,
+        4,
+        0.15,
+        0.99,
+        true,
+        "cuda",
+        2
+      ],
+      "color": "rgba(27, 80, 119, 0.7)",
+      "category": "Custom Nodes"
+    },
+    {
+      "id": 3,
+      "type": "LayerMask: LoadFlorence2Model",
+      "pos": [
+        737.0596923828125,
+        633.2731323242188
+      ],
+      "size": [
+        390.5999755859375,
+        58
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "florence2_model",
+          "type": "FLORENCE2",
+          "links": [
+            1
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "florence2_model"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LayerMask: LoadFlorence2Model"
+      },
+      "widgets_values": [
+        "base-PromptGen-v2.0"
+      ],
+      "color": "rgba(27, 80, 119, 0.7)",
+      "category": "Custom Nodes"
+    },
+    {
+      "id": 4,
+      "type": "LayerMask: ObjectDetectorFL2",
+      "pos": [
+        742.0596923828125,
+        749.2731323242188
+      ],
+      "size": [
+        453.5999755859375,
+        150
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 59,
+          "label": "图像"
+        },
+        {
+          "name": "florence2_model",
+          "type": "FLORENCE2",
+          "link": 1,
+          "label": "Florence2模型"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "bboxes",
+          "type": "BBOXES",
+          "links": [
+            2
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "BBoxes"
+        },
+        {
+          "name": "preview",
+          "type": "IMAGE",
+          "links": [],
+          "slot_index": 1,
+          "shape": 3,
+          "label": "预览图像"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LayerMask: ObjectDetectorFL2"
+      },
+      "widgets_values": [
+        "character",
+        "left_to_right",
+        "all",
+        "2,"
+      ],
+      "color": "rgba(27, 80, 119, 0.7)",
+      "category": "Custom Nodes"
+    },
+    {
+      "id": 6,
+      "type": "PreviewImage",
+      "pos": [
+        1561.06005859375,
+        566.2730712890625
+      ],
+      "size": [
+        335.2323913574219,
+        333.6230773925781
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 4,
+          "label": "图像"
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": [
+        "<div style=\"border: solid 1px var(--border-color); border-radius: 4px; padding: 5px; \">Width: 2560, Height: 1440</div>"
+      ],
+      "category": "Primitive Nodes"
+    },
+    {
+      "id": 27,
+      "type": "SaveImage",
+      "pos": [
+        1918.06005859375,
+        563.2730712890625
+      ],
+      "size": [
+        315,
+        270
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 34,
+          "label": "图像"
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI"
+      ],
+      "category": "Primitive Nodes"
+    },
+    {
+      "id": 44,
+      "type": "Reroute",
+      "pos": [
+        572.8740234375,
+        728.634033203125
+      ],
+      "size": [
+        75,
+        26
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 68
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "IMAGE",
+          "links": [
+            59,
+            60
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": false
+      },
+      "color": "#323",
+      "bgcolor": "#535",
+      "category": "Primitive Nodes"
+    },
+    {
+      "id": 47,
+      "type": "LoadImage",
+      "pos": [
+        173,
+        613
+      ],
+      "size": [
+        315,
+        314
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            68
+          ],
+          "label": "图像",
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "label": "遮罩"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "0001-0591.mp4",
+        "image"
+      ],
+      "category": "Primitive Nodes"
+    }
+  ],
+  "links": [
+    [
+      1,
+      3,
+      0,
+      4,
+      1,
+      "FLORENCE2"
+    ],
+    [
+      2,
+      4,
+      0,
+      1,
+      1,
+      "BBOXES"
+    ],
+    [
+      4,
+      1,
+      0,
+      6,
+      0,
+      "IMAGE"
+    ],
+    [
+      34,
+      1,
+      0,
+      27,
+      0,
+      "IMAGE"
+    ],
+    [
+      59,
+      44,
+      0,
+      4,
+      0,
+      "IMAGE"
+    ],
+    [
+      60,
+      44,
+      0,
+      1,
+      0,
+      "IMAGE"
+    ],
+    [
+      68,
+      47,
+      0,
+      44,
+      0,
+      "*"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 3,
+      "title": "抠图",
+      "bounding": [
+        713.0596313476562,
+        444.27313232421875,
+        1541.8551025390625,
+        485.2470703125
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 4,
+      "title": "单图",
+      "bounding": [
+        164.6839141845703,
+        534.0720825195312,
+        333,
+        400
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.7513148009015781,
+      "offset": [
+        265.46689274384045,
+        19.748941237476604
+      ]
+    }
+  },
+  "version": 0.4
+}
