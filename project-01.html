@@ -8,6 +8,46 @@
   <!-- 主样式 -->
   <link rel="stylesheet" href="assets/css/style.css" />
 
+
+<style>
+  .page-nav{
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    display: flex;
+    gap: 10px;
+    z-index: 60;
+  }
+  .page-nav__btn{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid rgba(148,163,184,.35);
+    color: rgba(226,232,240,.9);
+    background: rgba(2,6,23,.6);
+    backdrop-filter: blur(8px);
+    transition: transform .2s ease, border-color .2s ease, color .2s ease;
+  }
+  .page-nav__btn:hover{
+    transform: translateY(-1px);
+    border-color: rgba(226,232,240,.75);
+    color: #fff;
+  }
+  @media (max-width: 640px){
+    .page-nav{
+      bottom: 14px;
+      right: 14px;
+      flex-direction: column;
+    }
+  }
+</style>
+
 </head>
 
 <body class="page-project">

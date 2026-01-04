@@ -123,6 +123,46 @@
     .tests .ok{ color:#0b7a31; }
     .tests .bad{ color:#b00020; }
   </style>
+
+<style>
+  .page-nav{
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    display: flex;
+    gap: 10px;
+    z-index: 60;
+  }
+  .page-nav__btn{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid rgba(148,163,184,.35);
+    color: rgba(226,232,240,.9);
+    background: rgba(2,6,23,.6);
+    backdrop-filter: blur(8px);
+    transition: transform .2s ease, border-color .2s ease, color .2s ease;
+  }
+  .page-nav__btn:hover{
+    transform: translateY(-1px);
+    border-color: rgba(226,232,240,.75);
+    color: #fff;
+  }
+  @media (max-width: 640px){
+    .page-nav{
+      bottom: 14px;
+      right: 14px;
+      flex-direction: column;
+    }
+  }
+</style>
+
 </head>
 
 <body>
@@ -297,36 +337,37 @@
       {
         id:"05",
         title:"Landscape Horizon / Site Mood",
-        vtitle:"SKIN",
+        vtitle:"HORIZON",
         author:"FEI",
         quote:"连续水平金属百叶构建外立面系统的当代公共建筑。",
         page:"PAGE 78",
         year:"2025",
         tag:"Commissioned",
         tags:["site","mood","landscape"],
-        cover:"assets/img/Architectural-Design/05/效果图 (1).jpeg",
+        cover:"assets/img/Architectural-Design/05/分析图 (1).webp",
         folder:"assets/img/Architectural-Design/05/",
         detail:"product-design-01-detail-05.html",
         desc:"通过有机流动的表皮语言整合采光、遮阳与视线控制，使建筑在理性结构之上呈现出轻盈悬浮、柔性包裹的城市地标形象。",
         assets:[
-          "assets/img/Architectural-Design/05/效果图 (1).jpeg",
-          "assets/img/Architectural-Design/05/效果图 (2).jpeg",
-          "assets/img/Architectural-Design/05/效果图 (3).jpeg",
-          "assets/img/Architectural-Design/05/效果图 (4).jpeg",
-          "assets/img/Architectural-Design/05/效果图 (5).jpeg",
+          "assets/img/Architectural-Design/05/分析图 (1).webp",
           "assets/img/Architectural-Design/05/内部结构图.jpeg",
-          "assets/img/Architectural-Design/05/分析图 (1).jpeg",
+          "assets/img/Architectural-Design/05/分析图 (2).jpeg",
           "assets/img/Architectural-Design/05/分析图 (3).jpeg",
           "assets/img/Architectural-Design/05/分析图 (4).jpeg",
           "assets/img/Architectural-Design/05/平面图 (1).png",
           "assets/img/Architectural-Design/05/平面图 (2).png",
-          "assets/img/Architectural-Design/05/平面图 (3).png"
+          "assets/img/Architectural-Design/05/平面图 (3).png",
+          "assets/img/Architectural-Design/05/效果图 (1).jpeg",
+          "assets/img/Architectural-Design/05/效果图 (2).jpeg",
+          "assets/img/Architectural-Design/05/效果图 (3).jpeg",
+          "assets/img/Architectural-Design/05/效果图 (4).jpeg",
+          "assets/img/Architectural-Design/05/效果图 (5).jpeg"
         ]
       },
       {
         id:"06",
         title:"Twin Towers / Concept Elevation",
-        vtitle:"OASIS",
+        vtitle:"STRUCTURE",
         author:"FEI",
         quote:"沙漠气候下的绿色节能策略，围绕遮阳、通风与蓄热形成建筑秩序。",
         page:"PAGE 86",
