@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Projects · ONEFEI LAB</title>
 
   <!-- 主样式 -->
@@ -46,6 +46,38 @@
       left: 50%;
       transform: translateX(-50%);
       flex-direction: column;
+    }
+  }
+  @media (max-width: 768px){
+    .page-wrapper{
+      max-width: 100%;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    .hero-project{
+      min-height: auto;
+      padding: 28px 16px;
+    }
+    .hero-grid{
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .hero-visual,
+    .hero-image-frame,
+    .hero-image-frame img{
+      width: 100%;
+      max-width: 100%;
+    }
+    .project-subnav{
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .section-meta-line .meta-line{
+      flex-wrap: wrap;
+      gap: 8px 12px;
+    }
+    .section-index{
+      font-size: clamp(2.2rem, 12vw, 3rem);
     }
   }
 </style>
