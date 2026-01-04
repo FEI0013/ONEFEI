@@ -61,6 +61,7 @@
     .strip-page{ display:flex; align-items:center; justify-content:space-between; gap: 10px; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: rgba(226,232,240,.6); }
 
     .strip-thumb{ width:100%; height: 180px; border: 1px solid var(--line); border-radius: 12px; overflow:hidden; background: rgba(15,23,42,.6); }
+    .strip-thumb picture{ width:100%; height:100%; display:block; }
     .strip-thumb img{ width:100%; height:100%; object-fit: cover; display:block; }
 
     .strip-vtitle{ margin-top: auto; display:flex; align-items:flex-end; justify-content:center; min-height: 240px; }
@@ -84,11 +85,13 @@
     @media (max-width: 980px){ .modal-body{ grid-template-columns: 1fr; } }
 
     .preview{ background: rgba(15,23,42,.7); border-right: 1px solid var(--line); display:flex; flex-direction:column; }
-    .preview-main{ height: 360px; display:flex; align-items:center; justify-content:center; background: rgba(2,6,23,.6); }
+    .preview-main{ height: 360px; display:flex; align-items:center; justify-content:center; background: rgba(2,6,23,.6); overflow:hidden; }
+    .preview-main picture{ width:100%; height:100%; display:block; }
     .preview-main img,
     .preview-main video{ width:100%; height:100%; object-fit: cover; display:block; background: rgba(2,6,23,.6); }
     .preview-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; padding: 10px; background: rgba(15,23,42,.6); border-top: 1px solid var(--line); max-height: 220px; overflow:auto; }
     .preview-item{ border: 1px solid var(--line); border-radius: 10px; overflow:hidden; background: rgba(2,6,23,.6); cursor:pointer; aspect-ratio: 4 / 3; }
+    .preview-item picture{ width:100%; height:100%; display:block; }
     .preview-item img,
     .preview-item video{ width:100%; height:100%; object-fit: cover; display:block; }
     .preview-item.is-active{ outline: 2px solid rgba(226,232,240,.9); outline-offset: 1px; }
