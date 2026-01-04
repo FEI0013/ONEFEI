@@ -44,7 +44,9 @@
       bottom: 14px;
       left: 50%;
       transform: translateX(-50%);
-      flex-direction: column;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
     }
   }
   @media (max-width: 768px){
@@ -90,18 +92,18 @@
   <div class="bg-layer bg-noise"></div>
 
   <!-- 顶部导航 -->
-  <header class="site-header glass-nav">
-    <div class="nav-inner">
-      <div class="nav-brand">
-        <span class="brand-label">ONEFEI · LAB</span>
-        <span class="brand-sub">Experimental Automation & Visual System</span>
+  <header class="nav-header-enhanced">
+    <div class="top-inner">
+      <div class="top-brand">
+        <div class="k">ONEFEI · LAB</div>
+        <div class="t">Product Design</div>
       </div>
-      <nav class="nav-menu">
-        <a href="index.html#portfolio-product">Home</a>
-        <a href="project-01.html" class="active">Product</a>
-        <a href="animation-xian.html">Motion</a>
-        <a href="Architectural-Design.html">Architecture</a>
-        <a href="web-design-01.html">Web</a>
+      <nav class="top-nav">
+        <a class="nav-link" href="index.html#portfolio-product">Home</a>
+        <a class="nav-link nav-active" href="project-01.html">Product</a>
+        <a class="nav-link" href="animation-xian.html">Motion</a>
+        <a class="nav-link" href="Architectural-Design.html">Architecture</a>
+        <a class="nav-link" href="web-design-01.html">Web</a>
       </nav>
     </div>
   </header>
