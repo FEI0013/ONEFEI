@@ -3826,6 +3826,9 @@
     document.addEventListener('DOMContentLoaded', () => {
       restorePortfolioAnchor();
       restoreLabAnchor();
+      // 提前激活加载动画视频，避免首屏空白
+      activateVideo(loaderVideo);
+      setTimeout(() => activateVideo(heroVideo), 200);
     });
 
     // 年份
@@ -3922,8 +3925,6 @@
 
       // 页面完全加载后隐藏加载动画
       window.addEventListener('load', () => {
-        activateVideo(loaderVideo);
-        activateVideo(heroVideo);
         // 延迟一段时间后完成进度条
         setTimeout(() => {
           if (loadProgress) loadProgress.style.width = '100%';
