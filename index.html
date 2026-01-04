@@ -1769,10 +1769,11 @@
   <!-- 🎬 进入加载动画 -->
   <div id="pageLoader" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950 transition-all duration-1000">
     <!-- 视频背景 -->
-    <video id="loaderVideo" autoplay muted playsinline
+    <video id="loaderVideo" autoplay muted playsinline preload="none"
+           poster="assets/img/bg-blur-human.webp"
            class="absolute inset-0 w-full h-full object-cover transition-all duration-1000"
            style="opacity: 0.3; filter: brightness(0.7);">
-      <source src="assets/video/F1.mp4" type="video/mp4" />
+      <source data-src="assets/video/F1.mp4" type="video/mp4" />
     </video>
     <!-- 渐变遮罩 -->
     <div id="loaderOverlay" class="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/30 to-slate-950/70 transition-opacity duration-1000"></div>
@@ -1795,10 +1796,11 @@
   <!-- 🎬 独立的视频面板（脱离容器限制） -->
   <div id="heroPanel" class="fixed inset-0 z-[80] overflow-hidden" style="opacity: 0; will-change: width, height, top, left, border-radius; transition: all 1.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 1s ease-out;">
     <!-- 背景视频 -->
-    <video autoplay muted loop playsinline
+    <video id="heroVideo" autoplay muted loop playsinline preload="none"
+           poster="assets/img/bg-blur-human.webp"
            class="absolute inset-0 w-full h-full object-cover object-center opacity-100"
            style="filter: blur(1px) brightness(0.7);">
-      <source src="assets/video/F1.mp4" type="video/mp4" />
+      <source data-src="assets/video/F1.mp4" type="video/mp4" />
     </video>
     <div class="absolute inset-0 bg-gradient-to-br from-slate-950/70 via-slate-900/50 to-slate-950/30"></div>
     
@@ -3833,6 +3835,7 @@
     const pageLoader = document.getElementById('pageLoader');
     const loadProgress = document.getElementById('loadProgress');
     const loaderVideo = document.getElementById('loaderVideo');
+    const heroVideo = document.getElementById('heroVideo');
     const loaderOverlay = document.getElementById('loaderOverlay');
     const transitionMask = document.getElementById('transitionMask');
     const heroPanel = document.getElementById('heroPanel');
@@ -3885,6 +3888,14 @@
       }
     };
 
+    const activateVideo = (videoEl) => {
+      if (!videoEl) return;
+      const source = videoEl.querySelector('source[data-src]');
+      if (!source || source.src) return;
+      source.src = source.dataset.src;
+      videoEl.load();
+    };
+
     if (shouldSkipLoader) {
       finalizeHeroPanel();
     } else {
@@ -3911,6 +3922,8 @@
 
       // 页面完全加载后隐藏加载动画
       window.addEventListener('load', () => {
+        activateVideo(loaderVideo);
+        activateVideo(heroVideo);
         // 延迟一段时间后完成进度条
         setTimeout(() => {
           if (loadProgress) loadProgress.style.width = '100%';
