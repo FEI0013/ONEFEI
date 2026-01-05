@@ -826,7 +826,7 @@ body::after {
 
 .hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 640px);
   gap: var(--space-xl);
   align-items: center;
   width: 100%;
@@ -879,8 +879,20 @@ body::after {
   margin-bottom: var(--space-lg);
 }
 
+.hero-copy {
+  min-width: 0;
+  max-width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
 .hero-visual {
   position: relative;
+  width: 100%;
+  max-width: min(48vw, 640px);
+  justify-self: end;
+  overflow: hidden;
+  z-index: 1;
 }
 
 .hero-image-frame {
@@ -889,7 +901,8 @@ body::after {
   overflow: hidden;
   box-shadow: none;
   border: none;
-  width: clamp(420px, 40vw, 640px);
+  width: 100%;
+  max-width: 100%;
   margin: 0 auto;
   aspect-ratio: 4/3;
   background: transparent;
