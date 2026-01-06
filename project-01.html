@@ -1,98 +1,438 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Projects · ONEFEI LAB</title>
+  <title>Project 01 · Nightfall · ONEFEI LAB</title>
 
-  <!-- 主样式 -->
   <link rel="stylesheet" href="assets/css/style.css" />
 
-
-<style>
-  .page-nav{
-    position: fixed;
-    bottom: 22px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 10px;
-    z-index: 9999;
-  }
-  .page-nav__btn{
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 14px;
-    border-radius: 999px;
-    font-size: 12px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: 1px solid rgba(148,163,184,.35);
-    color: rgba(226,232,240,.9);
-    background: rgba(2,6,23,.6);
-    backdrop-filter: blur(8px);
-    transition: transform .2s ease, border-color .2s ease, color .2s ease;
-  }
-  .page-nav__btn:hover{
-    transform: translateY(-1px);
-    border-color: rgba(226,232,240,.75);
-    color: #fff;
-  }
-  @media (max-width: 640px){
-    .page-nav{
-      bottom: 14px;
-      left: 50%;
-      transform: translateX(-50%);
-      flex-direction: row;
-      flex-wrap: wrap;
+  <style>
+    :root{
+      --ink: #0b0f16;
+      --deep: #101623;
+      --navy: #1b2a3f;
+      --slate: #2a3a4f;
+      --mist: #a9b6c4;
+      --ice: #d7dde4;
+      --accent: #77a9c6;
+      --glass: rgba(16, 22, 35, 0.65);
+      --line: rgba(169, 182, 196, 0.35);
+    }
+    *{box-sizing:border-box;}
+    body.page-project01{
+      font-family: var(--font-main);
+      background: radial-gradient(1200px 500px at 10% 10%, rgba(42,58,79,0.45), transparent 60%),
+                  radial-gradient(900px 700px at 90% 20%, rgba(27,42,63,0.45), transparent 55%),
+                  linear-gradient(180deg, #090c12 0%, #111826 40%, #0b0f16 100%);
+      color: #e4ebf2;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body.page-project01::before,
+    body.page-project01::after{
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body.page-project01::before{
+      background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08), transparent 35%),
+                  radial-gradient(circle at 80% 10%, rgba(255,255,255,0.05), transparent 40%),
+                  radial-gradient(circle at 50% 80%, rgba(255,255,255,0.04), transparent 50%);
+      mix-blend-mode: screen;
+      opacity: 0.6;
+    }
+    body.page-project01::after{
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.18'/%3E%3C/svg%3E");
+      opacity: 0.22;
+    }
+    .page-wrapper{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 48px 120px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero{
+      display:grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 46px;
+      align-items: start;
+      padding: 36px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(16,22,35,0.8), rgba(25,33,46,0.6));
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+    .hero-copy{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+      padding: 10px 0;
+    }
+    .hero-eyebrow{
+      font-family: var(--font-main);
+      font-size: 12px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: rgba(169,182,196,0.8);
+    }
+    .hero-title{
+      font-size: clamp(2.6rem, 4vw, 3.8rem);
+      letter-spacing: 0.1em;
+      margin: 0;
+    }
+    .hero-title span{
+      display:block;
+      font-size: clamp(1.3rem, 2.1vw, 1.9rem);
+      letter-spacing: 0.25em;
+      color: rgba(169,182,196,0.7);
+      margin-top: 12px;
+      font-family: var(--font-main);
+    }
+    .hero-desc{
+      font-size: 18px;
+      line-height: 1.7;
+      color: #e0e7ef;
+    }
+    .hero-meta{
+      display:flex;
+      flex-wrap: nowrap;
+      gap: 12px;
+      font-family: var(--font-main);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(169,182,196,0.75);
       justify-content: center;
     }
-  }
-  @media (max-width: 768px){
-    .page-wrapper{
-      max-width: 100%;
-      padding-left: 16px;
-      padding-right: 16px;
+    .hero-meta span{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(169,182,196,0.35);
+      background: rgba(16,22,35,0.55);
     }
-    .hero-project{
-      min-height: auto;
-      padding: 28px 16px;
+    .hero-visual-stack{
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+      max-width: min(60vw, 760px);
+      justify-self: stretch;
     }
-    .hero-grid{
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-    .hero-visual,
-    .hero-image-frame,
-    .hero-image-frame img{
+    .hero-visual{
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      min-width: 0;
+      aspect-ratio: 5 / 3;
       width: 100%;
       max-width: 100%;
     }
-    .project-subnav{
-      flex-wrap: wrap;
-      gap: 8px;
+    .hero-visual img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
     }
-    .section-meta-line .meta-line{
-      flex-wrap: wrap;
-      gap: 8px 12px;
+    .hero-visual::after{
+      content: "";
+      position:absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(9,12,18,0) 30%, rgba(9,12,18,0.55) 100%);
     }
-    .section-index{
-      font-size: clamp(2.2rem, 12vw, 3rem);
+    .section{
+      margin-top: 70px;
     }
-  }
-</style>
-
+    .section-title{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      margin-bottom: 26px;
+      gap: 24px;
+    }
+    .section-title h2{
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      margin: 0;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .section-title span{
+      font-family: var(--font-main);
+      font-size: 12px;
+      letter-spacing: 0.4em;
+      color: rgba(169,182,196,0.6);
+    }
+    .concept-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+    .concept-card{
+      border: 1px solid rgba(169,182,196,0.25);
+      padding: 24px;
+      border-radius: 22px;
+      background: rgba(12,18,28,0.7);
+      display:flex;
+      flex-direction:column;
+      gap: 14px;
+      min-height: 240px;
+    }
+    .concept-card h3{
+      font-size: 1.4rem;
+      margin: 0;
+      letter-spacing: 0.1em;
+    }
+    .concept-card p{
+      margin: 0;
+      line-height: 1.7;
+      color: rgba(224,231,239,0.85);
+    }
+    .quote-callout{
+      font-size: 1.05rem;
+      font-style: italic;
+      color: #f1f5f9;
+      border-left: 2px solid var(--accent);
+      padding-left: 16px;
+      margin-top: 8px;
+    }
+    .media-duo{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+    .media-card{
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(169,182,196,0.25);
+      background: rgba(10,15,25,0.6);
+    }
+    .media-card img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .gallery figure{
+      margin: 0;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(169,182,196,0.25);
+      position: relative;
+      min-height: 200px;
+    }
+    .gallery img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+    }
+    .gallery .span-7{ grid-column: span 7; }
+    .gallery .span-5{ grid-column: span 5; }
+    .gallery .span-4{ grid-column: span 4; }
+    .gallery .span-6{ grid-column: span 6; }
+    .analysis-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .process-row{
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .process-row figure{
+      margin: 0;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(169,182,196,0.25);
+      background: rgba(9,13,21,0.6);
+      aspect-ratio: 5 / 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+    }
+    .process-row img{
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .analysis-grid figure,
+    .analysis-grid .analysis-card{
+      margin:0;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(169,182,196,0.25);
+      background: rgba(9,13,21,0.6);
+    }
+    .analysis-grid img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+    }
+    .analysis-card{
+      padding: 20px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+      line-height: 1.6;
+    }
+    .analysis-card h4{
+      margin: 0;
+      font-size: 1.2rem;
+      letter-spacing: 0.1em;
+    }
+    .analysis-card p{
+      margin: 0;
+      color: rgba(224,231,239,0.8);
+    }
+    .footer-note{
+      margin-top: 80px;
+      padding: 28px 32px;
+      border-radius: 24px;
+      border: 1px solid rgba(169,182,196,0.25);
+      background: rgba(8,12,18,0.6);
+      display:flex;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      gap: 16px;
+      font-family: var(--font-main);
+      font-size: 12px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(169,182,196,0.7);
+    }
+    .page-nav{
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 99;
+    }
+    .page-nav__btn{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid rgba(169,182,196,.4);
+      color: rgba(228,235,242,.9);
+      background: rgba(7,10,16,.75);
+      backdrop-filter: blur(8px);
+      transition: transform .2s ease, border-color .2s ease, color .2s ease;
+      font-family: var(--font-main);
+    }
+    .page-nav__btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(228,235,242,.8);
+      color: #fff;
+    }
+    @media (max-width: 980px){
+      .hero{
+        grid-template-columns: 1fr;
+      }
+      .concept-grid{
+        grid-template-columns: 1fr;
+      }
+      .media-duo{
+        grid-template-columns: 1fr;
+      }
+      .analysis-grid{
+        grid-template-columns: 1fr;
+      }
+      .process-row{
+        grid-template-columns: 1fr;
+      }
+      .gallery{
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .gallery .span-7,
+      .gallery .span-5,
+      .gallery .span-6,
+      .gallery .span-4{
+        grid-column: span 6;
+      }
+      .top-inner{
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px 24px;
+      }
+    }
+    @media (max-width: 640px){
+      .page-wrapper{
+        padding: 40px 20px 120px;
+      }
+      .hero{
+        padding: 24px;
+      }
+      .hero-title{
+        letter-spacing: 0.06em;
+      }
+      .hero-meta span{
+        font-size: 10px;
+      }
+    }
+    .hero-visual-stack{
+      max-width: min(60vw, 720px);
+    }
+    .hero-title{
+      font-size: clamp(2.4rem, 3.6vw, 3.4rem);
+    }
+    .hero-title span{
+      font-size: clamp(1.1rem, 1.8vw, 1.6rem);
+      letter-spacing: 0.18em;
+    }
+    .hero-desc{
+      font-size: 16px;
+      line-height: 1.75;
+    }
+    .section-title h2{
+      font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+    }
+    .section-title span{
+      font-size: 11px;
+    }
+    .concept-card h3{
+      font-size: 1.15rem;
+    }
+    .concept-card p{
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .quote-callout{
+      font-size: 0.95rem;
+    }
+    .analysis-card h4{
+      font-size: 1.05rem;
+    }
+    .analysis-card p{
+      font-size: 14px;
+    }
+    .footer-note{
+      font-size: 11px;
+      letter-spacing: 0.22em;
+    }
+  </style>
 </head>
 
-<body class="page-project">
-
-  <!-- 背景层：粒子 / 噪点 / 渐变 可以在 CSS 里做 -->
-  <div class="bg-layer bg-particles"></div>
-  <div class="bg-layer bg-noise"></div>
-
-  <!-- 顶部导航 -->
+<body class="page-project01">
   <header class="nav-header-enhanced">
     <div class="top-inner">
       <div class="top-brand">
@@ -109,343 +449,161 @@
     </div>
   </header>
 
-  <!-- 页面主容器 -->
-  <div class="page-wrapper">
-    <section class="section section-project-subnav">
-      <div class="project-subnav glass-pill">
-        <a href="project-01.html" class="active">Nightfall</a>
-        <a href="project-02.html">Cosmeceutial</a>
-        <a href="project-03.html">Winter Sun</a>
+  <main class="page-wrapper">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="hero-eyebrow">PORTFOLIO 01 · NIGHTFALL</div>
+        <h1 class="hero-title">NIGHTFALL<span>POWER · SILENCE · STRATEGY</span></h1>
+        <p class="hero-desc">
+          Black Fragrance Concept。以棋盘的理性决策与剃须刀的锋利风险为核心隐喻，
+          构建一个“可控秩序中允许危险存在”的黑色香水系统。香味不是即时吸引，
+          而是博弈完成后的残留结果——稳定、贴肤、持续存在。
+        </p>
       </div>
-    </section>
-
-    <!-- Hero：Project 概览 -->
-    <section class="section hero-project glass-block" id="top">
-      <div class="hero-grid">
-        <div class="hero-copy">
-          <p class="eyebrow">PORTFOLIO 01 · NIGHTFALL</p>
-          <h1 class="hero-title">NIGHTFALL</h1>
-          <p class="hero-subtitle">
-            夜色、气场与策略感的香水实验项目。<br />
-            Product Design · Rhino Modeling · Visual Narratives.
-          </p>
-          <p class="hero-desc">
-            这里收纳的是 ONEFEI 近几年在香水方向的实验项目：<br />
-            从立体棋盘到刀锋轮廓，再到熔岩沙漠的夜色权力场，<br />
-            每一支香水都是一个关于「掌控、气场与静默力量」的视觉实验。
-          </p>
-        </div>
-
+      <div class="hero-visual-stack">
         <div class="hero-visual">
-          <div class="hero-image-frame">
-            <img src="assets/img/project01/产品设计-渲染效果-01 (2).webp" alt="Nightfall Project Key Visual" />
-          </div>
-          <div class="hero-meta-tag">
-            <span>KEY VISUAL · NIGHTFALL POWER</span>
-          </div>
+          <img src="assets/img/project01/产品设计-渲染效果-01(5).webp" alt="Nightfall key visual" />
+        </div>
+        <div class="hero-meta">
+          <span>ROLE · Product / Visual Designer</span>
+          <span>TYPE · Visual System</span>
+          <span>YEAR · 2024</span>
         </div>
       </div>
     </section>
 
-    <!-- 项目索引条 -->
-    <section class="section section-project-index">
-      <div class="project-index glass-pill">
-        <a href="#project-01" class="project-index-item">
-          <span class="index-num">01</span>
-          <span class="index-title">CHESSMASTER</span>
-          <span class="index-note">控制与对弈</span>
-        </a>
-        <a href="#project-02" class="project-index-item">
-          <span class="index-num">02</span>
-          <span class="index-title">RAZOR EDGE</span>
-          <span class="index-note">刀锋与水感</span>
-        </a>
-        <a href="#project-03" class="project-index-item">
-          <span class="index-num">03</span>
-          <span class="index-title">NIGHTFALL POWER</span>
-          <span class="index-note">能量环与气场</span>
-        </a>
+    <section class="section">
+      <div class="section-title">
+        <h2>PLAN A · 结构理性 · 冷静博弈</h2>
+        <span>BLACK FRAGRANCE CONCEPT</span>
       </div>
-    </section>
-
-    <!-- ========================= -->
-    <!-- 01 · CHESSMASTER   -->
-    <!-- ========================= -->
-    <section class="section section-project glass-section" id="project-01">
-      <div class="section-header">
-        <div class="section-label">
-          <span class="section-index">01</span>
-          <span class="section-tag">CHESSMASTER</span>
+      <div class="media-duo">
+        <div class="media-card">
+          <img src="assets/img/project01/产品设计-渲染效果-01 (2).webp" alt="Chessmaster render" />
+        </div>
+        <div class="media-card">
+          <img src="assets/img/project01/产品设计-方案概念-01 (1).webp" alt="Chessmaster concept" />
         </div>
       </div>
-
-      <!-- 封面区 -->
-      <div class="project-cover project-cover--split">
-        <div class="cover-visual">
-          <!-- 棋盘 + 香水 大图 -->
-          <img src="assets/img/project01/产品设计-渲染效果-01 (2).webp" alt="Chessmaster Visual" />
+      <div class="concept-grid" style="margin-top: 26px;">
+        <div class="concept-card">
+          <h3>结构隐喻</h3>
+          <p>以棋盘与刀刃替代具象叙事，把秩序与风险变成结构语言。</p>
+          <p class="quote-callout">控制本身，是最高级的表达。</p>
         </div>
-        <div class="cover-info">
-          <h2 class="project-title">A Quiet Game of Power</h2>
-          <p class="project-tagline">
-            把「棋局」这件事从桌面搬进香水瓶，<br />
-            让气场变成一场安静的对弈。
-          </p>
-          <p class="project-intro">
-            这不是一瓶香水，<br />
-            是一个关于
-            <strong>掌控与被掌控、前进与试探、优势与反杀</strong>
-            的精神隐喻。<br />
-            黑与白不只是颜色，而是权力与意识的对峙。<br />
-            每一块立体棋盘格，都是一颗被静止的棋子，等待下一步决定命运的落子。
-          </p>
+        <div class="concept-card">
+          <h3>极端克制</h3>
+          <p>黑色视觉系统压低信息量，让“稳定存在感”成为主叙事。</p>
         </div>
-      </div>
-
-      <!-- 三栏结构分析 -->
-      <div class="project-analysis grid-3">
-        <div class="analysis-block">
-          <p class="analysis-label">Atmosphere & Emotion</p>
-          <h3 class="analysis-title">Silent Dominance</h3>
-          <ul class="analysis-list">
-            <li>冷静、克制、带压迫感的空间</li>
-            <li>光线只打在棋盘与瓶身上</li>
-            <li>像棋局中场那一刻长时间的停顿</li>
-          </ul>
-        </div>
-        <div class="analysis-block">
-          <p class="analysis-label">Form & Geometry</p>
-          <h3 class="analysis-title">Disciplined Grid</h3>
-          <ul class="analysis-list">
-            <li>立体棋盘格构造</li>
-            <li>几何体块像一面「权力墙」</li>
-            <li>瓶身成为棋局中的核心方块</li>
-          </ul>
-        </div>
-        <div class="analysis-block">
-          <p class="analysis-label">Material & Texture</p>
-          <h3 class="analysis-title">Carbon Matte Finishes</h3>
-          <ul class="analysis-list">
-            <li>哑黑与局部高光的对比</li>
-            <li>硬朗的阴影边缘与锐利倒角</li>
-            <li>类似碳纤维墙体的视觉重量</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- 建模与渲染过程 -->
-      <div class="project-process">
-        <div class="process-column">
-          <p class="process-label">Rhino Modeling</p>
-          <div class="process-image-grid">
-            <!-- 建模截图 -->
-            <img src="assets/img/project01/产品设计-RHINO建模-01.webp" alt="Chessmaster Modeling 01" />
-            <img src="assets/img/project01/产品设计-方案概念-01 (1).webp" alt="Chessmaster Concept" />
-          </div>
-        </div>
-        <div class="process-column">
-          <p class="process-label">Lighting & Rendering</p>
-          <div class="process-image-grid">
-            <!-- 渲染图 -->
-            <img src="assets/img/project01/产品设计-渲染效果-01 (3).webp" alt="Chessmaster Render 01" />
-            <img src="assets/img/project01/产品设计-渲染效果-01 (4).webp" alt="Chessmaster Render 02" />
-          </div>
+        <div class="concept-card">
+          <h3>秩序构图</h3>
+          <p>强秩序构图与低信息画面，强调理性决策与结构化思维。</p>
         </div>
       </div>
     </section>
 
-    <!-- ========================= -->
-    <!-- 02 · RAZOR EDGE          -->
-    <!-- ========================= -->
-    <section class="section section-project glass-section" id="project-02">
-      <div class="section-header">
-        <div class="section-label">
-          <span class="section-index">02</span>
-          <span class="section-tag">RAZOR EDGE</span>
+    <section class="section">
+      <div class="section-title">
+        <h2>PLAN B · 危险亲密 · 私密仪式</h2>
+        <span>BLACK FRAGRANCE CONCEPT</span>
+      </div>
+      <div class="media-duo">
+        <div class="media-card">
+          <img src="assets/img/project01/产品设计-渲染效果-02.webp" alt="Razor Edge render" />
+        </div>
+        <div class="media-card">
+          <img src="assets/img/project01/产品设计-方案概念-02.webp" alt="Razor Edge concept" />
         </div>
       </div>
-
-      <!-- 封面横幅 -->
-      <div class="project-cover project-cover--full">
-        <!-- 刀锋爆水花主图 -->
-        <img src="assets/img/project01/产品设计-渲染效果-02.webp" alt="Razor Edge Visual" />
-        <div class="cover-overlay-text">
-          <h2>RAZOR EDGE</h2>
-          <p>冰冷刀锋与水滴的瞬间，凝固成一块极简而危险的体积。</p>
+      <div class="concept-grid" style="margin-top: 26px;">
+        <div class="concept-card">
+          <h3>危险亲密</h3>
+          <p>剃须是刀刃贴近喉咙的日常行为，危险却极度私人。</p>
         </div>
-      </div>
-
-      <!-- 简介区：左右错位 -->
-      <div class="project-intro-grid">
-        <div class="intro-copy">
-          <h3 class="project-title">The Ritual of a Sharp Morning</h3>
-          <p>
-            以「刀片」为轮廓，把男性的日常剃须仪式，<br />
-            凝固成一块带有危险感的极简体积。<br />
-            冰冷的金属边缘，与脸上滚落的水珠形成反差——<br />
-            一半是理性克制，一半是身体温度。
-          </p>
+        <div class="concept-card">
+          <h3>克制仪式</h3>
+          <p>在理性计算中接近风险，在锋利边缘保持优雅。</p>
         </div>
-        <div class="intro-moodboard">
-          <!-- 方案概念情绪图 -->
-          <div class="moodboard-frame">
-            <img src="assets/img/project01/产品设计-方案概念-02.webp" alt="Razor Edge Mood 01" />
-          </div>
-          <div class="moodboard-frame">
-            <img src="assets/img/project01/产品设计-RHINO建模-02.webp" alt="Razor Edge Mood 02" />
-          </div>
-        </div>
-      </div>
-
-      <!-- 三栏结构分析 -->
-      <div class="project-analysis grid-3">
-        <div class="analysis-block">
-          <p class="analysis-label">Atmosphere & Emotion</p>
-          <h3 class="analysis-title">Cold Wake-up</h3>
-          <ul class="analysis-list">
-            <li>浴室蒸汽中的冷金属反光</li>
-            <li>剃须前后的紧绷与放松</li>
-            <li>干净、理性、没有多余修饰</li>
-          </ul>
-        </div>
-        <div class="analysis-block">
-          <p class="analysis-label">Form & Geometry</p>
-          <h3 class="analysis-title">Blade Silhouette</h3>
-          <ul class="analysis-list">
-            <li>刀片轮廓作为瓶身轮廓</li>
-            <li>平行直线与硬切割边缘</li>
-            <li>瓶身像一片悬停的剃须刀片</li>
-          </ul>
-        </div>
-        <div class="analysis-block">
-          <p class="analysis-label">Material & Texture</p>
-          <h3 class="analysis-title">Metal & Water</h3>
-          <ul class="analysis-list">
-            <li>冷白金属与玻璃混合</li>
-            <li>水珠和冷凝雾的微小颗粒</li>
-            <li>高光集中在刀锋边缘</li>
-          </ul>
+        <div class="concept-card">
+          <h3>低声存在</h3>
+          <p>香水贴肤工作，不宣告存在；动作结束后才被感知。</p>
+          <p class="quote-callout">不主动进攻，但从不失手。</p>
         </div>
       </div>
     </section>
 
-    <!-- ========================= -->
-    <!-- 03 · NIGHTFALL POWER     -->
-    <!-- ========================= -->
-    <section class="section section-project section-nightfall-full" id="project-03">
-      <!-- 全屏 KV -->
-      <div class="nightfall-kv">
-        <!-- Nightfall Power 最终 Key Visual 图 -->
-        <img src="assets/img/project01/产品设计-渲染效果-01(5).webp" alt="Nightfall Power Key Visual" class="nightfall-image" />
-
-        <div class="nightfall-overlay">
-          <div class="nightfall-text-block">
-            <p class="eyebrow">03 · KEY VISUAL</p>
-            <h2 class="nightfall-title">
-              NIGHTFALL POWER
-            </h2>
-            <p class="nightfall-sub">
-              — where silence commands the night
-            </p>
-            <p class="nightfall-desc">
-              A storm of silence and authority, captured mid–motion.<br />
-              Molten energy pulls through the void, bending the night around a single source of power.
-            </p>
-          </div>
-        </div>
+    <section class="section">
+      <div class="section-title">
+        <h2>Nightfall System</h2>
+        <span>03 · 系统画面</span>
+      </div>
+      <div class="gallery">
+        <figure class="span-6">
+          <img src="assets/img/project01/产品设计-渲染效果-01 (3).webp" alt="Nightfall system detail" />
+        </figure>
+        <figure class="span-6">
+          <img src="assets/img/project01/产品设计-渲染效果-01 (4).webp" alt="Nightfall system secondary" />
+        </figure>
+        <figure class="span-6">
+          <img src="assets/img/project01/产品设计-方案概念-01 (3).webp" alt="Nightfall concept grid" />
+        </figure>
+        <figure class="span-6">
+          <img src="assets/img/project01/产品设计-方案概念-01 (4).webp" alt="Nightfall concept detail" />
+        </figure>
       </div>
     </section>
 
-    <!-- 返回顶部 / 浮动导航 -->
-    <div class="floating-index glass-pill">
-      <a href="#top" class="float-item">TOP</a>
-      <a href="#project-01" class="float-item">01</a>
-      <a href="#project-02" class="float-item">02</a>
-      <a href="#project-03" class="float-item">03</a>
+    <section class="section">
+      <div class="section-title">
+        <h2>Process</h2>
+        <span>04 · 建模与推演</span>
+      </div>
+      <div class="process-row">
+        <figure>
+          <img src="assets/img/project01/产品设计-RHINO建模-01.webp" alt="Rhino modeling 01" />
+        </figure>
+        <figure>
+          <img src="assets/img/project01/产品设计-RHINO建模-02.webp" alt="Rhino modeling 02" />
+        </figure>
+      </div>
+    </section>
+
+    <div class="footer-note">
+      <span>ONEFEI · LAB</span>
+      <span>Nightfall Visual System</span>
+      <span>Power · Silence · Strategy</span>
     </div>
-
-  </div><!-- /page-wrapper -->
-
-  <!-- 页脚 -->
-  <footer class="site-footer glass-footer">
-    <div class="footer-inner">
-      <p>© ONEFEI · Experimental Automation & Visual System · Nightfall Series</p>
-    </div>
-  </footer>
-
-<script>
-  // 滚动动画 - Section 可见性检测
-  document.addEventListener('DOMContentLoaded', function() {
-    const sections = document.querySelectorAll('.section');
-    
-    const observerOptions = {
-      root: null,
-      rootMargin: '-10% 0px -10% 0px',
-      threshold: 0.1
-    };
-    
-    const sectionObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          // 为不同 section 添加不同动画
-          const index = Array.from(sections).indexOf(entry.target);
-          const animations = ['anim-bloom', 'anim-quantum', 'anim-crystal', 'anim-glitch'];
-          entry.target.classList.add(animations[index % animations.length]);
-        }
-      });
-    }, observerOptions);
-    
-    sections.forEach(section => {
-      sectionObserver.observe(section);
-    });
-    
-    // 平滑滚动到锚点
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      });
-    });
-    
-    // 浮动导航高亮
-    const floatItems = document.querySelectorAll('.float-item');
-    const projectSections = document.querySelectorAll('[id^="project-"]');
-    
-    const highlightObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const id = entry.target.id;
-          floatItems.forEach(item => {
-            if (item.getAttribute('href') === '#' + id) {
-              item.style.color = 'var(--accent-cyan)';
-              item.style.background = 'rgba(56, 189, 248, 0.15)';
-            } else if (item.getAttribute('href') !== '#top') {
-              item.style.color = '';
-              item.style.background = '';
-            }
-          });
-        }
-      });
-    }, { threshold: 0.3 });
-    
-    projectSections.forEach(section => {
-      highlightObserver.observe(section);
-    });
-  });
-</script>
-  <script src="assets/js/protect.js" defer></script>
+  </main>
 
   <div class="page-nav" aria-label="Page navigation">
     <a class="page-nav__btn" href="index.html#portfolio-product">← 上一页</a>
     <a class="page-nav__btn" href="project-02.html">下一页 →</a>
   </div>
-
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = document.querySelectorAll('.section');
+      if (!('IntersectionObserver' in window)) {
+        sections.forEach(section => section.classList.add('visible'));
+        return;
+      }
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { root: null, rootMargin: '-10% 0px -10% 0px', threshold: 0.1 });
+      sections.forEach(section => observer.observe(section));
+    });
+  </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+

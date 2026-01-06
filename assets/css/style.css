@@ -960,7 +960,7 @@ body::after {
   position: sticky;
   top: 0;
   z-index: 40;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.5) 0%, rgba(15, 23, 42, 0.35) 100%);
+  background: rgba(18, 18, 18, 0.72);
   backdrop-filter: blur(40px) saturate(1.2) contrast(0.95);
   -webkit-backdrop-filter: blur(40px) saturate(1.2) contrast(0.95);
   border-bottom: 1px solid rgba(148, 163, 184, 0.1);
@@ -991,6 +991,7 @@ body::after {
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: rgba(226, 232, 240, 0.7);
+  font-family: var(--font-main);
 }
 
 .top-brand .t {
@@ -999,12 +1000,14 @@ body::after {
   letter-spacing: 0.02em;
   line-height: 1.2;
   color: #fff;
+  font-family: var(--font-main);
 }
 
 .top-nav {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  font-family: var(--font-main);
 }
 
 .top-nav .nav-link {

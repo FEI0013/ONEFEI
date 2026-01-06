@@ -1,96 +1,427 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Project 03 · WINTER SUN · ONEFEI LAB</title>
+  <title>Project 03 · The Inner Cut · ONEFEI LAB</title>
 
   <link rel="stylesheet" href="assets/css/style.css" />
 
-<style>
-  .page-nav{
-    position: fixed;
-    bottom: 22px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 10px;
-    z-index: 9999;
-  }
-  .page-nav__btn{
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 14px;
-    border-radius: 999px;
-    font-size: 12px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: 1px solid rgba(148,163,184,.35);
-    color: rgba(226,232,240,.9);
-    background: rgba(2,6,23,.6);
-    backdrop-filter: blur(8px);
-    transition: transform .2s ease, border-color .2s ease, color .2s ease;
-  }
-  .page-nav__btn:hover{
-    transform: translateY(-1px);
-    border-color: rgba(226,232,240,.75);
-    color: #fff;
-  }
-  @media (max-width: 640px){
-    .page-nav{
-      bottom: 14px;
-      left: 50%;
-      transform: translateX(-50%);
-      flex-direction: row;
-      flex-wrap: wrap;
+  <style>
+    :root{
+      --ink: #0f1410;
+      --deep: #101b13;
+      --olive: #4f5f3a;
+      --army: #596644;
+      --sage: #7b8660;
+      --fog: #c7cdb4;
+      --skin: #d0a889;
+      --accent: #b8c6a1;
+      --gold: #c9b07a;
+      --glass: rgba(16, 27, 19, 0.65);
+      --line: rgba(199, 205, 180, 0.35);
+    }
+    *{box-sizing:border-box;}
+    body.page-project03{
+      font-family: var(--font-main);
+      background: radial-gradient(1200px 500px at 10% 10%, rgba(123,134,96,0.35), transparent 60%),
+                  radial-gradient(900px 700px at 90% 20%, rgba(79,95,58,0.35), transparent 55%),
+                  linear-gradient(180deg, #0d120d 0%, #111911 40%, #0c100c 100%);
+      color: #e6ead8;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body.page-project03::before,
+    body.page-project03::after{
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body.page-project03::before{
+      background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08), transparent 35%),
+                  radial-gradient(circle at 80% 10%, rgba(255,255,255,0.05), transparent 40%),
+                  radial-gradient(circle at 50% 80%, rgba(255,255,255,0.04), transparent 50%);
+      mix-blend-mode: screen;
+      opacity: 0.6;
+    }
+    body.page-project03::after{
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.18'/%3E%3C/svg%3E");
+      opacity: 0.22;
+    }
+    .page-wrapper{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 48px 120px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero{
+      display:grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 46px;
+      align-items: start;
+      padding: 36px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(16,27,19,0.8), rgba(25,33,21,0.6));
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+    .hero-copy{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+      padding: 10px 0;
+    }
+    .hero-eyebrow{
+      font-family: var(--font-main);
+      font-size: 12px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: rgba(199,205,180,0.8);
+    }
+    .hero-title{
+      font-size: clamp(2.6rem, 4vw, 3.8rem);
+      letter-spacing: 0.1em;
+      margin: 0;
+    }
+    .hero-title span{
+      display:block;
+      font-size: clamp(1.4rem, 2.2vw, 2rem);
+      letter-spacing: 0.25em;
+      color: rgba(199,205,180,0.7);
+      margin-top: 12px;
+      font-family: var(--font-main);
+    }
+    .hero-desc{
+      font-size: 18px;
+      line-height: 1.7;
+      color: #e5ead6;
+    }
+    .hero-meta{
+      display:flex;
+      flex-wrap: nowrap;
+      gap: 12px;
+      font-family: var(--font-main);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(199,205,180,0.75);
       justify-content: center;
     }
-  }
-  @media (max-width: 768px){
-    .page-wrapper{
-      max-width: 100%;
-      padding-left: 16px;
-      padding-right: 16px;
+    .hero-meta span{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(199,205,180,0.35);
+      background: rgba(16,27,19,0.55);
     }
-    .hero-project{
-      min-height: auto;
-      padding: 28px 16px;
+    .hero-visual-stack{
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+      max-width: min(60vw, 760px);
+      justify-self: stretch;
     }
-    .hero-grid{
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-    .hero-visual,
-    .hero-image-frame,
-    .hero-image-frame img{
+    .hero-visual{
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      min-width: 0;
+      aspect-ratio: 5 / 3;
       width: 100%;
       max-width: 100%;
     }
-    .project-subnav{
-      flex-wrap: wrap;
-      gap: 8px;
+    .hero-visual img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
     }
-    .section-meta-line .meta-line{
-      flex-wrap: wrap;
-      gap: 8px 12px;
+    .hero-visual::after{
+      content: "";
+      position:absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(13,18,13,0) 30%, rgba(13,18,13,0.55) 100%);
     }
-    .section-index{
-      font-size: clamp(2.2rem, 12vw, 3rem);
+    .section{
+      margin-top: 70px;
     }
-  }
-</style>
-
+    .section-title{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      margin-bottom: 26px;
+      gap: 24px;
+    }
+    .section-title h2{
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      margin: 0;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .section-title span{
+      font-family: var(--font-main);
+      font-size: 12px;
+      letter-spacing: 0.4em;
+      color: rgba(199,205,180,0.6);
+    }
+    .concept-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+    .concept-card{
+      border: 1px solid rgba(199,205,180,0.25);
+      padding: 24px;
+      border-radius: 22px;
+      background: rgba(14,20,14,0.7);
+      display:flex;
+      flex-direction:column;
+      gap: 14px;
+      min-height: 260px;
+    }
+    .concept-card h3{
+      font-size: 1.4rem;
+      margin: 0;
+      letter-spacing: 0.1em;
+    }
+    .concept-card p{
+      margin: 0;
+      line-height: 1.7;
+      color: rgba(229,234,214,0.85);
+    }
+    .quote-callout{
+      font-size: 1.05rem;
+      font-style: italic;
+      color: #f1f3e3;
+      border-left: 2px solid var(--accent);
+      padding-left: 16px;
+      margin-top: 8px;
+    }
+    .media-duo{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+    .media-card{
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(199,205,180,0.25);
+      background: rgba(12,17,12,0.6);
+    }
+    .media-card img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .palette-row{
+      display:flex;
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .palette-chip{
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .gallery figure{
+      margin: 0;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(199,205,180,0.25);
+      position: relative;
+      min-height: 200px;
+    }
+    .gallery img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+    }
+    .gallery .span-7{ grid-column: span 7; }
+    .gallery .span-5{ grid-column: span 5; }
+    .gallery .span-4{ grid-column: span 4; }
+    .gallery .span-6{ grid-column: span 6; }
+    .analysis-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .analysis-grid figure,
+    .analysis-grid .analysis-card{
+      margin:0;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(199,205,180,0.25);
+      background: rgba(11,16,11,0.6);
+    }
+    .analysis-grid img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+    }
+    .analysis-card{
+      padding: 20px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+      line-height: 1.6;
+    }
+    .analysis-card h4{
+      margin: 0;
+      font-size: 1.2rem;
+      letter-spacing: 0.1em;
+    }
+    .analysis-card p{
+      margin: 0;
+      color: rgba(229,234,214,0.8);
+    }
+    .footer-note{
+      margin-top: 80px;
+      padding: 28px 32px;
+      border-radius: 24px;
+      border: 1px solid rgba(199,205,180,0.25);
+      background: rgba(10,14,10,0.6);
+      display:flex;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      gap: 16px;
+      font-family: var(--font-main);
+      font-size: 12px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(199,205,180,0.7);
+    }
+    .page-nav{
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 99;
+    }
+    .page-nav__btn{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid rgba(199,205,180,.4);
+      color: rgba(230,234,216,.9);
+      background: rgba(9,12,9,.75);
+      backdrop-filter: blur(8px);
+      transition: transform .2s ease, border-color .2s ease, color .2s ease;
+      font-family: var(--font-main);
+    }
+    .page-nav__btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(230,234,216,.8);
+      color: #fff;
+    }
+    @media (max-width: 980px){
+      .hero{
+        grid-template-columns: 1fr;
+      }
+      .concept-grid{
+        grid-template-columns: 1fr;
+      }
+      .media-duo{
+        grid-template-columns: 1fr;
+      }
+      .analysis-grid{
+        grid-template-columns: 1fr;
+      }
+      .gallery{
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .gallery .span-7,
+      .gallery .span-5,
+      .gallery .span-6{
+        grid-column: span 6;
+      }
+      .gallery .span-4{
+        grid-column: span 6;
+      }
+      .top-inner{
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px 24px;
+      }
+    }
+    @media (max-width: 640px){
+      .page-wrapper{
+        padding: 40px 20px 120px;
+      }
+      .hero{
+        padding: 24px;
+      }
+      .hero-title{
+        letter-spacing: 0.06em;
+      }
+      .hero-meta span{
+        font-size: 10px;
+      }
+    }
+    .hero-visual-stack{
+      max-width: min(60vw, 720px);
+    }
+    .hero-title{
+      font-size: clamp(2.4rem, 3.6vw, 3.4rem);
+    }
+    .hero-title span{
+      font-size: clamp(1.1rem, 1.8vw, 1.6rem);
+      letter-spacing: 0.18em;
+    }
+    .hero-desc{
+      font-size: 16px;
+      line-height: 1.75;
+    }
+    .section-title h2{
+      font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+    }
+    .section-title span{
+      font-size: 11px;
+    }
+    .concept-card h3{
+      font-size: 1.15rem;
+    }
+    .concept-card p{
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .quote-callout{
+      font-size: 0.95rem;
+    }
+    .analysis-card h4{
+      font-size: 1.05rem;
+    }
+    .analysis-card p{
+      font-size: 14px;
+    }
+    .footer-note{
+      font-size: 11px;
+      letter-spacing: 0.22em;
+    }
+  </style>
 </head>
 
 <body class="page-project03">
-
-  <!-- 背景层 -->
-  <div class="bg-layer bg-particles"></div>
-  <div class="bg-layer bg-noise"></div>
-
-  <!-- 顶部导航 -->
   <header class="nav-header-enhanced">
     <div class="top-inner">
       <div class="top-brand">
@@ -107,196 +438,248 @@
     </div>
   </header>
 
-  <div class="page-wrapper">
-    <section class="section section-project-subnav">
-      <div class="project-subnav glass-pill">
-        <a href="project-01.html">Nightfall</a>
-        <a href="project-02.html">Cosmeceutial</a>
-        <a href="project-03.html" class="active">Winter Sun</a>
+  <main class="page-wrapper">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="hero-eyebrow">PORTFOLIO 03 · THE INNER CUT</div>
+        <h1 class="hero-title">THE INNER CUT<span>Where precision meets intimacy.</span></h1>
+        <p class="hero-desc">
+          THE INNER CUT 关注亲密、边界与控制。戒指作为“切割关系”的媒介，
+          贴近身体却保留锋利距离。绿色宝石像深水般的情绪密度，
+          安静、缓慢，却不可忽视。
+        </p>
       </div>
-    </section>
-
-    <!-- Hero：项目概览 -->
-    <section class="section hero-project glass-block" id="top">
-      <div class="hero-grid">
-        <div class="hero-copy">
-          <p class="eyebrow">PORTFOLIO 03 · WINTER SUN</p>
-          <h1 class="hero-title">WINTER SUN</h1>
-          <h2 class="text-lg text-slate-100 font-light tracking-[0.2em] mt-2">COLD BLUE / WARM CITRUS</h2>
-          <p class="hero-subtitle">
-            冬夜里的蓝色冰水与橙色阳光。<br />
-            冷冽的雪地气氛里，埋了一颗温暖的柑橘心脏。
-          </p>
-        </div>
-
+      <div class="hero-visual-stack">
         <div class="hero-visual">
-          <div class="hero-image-frame">
-            <img src="assets/img/project03/winter-01.webp" alt="WINTER SUN Key Visual" />
+          <img src="assets/img/project03/模特展示 (5).webp" alt="Occlusion ring hero visual" />
+        </div>
+        <div class="hero-meta">
+          <span>ROLE · Product / Visual Designer</span>
+          <span>TYPE · Visual System</span>
+          <span>YEAR · 2024</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <h2>Core Concept</h2>
+        <span>01 · Intimate Distance</span>
+      </div>
+      <div class="media-duo">
+        <div class="media-card">
+          <img src="assets/img/project03/模特展示 (1).webp" alt="Model occlusion pose" />
+        </div>
+        <div class="media-card">
+          <img src="assets/img/project03/模特展示 (2).webp" alt="Occlusion ring close-up" />
+        </div>
+      </div>
+      <p class="hero-desc" style="margin-top: 18px;">
+        建筑感 × 珠宝雕塑取向，强调遮挡（Occlusion）的视觉权力：
+        帽檐遮住眼睛，只露出嘴唇、手、戒指；权力来自“隐藏”，而非“展示”。
+      </p>
+      <div class="concept-grid" style="margin-top: 26px;">
+        <div class="concept-card">
+          <h3>Intimate Distance</h3>
+          <p>在亲密中建立秩序，允许锋利靠近却不被吞没。</p>
+          <p class="quote-callout">亲密是一种结构，而非浪漫装饰。</p>
+        </div>
+        <div class="concept-card">
+          <h3>Inner Cut</h3>
+          <p>不是装饰，而是“切割关系”的媒介：靠近、克制、留有切口。</p>
+        </div>
+        <div class="concept-card">
+          <h3>Gemstone Depth</h3>
+          <p>绿宝石不是自然明亮，而是深水般的情绪密度。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <h2>Curatorial Notes</h2>
+        <span>02 · Precision & Tension</span>
+      </div>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <h3>Multi-angle Reading</h3>
+          <p>多角度与分构图不是展示，而是对同一对象的判断拆解。</p>
+        </div>
+        <div class="concept-card">
+          <h3>Controlled Refraction</h3>
+          <p>折射、气泡与深绿调构成被克制的危险感。</p>
+        </div>
+        <div class="concept-card">
+          <h3>Keywords</h3>
+          <p>Precision · Controlled tension · Quiet danger · Intimate distance</p>
+        </div>
+      </div>
+      <div class="media-duo" style="margin-top: 26px;">
+        <div class="media-card">
+          <img src="assets/img/project03/产品展示主图 (1).webp" alt="Product hero in olive palette" />
+        </div>
+        <div class="media-card">
+          <img src="assets/img/project03/产品展示主图 (2).webp" alt="Product hero in restraint palette" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <h2>Author Stance</h2>
+        <span>03 · Psychological Relation</span>
+      </div>
+      <div class="media-duo">
+        <div class="media-card">
+          <img src="assets/img/project03/工具类主图 (1).webp" alt="Weaponized ring posture" />
+        </div>
+        <div class="media-card">
+          <img src="assets/img/project03/工具类主图 (2).webp" alt="Ring as talisman" />
+        </div>
+      </div>
+      <div class="concept-grid" style="margin-top: 26px;">
+        <div class="concept-card">
+          <h3>Not Ornament</h3>
+          <p>我不以宝石价值或装饰性来定义这枚戒指。</p>
+        </div>
+        <div class="concept-card">
+          <h3>Relation Design</h3>
+          <p>真正被设计的是佩戴者与物件之间的心理关系。</p>
+        </div>
+        <div class="concept-card">
+          <h3>Quiet Tension</h3>
+          <p>当锋利被允许贴近身体，亲密本身成为结构。</p>
+        </div>
+      </div>
+      <div class="media-duo" style="margin-top: 26px;">
+        <div class="media-card">
+          <img src="assets/img/project03/工具类主图 (3).webp" alt="Weaponized ring detail" />
+        </div>
+        <div class="media-card">
+          <img src="assets/img/project03/产品展示主图 (3).webp" alt="Ring sculpture detail" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <h2>Visual System</h2>
+        <span>04 · 画面结构</span>
+      </div>
+      <div class="gallery">
+        <figure class="span-7">
+          <img src="assets/img/project03/模特展示 (3).webp" alt="Model visual system" />
+        </figure>
+        <figure class="span-5">
+          <img src="assets/img/project03/模特展示 (4).webp" alt="Model silhouette" />
+        </figure>
+        <figure class="span-4">
+          <img src="assets/img/project03/水中产品展示 (1).webp" alt="Ring in water" />
+        </figure>
+        <figure class="span-4">
+          <img src="assets/img/project03/水中产品展示 (5).webp" alt="Ring in water detail" />
+        </figure>
+        <figure class="span-4">
+          <img src="assets/img/project03/水中产品展示 (6).webp" alt="Ring submerged" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <h2>Analysis</h2>
+        <span>05 · 结构与材质</span>
+      </div>
+      <div class="analysis-grid">
+        <figure>
+          <img src="assets/img/project03/分析图 (1).webp" alt="Structural analysis 1" />
+        </figure>
+        <figure>
+          <img src="assets/img/project03/分析图 (2).webp" alt="Structural analysis 2" />
+        </figure>
+        <figure>
+          <img src="assets/img/project03/分析图 (3).webp" alt="Structural analysis 3" />
+        </figure>
+        <figure>
+          <img src="assets/img/project03/分析图 (4).webp" alt="Structural analysis 4" />
+        </figure>
+        <figure>
+          <img src="assets/img/project03/分析图 (5).webp" alt="Structural analysis 5" />
+        </figure>
+        <div class="analysis-card">
+          <h4>颜色与金属</h4>
+          <p>宝石与金属的色阶控制统一在橄榄 / 军绿序列中，确保戒指在画面里是唯一“异物”。</p>
+          <div class="palette-row">
+            <span class="palette-chip" style="background:#53613c;"></span>
+            <span class="palette-chip" style="background:#6a7450;"></span>
+            <span class="palette-chip" style="background:#b8b08a;"></span>
+            <span class="palette-chip" style="background:#c9b07a;"></span>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- 项目 Meta 条 -->
-    <section class="section section-meta-line">
-      <div class="meta-line glass-pill">
-        <span>ROLE · Product / Visual Designer</span>
-        <span>TOOLS · Rhino / Keyshot / Compositor</span>
-        <span>TYPE · Winter Fragrance Visual System</span>
-        <span>YEAR · 2024</span>
-      </div>
-    </section>
-
-    <!-- ========================= -->
-    <!-- 一、核心视觉 + 色彩结构   -->
-    <!-- ========================= -->
-    <section class="section section-project glass-section" id="visual">
-      <div class="section-header">
-        <div class="section-label">
-          <span class="section-index">01</span>
-          <span class="section-tag">VISUAL CONCEPT</span>
-        </div>
-      </div>
-
-      <!-- 大图 + 文字左右布局 -->
-      <div class="visual-hero-split">
-        <div class="visual-main-frame">
-          <img src="assets/img/project03/winter-02.webp" alt="Winter Sun Hero" />
-        </div>
-        <div class="visual-copy">
-          <h2 class="visual-title">冬日冰层里的柑橘香调</h2>
-          <p class="visual-desc">
-            瓶身被安放在冰块、雪地和水花之间，橙子与松果作为前调线索出现。光线以偏冷的蓝色主导，只在液体和柑橘皮上留下一点暖色高光。
-          </p>
-          <div class="visual-color-strip">
-            <span class="color-dot" style="background: #1e3a5f;"></span>
-            <span class="color-dot" style="background: #3d7a8c;"></span>
-            <span class="color-dot" style="background: #c4a35a;"></span>
-            <span class="color-dot" style="background: #e87d3e;"></span>
-          </div>
-          <p class="color-note">深蓝 · 青绿 · 琥珀 · 橙黄</p>
-        </div>
-      </div>
-
-      <!-- 色彩情绪图 -->
-      <div class="mood-minimal">
-        <figure class="mood-single">
-          <img src="assets/img/project03/winter-10.webp" alt="WINTER SUN Moodboard" />
-          <figcaption>情绪拼贴 · 冷暖对撞：蓝色冰水、雪地、橙皮、木质与金属反光</figcaption>
+        <figure>
+          <img src="assets/img/project03/宝石颜色分析.webp" alt="Gemstone palette analysis" />
+        </figure>
+        <figure>
+          <img src="assets/img/project03/金属颜色分析.webp" alt="Metal palette analysis" />
         </figure>
       </div>
     </section>
 
-    <!-- ========================= -->
-    <!-- 二、Key Visual 广告系列  -->
-    <!-- ========================= -->
-    <section class="section section-project glass-section" id="keyvisual">
-      <div class="section-header">
-        <div class="section-label">
-          <span class="section-index">02</span>
-          <span class="section-tag">KEY VISUAL</span>
+    <section class="section">
+      <div class="section-title">
+        <h2>Short Version</h2>
+        <span>06 · Project Summary</span>
+      </div>
+      <div class="media-duo">
+        <div class="media-card">
+          <img src="assets/img/project03/水中产品展示 (4).webp" alt="Ring with tension pose" />
+        </div>
+        <div class="media-card">
+          <img src="assets/img/project03/模特展示 (5).webp" alt="Ring power gesture" />
         </div>
       </div>
-
-      <div class="kv-statement">
-        <h2>WINTER SUN / UNIQUE / LUXURIOUS</h2>
-        <p>在主画面基础上，制作三组带文案的广告图</p>
-      </div>
-
-      <!-- 两张 KV 横排 -->
-      <div class="kv-duo">
-        <figure class="kv-item-large">
-          <img src="assets/img/project03/winter-07.webp" alt="Key Visual - Winter Sun" />
-          <figcaption>WINTER SUN · 主标题版</figcaption>
-        </figure>
-        <figure class="kv-item-large">
-          <img src="assets/img/project03/winter-08.webp" alt="Key Visual - Unique" />
-          <figcaption>UNIQUE · 强调气味个性与冷调对比</figcaption>
-        </figure>
-      </div>
+      <p class="hero-desc" style="margin-top: 22px;">
+        THE INNER CUT — A ring project exploring intimacy, precision,
+        and the quiet tension of controlled closeness.
+      </p>
     </section>
 
-    <!-- ========================= -->
-    <!-- 三、动态短片               -->
-    <!-- ========================= -->
-    <section class="section section-project glass-section" id="motion">
-      <div class="section-header">
-        <div class="section-label">
-          <span class="section-index">03</span>
-          <span class="section-tag">MOTION</span>
-        </div>
-      </div>
-
-      <div class="motion-statement">
-        <h2>冬日光线的移动</h2>
-        <p>冬日低角度阳光划过山体和水面，最后停在香水瓶所在的位置</p>
-      </div>
-
-      <div class="motion-layout">
-        <div class="motion-video-frame">
-          <video controls muted loop>
-            <source src="assets/video/winter-sun-video.mp4" type="video/mp4" />
-            您的浏览器不支持视频标签。
-          </video>
-        </div>
-      </div>
-    </section>
-
-  </div><!-- /page-wrapper -->
-
-  <footer class="site-footer glass-footer">
-    <div class="footer-inner">
-      <p>© ONEFEI · Experimental Automation & Visual System · WINTER SUN Project</p>
+    <div class="footer-note">
+      <span>ONEFEI · LAB</span>
+      <span>Occlusion Ring Visual System</span>
+      <span>Architectural Jewelry Sculpture</span>
     </div>
-  </footer>
-
-<script>
-  // 滚动动画 - Section 可见性检测
-  document.addEventListener('DOMContentLoaded', function() {
-    const sections = document.querySelectorAll('.section');
-    
-    const observerOptions = {
-      root: null,
-      rootMargin: '-10% 0px -10% 0px',
-      threshold: 0.1
-    };
-    
-    const sectionObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          const index = Array.from(sections).indexOf(entry.target);
-          const animations = ['anim-bloom', 'anim-quantum', 'anim-crystal', 'anim-glitch'];
-          entry.target.classList.add(animations[index % animations.length]);
-        }
-      });
-    }, observerOptions);
-    
-    sections.forEach(section => {
-      sectionObserver.observe(section);
-    });
-    
-    // 平滑滚动到锚点
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      });
-    });
-  });
-</script>
-  <script src="assets/js/protect.js" defer></script>
+  </main>
 
   <div class="page-nav" aria-label="Page navigation">
     <a class="page-nav__btn" href="project-02.html">← 上一页</a>
     <a class="page-nav__btn" href="animation-xian.html">下一页 →</a>
   </div>
-
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = document.querySelectorAll('.section');
+      if (!('IntersectionObserver' in window)) {
+        sections.forEach(section => section.classList.add('visible'));
+        return;
+      }
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { root: null, rootMargin: '-10% 0px -10% 0px', threshold: 0.1 });
+      sections.forEach(section => observer.observe(section));
+    });
+  </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+

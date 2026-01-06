@@ -5,93 +5,411 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Project 02 · Cosmeceutical Serum · ONEFEI LAB</title>
 
-  <!-- 主样式（与 index / project 共用）-->
   <link rel="stylesheet" href="assets/css/style.css" />
 
-<style>
-  .page-nav{
-    position: fixed;
-    bottom: 22px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 10px;
-    z-index: 9999;
-  }
-  .page-nav__btn{
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 14px;
-    border-radius: 999px;
-    font-size: 12px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: 1px solid rgba(148,163,184,.35);
-    color: rgba(226,232,240,.9);
-    background: rgba(2,6,23,.6);
-    backdrop-filter: blur(8px);
-    transition: transform .2s ease, border-color .2s ease, color .2s ease;
-  }
-  .page-nav__btn:hover{
-    transform: translateY(-1px);
-    border-color: rgba(226,232,240,.75);
-    color: #fff;
-  }
-  @media (max-width: 640px){
-    .page-nav{
-      bottom: 14px;
-      left: 50%;
-      transform: translateX(-50%);
-      flex-direction: row;
-      flex-wrap: wrap;
+  <style>
+    :root{
+      --ink: #14110c;
+      --deep: #1c1811;
+      --latte: #d6c5a8;
+      --cream: #eadcc5;
+      --amber: #c9a372;
+      --sand: #f3ead7;
+      --accent: #b18c64;
+      --glass: rgba(28, 24, 17, 0.62);
+      --line: rgba(214, 197, 168, 0.35);
+    }
+    *{box-sizing:border-box;}
+    body.page-project02{
+      font-family: var(--font-main);
+      background: radial-gradient(1200px 500px at 10% 10%, rgba(209,186,154,0.35), transparent 60%),
+                  radial-gradient(900px 700px at 90% 20%, rgba(177,140,100,0.3), transparent 55%),
+                  linear-gradient(180deg, #140f0a 0%, #1b1510 40%, #120e0a 100%);
+      color: #f2eadc;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body.page-project02::before,
+    body.page-project02::after{
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body.page-project02::before{
+      background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08), transparent 35%),
+                  radial-gradient(circle at 80% 10%, rgba(255,255,255,0.05), transparent 40%),
+                  radial-gradient(circle at 50% 80%, rgba(255,255,255,0.04), transparent 50%);
+      mix-blend-mode: screen;
+      opacity: 0.55;
+    }
+    body.page-project02::after{
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.18'/%3E%3C/svg%3E");
+      opacity: 0.2;
+    }
+    .page-wrapper{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 48px 120px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero{
+      display:grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 46px;
+      align-items: start;
+      padding: 36px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(28,24,17,0.8), rgba(40,33,23,0.6));
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+    .hero-copy{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+      padding: 10px 0;
+    }
+    .hero-eyebrow{
+      font-family: var(--font-main);
+      font-size: 12px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: rgba(214,197,168,0.8);
+    }
+    .hero-title{
+      font-size: clamp(2.6rem, 4vw, 3.8rem);
+      letter-spacing: 0.1em;
+      margin: 0;
+    }
+    .hero-title span{
+      display:block;
+      font-size: clamp(1.3rem, 2.1vw, 1.9rem);
+      letter-spacing: 0.25em;
+      color: rgba(214,197,168,0.7);
+      margin-top: 12px;
+      font-family: var(--font-main);
+    }
+    .hero-desc{
+      font-size: 18px;
+      line-height: 1.7;
+      color: #efe5d6;
+    }
+    .hero-meta{
+      display:flex;
+      flex-wrap: nowrap;
+      gap: 12px;
+      font-family: var(--font-main);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(214,197,168,0.75);
       justify-content: center;
     }
-  }
-  @media (max-width: 768px){
-    .page-wrapper{
-      max-width: 100%;
-      padding-left: 16px;
-      padding-right: 16px;
+    .hero-meta span{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(214,197,168,0.35);
+      background: rgba(28,24,17,0.55);
     }
-    .hero-project{
-      min-height: auto;
-      padding: 28px 16px;
+    .hero-visual-stack{
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+      max-width: min(60vw, 760px);
+      justify-self: stretch;
     }
-    .hero-grid{
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-    .hero-visual,
-    .hero-image-frame,
-    .hero-image-frame img{
+    .hero-visual{
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      min-width: 0;
+      aspect-ratio: 5 / 3;
       width: 100%;
       max-width: 100%;
     }
-    .project-subnav{
-      flex-wrap: wrap;
-      gap: 8px;
+    .hero-visual img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
     }
-    .section-meta-line .meta-line{
-      flex-wrap: wrap;
-      gap: 8px 12px;
+    .hero-visual::after{
+      content: "";
+      position:absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(18,14,10,0) 30%, rgba(18,14,10,0.55) 100%);
     }
-    .section-index{
-      font-size: clamp(2.2rem, 12vw, 3rem);
+    .section{
+      margin-top: 70px;
     }
-  }
-</style>
-
+    .section-title{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      margin-bottom: 26px;
+      gap: 24px;
+    }
+    .section-title h2{
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      margin: 0;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .section-title span{
+      font-family: var(--font-main);
+      font-size: 12px;
+      letter-spacing: 0.4em;
+      color: rgba(214,197,168,0.6);
+    }
+    .concept-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+    .concept-card{
+      border: 1px solid rgba(214,197,168,0.25);
+      padding: 24px;
+      border-radius: 22px;
+      background: rgba(22,18,13,0.7);
+      display:flex;
+      flex-direction:column;
+      gap: 14px;
+      min-height: 240px;
+    }
+    .concept-card h3{
+      font-size: 1.4rem;
+      margin: 0;
+      letter-spacing: 0.1em;
+    }
+    .concept-card p{
+      margin: 0;
+      line-height: 1.7;
+      color: rgba(242,234,220,0.85);
+    }
+    .quote-callout{
+      font-size: 1.05rem;
+      font-style: italic;
+      color: #f8f1e3;
+      border-left: 2px solid var(--accent);
+      padding-left: 16px;
+      margin-top: 8px;
+    }
+    .media-duo{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+    .media-card{
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(214,197,168,0.25);
+      background: rgba(16,13,9,0.6);
+    }
+    .media-card img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .gallery figure{
+      margin: 0;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(214,197,168,0.25);
+      position: relative;
+      min-height: 200px;
+    }
+    .gallery img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+    }
+    .gallery .span-7{ grid-column: span 7; }
+    .gallery .span-5{ grid-column: span 5; }
+    .gallery .span-4{ grid-column: span 4; }
+    .gallery .span-6{ grid-column: span 6; }
+    .concept-map-grid{
+      display:grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 26px;
+    }
+    .concept-map-grid figure{
+      margin:0;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(214,197,168,0.25);
+      background: rgba(17,14,10,0.6);
+      min-height: 280px;
+    }
+    .concept-map-grid img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+    }
+    .concept-map-grid .span-6{ grid-column: span 6; }
+    .concept-map-grid .span-12{ grid-column: span 12; }
+    .analysis-card{
+      padding: 20px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+      line-height: 1.6;
+    }
+    .analysis-card h4{
+      margin: 0;
+      font-size: 1.2rem;
+      letter-spacing: 0.1em;
+    }
+    .analysis-card p{
+      margin: 0;
+      color: rgba(242,234,220,0.8);
+    }
+    .footer-note{
+      margin-top: 80px;
+      padding: 28px 32px;
+      border-radius: 24px;
+      border: 1px solid rgba(214,197,168,0.25);
+      background: rgba(16,13,9,0.6);
+      display:flex;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      gap: 16px;
+      font-family: var(--font-main);
+      font-size: 12px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(214,197,168,0.7);
+    }
+    .page-nav{
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 99;
+    }
+    .page-nav__btn{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid rgba(214,197,168,.4);
+      color: rgba(242,234,220,.9);
+      background: rgba(12,9,7,.75);
+      backdrop-filter: blur(8px);
+      transition: transform .2s ease, border-color .2s ease, color .2s ease;
+      font-family: var(--font-main);
+    }
+    .page-nav__btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(242,234,220,.8);
+      color: #fff;
+    }
+    @media (max-width: 980px){
+      .hero{
+        grid-template-columns: 1fr;
+      }
+      .concept-grid{
+        grid-template-columns: 1fr;
+      }
+      .media-duo{
+        grid-template-columns: 1fr;
+      }
+      .concept-map-grid{
+        grid-template-columns: 1fr;
+      }
+      .gallery{
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .gallery .span-7,
+      .gallery .span-5,
+      .gallery .span-6,
+      .gallery .span-4{
+        grid-column: span 6;
+      }
+      .top-inner{
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px 24px;
+      }
+    }
+    @media (max-width: 640px){
+      .page-wrapper{
+        padding: 40px 20px 120px;
+      }
+      .hero{
+        padding: 24px;
+      }
+      .hero-title{
+        letter-spacing: 0.06em;
+      }
+      .hero-meta span{
+        font-size: 10px;
+      }
+    }
+    .hero-visual-stack{
+      max-width: min(60vw, 720px);
+    }
+    .hero-title{
+      font-size: clamp(2.4rem, 3.6vw, 3.4rem);
+    }
+    .hero-title span{
+      font-size: clamp(1.1rem, 1.8vw, 1.6rem);
+      letter-spacing: 0.18em;
+    }
+    .hero-desc{
+      font-size: 16px;
+      line-height: 1.75;
+    }
+    .section-title h2{
+      font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+    }
+    .section-title span{
+      font-size: 11px;
+    }
+    .concept-card h3{
+      font-size: 1.15rem;
+    }
+    .concept-card p{
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .quote-callout{
+      font-size: 0.95rem;
+    }
+    .analysis-card h4{
+      font-size: 1.05rem;
+    }
+    .analysis-card p{
+      font-size: 14px;
+    }
+    .footer-note{
+      font-size: 11px;
+      letter-spacing: 0.22em;
+    }
+  </style>
 </head>
 
 <body class="page-project02">
-
-  <!-- 背景层（粒子 / 噪点 / 渐变可在 CSS 里做）-->
-  <div class="bg-layer bg-particles"></div>
-  <div class="bg-layer bg-noise"></div>
-
-  <!-- 顶部导航 -->
   <header class="nav-header-enhanced">
     <div class="top-inner">
       <div class="top-brand">
@@ -108,419 +426,222 @@
     </div>
   </header>
 
-  <!-- 页面主内容 -->
-  <div class="page-wrapper">
-    <section class="section section-project-subnav">
-      <div class="project-subnav glass-pill">
-        <a href="project-01.html">Nightfall</a>
-        <a href="project-02.html" class="active">Cosmeceutial</a>
-        <a href="project-03.html">Winter Sun</a>
+  <main class="page-wrapper">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="hero-eyebrow">PORTFOLIO 02 · HERBAL MECHANISM</div>
+        <h1 class="hero-title">HERBAL MECHANISM<span>TCM logic, modern skin ritual.</span></h1>
+        <p class="hero-desc">
+          以中药逻辑为结构系统，聚焦配伍、研磨、包裹与吸收的工作方式。
+          护肤被定义为缓慢生效的身体协作。
+        </p>
       </div>
-    </section>
-
-    <!-- Hero：项目概览 -->
-    <section class="section hero-project glass-block" id="top">
-      <div class="hero-grid">
-        <div class="hero-copy">
-          <p class="eyebrow">PORTFOLIO 02 · COSMECEUTICAL</p>
-          <h1 class="hero-title">COSMECEUTICAL SERUM</h1>
-          <p class="hero-subtitle">
-            介于「药妆」与「香水」之间的实验瓶身；仪式感滴落、临床感结构与温度感光线，融合在同一支透明容器里。
-          </p>
-          <p class="hero-desc">
-            更新后的药妆方案：重排灵感、概念说明、A/B 方案的体块与光线测试，呈现更贴近产品化的叙事。
-          </p>
-        </div>
-
+      <div class="hero-visual-stack">
         <div class="hero-visual">
-          <div class="hero-image-frame">
-            <img src="assets/img/project02/跳转页面主图.webp" alt="Project 02 key visual" />
-          </div>
+          <img src="assets/img/project02/跳转页面主图.webp" alt="Cosmeceutical serum hero" />
         </div>
-              </div>
-    </section>
-
-    <!-- 项目索引 -->
-    <section class="section section-project-index">
-      <div class="project-index glass-pill">
-        <a href="#project-01" class="project-index-item">
-          <span class="index-num">01</span>
-          <span class="index-title">PROCESS</span>
-          <span class="index-note">灵感基调</span>
-        </a>
-        <a href="#project-02" class="project-index-item">
-          <span class="index-num">02</span>
-          <span class="index-title">CONCEPT MAP</span>
-          <span class="index-note">方案解构</span>
-        </a>
-        <a href="#project-03" class="project-index-item">
-          <span class="index-num">03</span>
-          <span class="index-title">CONCEPT A</span>
-          <span class="index-note">Serum Column</span>
-        </a>
-        <a href="#project-04" class="project-index-item">
-          <span class="index-num">04</span>
-          <span class="index-title">CONCEPT B</span>
-          <span class="index-note">Sculpted Body</span>
-        </a>
-      </div>
-    </section>
-
-    <!-- ========================= -->
-    <!-- 01 · PROCESS / MOOD       -->
-    <!-- ========================= -->
-    <section class="section section-project glass-section" id="project-01">
-      <div class="section-header">
-        <div class="section-label">
-          <span class="section-index">01</span>
-          <span class="section-tag">PROCESS · MOODBOARD</span>
-        </div>
-      </div>
-
-      <div class="project-cover project-cover--split">
-        <div class="cover-visual">
-          <img src="assets/img/project02/过程灵感图 (4).webp" alt="Process Inspiration Key Visual" />
-        </div>
-        <div class="cover-info">
-          <h2 class="project-title">Warm Lab Light</h2>
-          <p class="project-tagline">
-            从药房货架、实验室玻璃器皿到香水广告光线，整理新的情绪基调与光线性格。
-          </p>
-          <p class="project-intro">
-            温润但不甜腻，理性但不冰冷；<br />
-            直射光与柔和漫反射叠加，留下空白背景凸显瓶身体块；<br />
-            纵向比例暗示「滴落 / 渗透」，便于延展多支产品线。
-          </p>
-        </div>
-      </div>
-
-      <div class="project-process">
-        <div class="process-column">
-          <p class="process-label">情绪锚点</p>
-          <div class="process-image-grid">
-            <img src="assets/img/project02/过程灵感图 (1).webp" alt="Mood 01" />
-            <img src="assets/img/project02/过程灵感图 (2).webp" alt="Mood 02" />
-          </div>
-        </div>
-        <div class="process-column">
-          <p class="process-label">光线与材质</p>
-          <div class="process-image-grid">
-            <img src="assets/img/project02/过程灵感图 (3).webp" alt="Mood 03" />
-            <img src="assets/img/project02/过程灵感图 (4).webp" alt="Mood 04" />
-          </div>
+        <div class="hero-meta">
+          <span>ROLE · Product / Visual Designer</span>
+          <span>TYPE · Visual System</span>
+          <span>YEAR · 2024</span>
         </div>
       </div>
     </section>
 
-    <!-- ========================= -->
-    <!-- 02 · CONCEPT MAP          -->
-    <!-- ========================= -->
-    <section class="section section-project glass-section" id="project-02">
-      <div class="section-header">
-        <div class="section-label">
-          <span class="section-index">02</span>
-          <span class="section-tag">CONCEPT MAP · FLOW</span>
+    <section class="section">
+      <div class="section-title">
+        <h2>Process</h2>
+        <span>01 · 情绪基调</span>
+      </div>
+      <div class="media-duo">
+        <div class="media-card">
+          <img src="assets/img/project02/过程灵感图 (1).webp" alt="Process mood 01" />
+        </div>
+        <div class="media-card">
+          <img src="assets/img/project02/过程灵感图 (3).webp" alt="Process mood 02" />
         </div>
       </div>
-
-      <div class="project-cover project-cover--full">
-        <img src="assets/img/project02/方案A-概念说明图 (1).webp" alt="Concept Map Overview" />
-        <div class="cover-overlay-text">
-          <h2>CONCEPT MAP</h2>
-          <p>流程、拆解、产品线与光线节奏的组合式框架。</p>
+      <div class="concept-grid" style="margin-top: 26px;">
+        <div class="concept-card">
+          <h3>Warm Lab Light</h3>
+          <p>温润但不甜腻，理性但不冰冷，暖光与洁净空间塑造药妆仪式感。</p>
         </div>
-      </div>
-
-      <div class="project-intro-grid">
-        <div class="intro-copy">
-          <h3 class="project-title">拆解与叙事</h3>
-          <p>
-            以实验室流程为主线，拆解瓶身比例、刻度与滴落的节奏；结合货架陈列与广告场景，保持灵活的产品线延展。
-          </p>
+        <div class="concept-card">
+          <h3>Vertical Flow</h3>
+          <p>纵向比例强调滴落与渗透，保持未来多支产品线的延展。</p>
         </div>
-        <div class="intro-moodboard">
-          <div class="moodboard-frame">
-            <img src="assets/img/project02/方案A-概念说明图 (2).webp" alt="Concept Detail 02" />
-          </div>
-          <div class="moodboard-frame">
-            <img src="assets/img/project02/方案A-概念说明图 (3).webp" alt="Concept Detail 03" />
-          </div>
-        </div>
-      </div>
-
-      <div class="project-analysis grid-3">
-        <div class="analysis-block">
-          <p class="analysis-label">Narrative</p>
-          <h3 class="analysis-title">Lab → Shelf → Ad</h3>
-          <ul class="analysis-list">
-            <li>实验室滴定语义贯穿形体</li>
-            <li>货架阵列提示多 SKU 扩展</li>
-            <li>广告光线突出液体层次</li>
-          </ul>
-        </div>
-        <div class="analysis-block">
-          <p class="analysis-label">Geometry</p>
-          <h3 class="analysis-title">Vertical Flow</h3>
-          <ul class="analysis-list">
-            <li>纵向比例强调渗透与滴落</li>
-            <li>刻度与肩部切面对齐</li>
-            <li>底座加厚确保陈列稳定</li>
-          </ul>
-        </div>
-        <div class="analysis-block">
-          <p class="analysis-label">Light</p>
-          <h3 class="analysis-title">Soft Clinical</h3>
-          <ul class="analysis-list">
-            <li>暖光为主，冷光刻度作对比</li>
-            <li>局部高光锁在液面与肩部</li>
-            <li>轻雾化背景避免串色</li>
-          </ul>
+        <div class="concept-card">
+          <h3>Soft Clinical</h3>
+          <p>柔和漫反射叠加直射高光，留白背景凸显瓶身体块。</p>
         </div>
       </div>
     </section>
 
-    <!-- ========================= -->
-    <!-- 03 · CONCEPT A            -->
-    <!-- ========================= -->
-    <section class="section section-project glass-section" id="project-03">
-      <div class="section-header">
-        <div class="section-label">
-          <span class="section-index">03</span>
-          <span class="section-tag">CONCEPT A · SERUM COLUMN</span>
+    <section class="section">
+      <div class="section-title">
+        <h2>CORE CONCEPT · HERBAL MECHANISM</h2>
+        <span>Traditional medicine, restructured as modern skin ritual.</span>
+      </div>
+      <div class="media-duo">
+        <div class="media-card">
+          <img src="assets/img/project02/方案A-概念说明图 (1).webp" alt="Concept map overview" />
+        </div>
+        <div class="media-card">
+          <img src="assets/img/project02/方案A-概念说明图 (2).webp" alt="Concept map detail" />
         </div>
       </div>
-
-      <div class="project-cover project-cover--split">
-        <div class="cover-visual">
-          <img src="assets/img/project02/方案A-效果图 (1).webp" alt="Concept A Visual 1" />
+      <div class="concept-grid" style="margin-top: 26px;">
+        <div class="concept-card">
+          <h3>结构系统</h3>
+          <p>以配伍、研磨、包裹与吸收为核心结构，而非表层符号。</p>
         </div>
-        <div class="cover-info">
-          <h2 class="project-title">Serum Column</h2>
-          <p class="project-tagline">
-            直立精华柱体，瓶肩到瓶口保持平直切面，细长比例强化「滴落 / 渗透」的仪式感。
-          </p>
-          <p class="project-intro">
-            底座与刻度增加临床感，液体高度与刻度对应；<br />
-            冷暖光双场景测试，保持玻璃质感同时带温度；<br />
-            垂直体块便于在货架形成节奏化阵列。
-          </p>
+        <div class="concept-card">
+          <h3>缓慢生效</h3>
+          <p>护肤被定义为一种随时间发生的身体协作过程。</p>
+        </div>
+        <div class="concept-card">
+          <h3>去装饰化</h3>
+          <p>产品造型与视觉语言围绕“药的工作方式”，不做东方装饰。</p>
         </div>
       </div>
+      <div class="concept-map-grid">
+        <figure class="span-6">
+          <img src="assets/img/project02/方案A-概念说明图 (3).webp" alt="Concept map diagram" />
+        </figure>
+        <figure class="span-6">
+          <img src="assets/img/project02/方案A-概念说明图 (4).webp" alt="Concept map detail" />
+        </figure>
+        <figure class="span-12">
+          <img src="assets/img/project02/方案A-建模底部药包.webp" alt="Concept map base modeling" />
+        </figure>
+      </div>
+    </section>
 
-      <div class="project-analysis grid-3">
-        <div class="analysis-block">
-          <p class="analysis-label">Proportion</p>
-          <h3 class="analysis-title">Tall & Precise</h3>
-          <ul class="analysis-list">
-            <li>纵向比例呼应滴定仪式</li>
-            <li>刻度清晰对位液面</li>
-            <li>加厚底座保证稳定与质感</li>
-          </ul>
+    <section class="section">
+      <div class="section-title">
+        <h2>PLAN A · HERBAL SACHET FORM</h2>
+        <span>Skincare as something carried, placed, and slowly released.</span>
+      </div>
+      <div class="media-duo">
+        <div class="media-card">
+          <img src="assets/img/project02/方案A-效果图 (1).webp" alt="Concept A render 01" />
         </div>
-        <div class="analysis-block">
-          <p class="analysis-label">Material</p>
-          <h3 class="analysis-title">Glass & Frost</h3>
-          <ul class="analysis-list">
-            <li>通透主体 + 局部磨砂对比</li>
-            <li>液体折射呼应瓶壁厚度</li>
-            <li>局部高光集中在肩部与刻度</li>
-          </ul>
-        </div>
-        <div class="analysis-block">
-          <p class="analysis-label">Lighting</p>
-          <h3 class="analysis-title">Warm vs Cold</h3>
-          <ul class="analysis-list">
-            <li>暖光强调护理感，冷光凸显刻度</li>
-            <li>背光勾勒轮廓，避免过曝</li>
-            <li>微雾化背景凸显瓶体层次</li>
-          </ul>
+        <div class="media-card">
+          <img src="assets/img/project02/方案A-效果图 (2).webp" alt="Concept A render 02" />
         </div>
       </div>
-
-      <div class="project-process">
-        <div class="process-column">
-          <p class="process-label">效果与光线</p>
-          <div class="process-image-grid">
-            <img src="assets/img/project02/方案A-效果图 (2).webp" alt="Concept A Visual 2" />
-            <img src="assets/img/project02/方案A-效果图 (3).webp" alt="Concept A Visual 3" />
-          </div>
+      <div class="concept-grid" style="margin-top: 26px;">
+        <div class="concept-card">
+          <h3>药包结构</h3>
+          <p>源自传统中药“药包”的形态逻辑，底部具包裹感，暗示承载与释放。</p>
         </div>
-        <div class="process-column">
-          <p class="process-label">建模与底座</p>
-          <div class="process-image-grid">
-            <img src="assets/img/project02/方案A-建模底部药包.webp" alt="Concept A Base Modeling" />
-            <img src="assets/img/project02/方案A-概念说明图 (4).webp" alt="Concept A Layout Detail" />
-          </div>
+        <div class="concept-card">
+          <h3>信任与托付</h3>
+          <p>药包不是装饰，而是关于信任的隐喻：将身体状态交由配方处理。</p>
+        </div>
+        <div class="concept-card">
+          <h3>关键词</h3>
+          <p>Carrying · Wrapping · Slow release · Grounded ritual</p>
         </div>
       </div>
     </section>
 
-    <!-- ========================= -->
-    <!-- 04 · CONCEPT B            -->
-    <!-- ========================= -->
-    <section class="section section-project glass-section" id="project-04">
-      <div class="section-header">
-        <div class="section-label">
-          <span class="section-index">04</span>
-          <span class="section-tag">CONCEPT B · SCULPTED BODY</span>
-        </div>
+    <section class="section">
+      <div class="section-title">
+        <h2>PLAN RELATIONSHIP</h2>
+        <span>承载 · 处理</span>
       </div>
-
-      <div class="project-cover project-cover--split">
-        <div class="cover-visual">
-          <img src="assets/img/project02/conceptB-02.webp" alt="Concept B Visual 1" />
+      <div class="concept-grid" style="margin-top: 26px;">
+        <div class="concept-card">
+          <h3>两种入口</h3>
+          <p>药包与药碾分别对应“承载”与“处理”。一个更接近身体的信任仪式，一个更接近理性的准备过程。</p>
+          <p class="quote-callout">它们不是竞争关系，而是同一护肤理念下的两种入口。</p>
         </div>
-        <div class="cover-info">
-          <h2 class="project-title">Sculpted Body</h2>
-          <p class="project-tagline">
-            在药妆语义上增加雕塑感体块，切削面与柔和过渡共存，中段保留液体透光带。
-          </p>
-          <p class="project-intro">
-            爆炸图展示结构与装配关系，阵列演示产品线扩展；<br />
-            远近景并置，强调雕塑感与陈列适应性；<br />
-            台地与瓶底连动，保证稳定与视觉重心。
-          </p>
+        <div class="concept-card">
+          <h3>节律与信任</h3>
+          <p>慢，是两者共同的核心：被允许慢慢发生，而不是被说服。</p>
         </div>
-      </div>
-
-      <div class="project-analysis grid-3">
-        <div class="analysis-block">
-          <p class="analysis-label">Structure</p>
-          <h3 class="analysis-title">Sculpted Mass</h3>
-          <ul class="analysis-list">
-            <li>切削几何与软曲线并置</li>
-            <li>透明带凸显液体层</li>
-            <li>底座与台地连成整体</li>
-          </ul>
-        </div>
-        <div class="analysis-block">
-          <p class="analysis-label">Assembly</p>
-          <h3 class="analysis-title">Exploded View</h3>
-          <ul class="analysis-list">
-            <li>爆炸图清晰展示配件关系</li>
-            <li>多支阵列推演 SKU 延展</li>
-            <li>高度比例兼顾稳定与手感</li>
-          </ul>
-        </div>
-        <div class="analysis-block">
-          <p class="analysis-label">Lighting</p>
-          <h3 class="analysis-title">Soft Contrast</h3>
-          <ul class="analysis-list">
-            <li>灰白空间的冷暖对比</li>
-            <li>边缘高光强调切削线条</li>
-            <li>低饱和背景衬托玻璃光带</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="project-process">
-        <div class="process-column">
-          <p class="process-label">建模与结构</p>
-          <div class="process-image-grid">
-            <img src="assets/img/project02/方案B-药撵建模图.webp" alt="Concept B Modeling" />
-            <img src="assets/img/project02/conceptB-03.webp" alt="Concept B Visual 2" />
-          </div>
-        </div>
-        <div class="process-column">
-          <p class="process-label">阵列与场景</p>
-          <div class="process-image-grid">
-            <img src="assets/img/project02/conceptB-05.webp" alt="Concept B Visual 3" />
-            <img src="assets/img/project02/conceptB-06.webp" alt="Concept B Array" />
-          </div>
+        <div class="concept-card">
+          <h3>作者立场</h3>
+          <p>我不试图让中药“更现代”，只让传统的工作方式在当代继续成立。</p>
         </div>
       </div>
     </section>
 
-    <!-- 返回顶部 / 浮动导航 -->
-    <div class="floating-index glass-pill">
-      <a href="#top" class="float-item">TOP</a>
-      <a href="#project-01" class="float-item">01</a>
-      <a href="#project-02" class="float-item">02</a>
-      <a href="#project-03" class="float-item">03</a>
-      <a href="#project-04" class="float-item">04</a>
+    <section class="section">
+      <div class="section-title">
+        <h2>PLAN B · HERBAL GRIND</h2>
+        <span>Form follows preparation.</span>
+      </div>
+      <div class="gallery">
+        <figure class="span-7">
+          <img src="assets/img/project02/conceptB-02.webp" alt="Concept B hero" />
+        </figure>
+        <figure class="span-5">
+          <img src="assets/img/project02/conceptB-03.webp" alt="Concept B detail" />
+        </figure>
+        <figure class="span-4">
+          <img src="assets/img/project02/conceptB-05.webp" alt="Concept B array" />
+        </figure>
+        <figure class="span-4">
+          <img src="assets/img/project02/conceptB-06.webp" alt="Concept B lineup" />
+        </figure>
+        <figure class="span-4">
+          <img src="assets/img/project02/方案B-药撵建模图.webp" alt="Concept B modeling" />
+        </figure>
+      </div>
+      <div class="concept-grid" style="margin-top: 26px;">
+        <div class="concept-card">
+          <h3>药碾造型</h3>
+          <p>以中药研磨工具为原型，将“处理原料”的动作转译为造型语言。</p>
+        </div>
+        <div class="concept-card">
+          <h3>节律与压力</h3>
+          <p>圆形、下压式比例关系，暗示持续、稳定、重复的作用过程。</p>
+        </div>
+        <div class="concept-card">
+          <h3>关键词</h3>
+          <p>Grinding · Pressure · Preparation · Functional calm</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer-note">
+      <span>ONEFEI · LAB</span>
+      <span>HERBAL MECHANISM</span>
+      <span>Ritual · Preparation · Slow Trust</span>
     </div>
-
-  </div><!-- /page-wrapper -->
-
-  <!-- 页脚 -->
-  <footer class="site-footer glass-footer">
-    <div class="footer-inner">
-      <p>© ONEFEI · Experimental Automation & Visual System · Cosmeceutical Series</p>
-    </div>
-  </footer>
-
-<script>
-  // 滚动动画 - Section 可见性检测
-  document.addEventListener('DOMContentLoaded', function() {
-    const sections = document.querySelectorAll('.section');
-    
-    const observerOptions = {
-      root: null,
-      rootMargin: '-10% 0px -10% 0px',
-      threshold: 0.1
-    };
-    
-    const sectionObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          const index = Array.from(sections).indexOf(entry.target);
-          const animations = ['anim-bloom', 'anim-quantum', 'anim-crystal', 'anim-glitch'];
-          entry.target.classList.add(animations[index % animations.length]);
-        }
-      });
-    }, observerOptions);
-    
-    sections.forEach(section => {
-      sectionObserver.observe(section);
-    });
-    
-    // 平滑滚动到锚点
-    document.querySelectorAll('a[href^=\"#\"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      });
-    });
-    
-    // 浮动导航高亮
-    const floatItems = document.querySelectorAll('.float-item');
-    const projectSections = document.querySelectorAll('[id^=\"project-\"]');
-    
-    const highlightObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const id = entry.target.id;
-          floatItems.forEach(item => {
-            if (item.getAttribute('href') === '#' + id) {
-              item.style.color = 'var(--accent-cyan)';
-              item.style.background = 'rgba(56, 189, 248, 0.15)';
-            } else if (item.getAttribute('href') !== '#top') {
-              item.style.color = '';
-              item.style.background = '';
-            }
-          });
-        }
-      });
-    }, { threshold: 0.3 });
-    
-    projectSections.forEach(section => {
-      highlightObserver.observe(section);
-    });
-  });
-</script>
-  <script src="assets/js/protect.js" defer></script>
+  </main>
 
   <div class="page-nav" aria-label="Page navigation">
     <a class="page-nav__btn" href="project-01.html">← 上一页</a>
     <a class="page-nav__btn" href="project-03.html">下一页 →</a>
   </div>
-
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = document.querySelectorAll('.section');
+      if (!('IntersectionObserver' in window)) {
+        sections.forEach(section => section.classList.add('visible'));
+        return;
+      }
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { root: null, rootMargin: '-10% 0px -10% 0px', threshold: 0.1 });
+      sections.forEach(section => observer.observe(section));
+    });
+  </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
