@@ -142,6 +142,13 @@
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.12);
       background: rgba(12, 13, 20, 0.6);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-width: 120px;
+      white-space: normal;
+      line-height: 1.3;
     }
     .section{
       margin-top: 70px;
@@ -279,7 +286,7 @@
       0%, 100%{ transform: translateY(0) translateX(0); }
       50%{ transform: translateY(40px) translateX(30px); }
     }
-    @media (max-width: 980px){
+    @media (max-width: 1024px){
       .hero{ grid-template-columns: 1fr; }
       .video-grid{ grid-template-columns: 1fr; }
     }
@@ -287,6 +294,7 @@
       .page-wrapper{ padding: 40px 20px 120px; }
       .hero{ padding: 24px; }
       .hero-title{ letter-spacing: 0.06em; }
+      .hero-meta span{ width: 96px; }
     }
     @media (prefers-reduced-motion: reduce){
       body.page-motion::before{ animation: none; }
@@ -367,7 +375,7 @@
         <div class="hero-meta">
           <span>ROLE · Visual + Motion</span>
           <span>TOOLS · Blender / AE</span>
-          <span>YEAR · 2025</span>
+          <span>YEAR · 25</span>
         </div>
       </div>
     </section>

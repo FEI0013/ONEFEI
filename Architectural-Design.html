@@ -30,7 +30,7 @@
       margin: 0 auto;
       padding: 28px 18px 70px;
     }
-    @media (max-width: 980px){
+    @media (max-width: 1024px){
       .shell{ padding-top: 18px; }
     }
 
@@ -93,7 +93,7 @@
     .x:hover{ background: var(--chip); }
 
     .modal-body{ display:grid; grid-template-columns: 1.35fr .65fr; min-height: 520px; }
-    @media (max-width: 980px){ .modal-body{ grid-template-columns: 1fr; } }
+    @media (max-width: 1024px){ .modal-body{ grid-template-columns: 1fr; } }
 
     .preview{ background: rgba(15,23,42,.7); border-right: 1px solid var(--line); display:flex; flex-direction:column; }
     .preview-main{ height: 360px; display:flex; align-items:center; justify-content:center; background: rgba(2,6,23,.6); overflow:hidden; }
@@ -240,7 +240,7 @@
         author:"FEI",
         quote:"滨海综合体的入口标识与公共界面，强调结构节奏与流线引导。",
         page:"PAGE 36",
-        year:"2025",
+        year:"25",
         tag:"Commissioned",
         tags:["pavilion","urban","glass"],
         cover:"assets/img/Architectural-Design/01/效果图 (1).webp",
@@ -264,7 +264,7 @@
         author:"FEI",
         quote:"山海地形上的退台体量与观景轴线，重塑天际线的日照秩序。",
         page:"PAGE 48",
-        year:"2025",
+        year:"25",
         tag:"Commissioned",
         tags:["massing","sunset","concept"],
         cover:"assets/img/Architectural-Design/02/效果图 (1).webp",
@@ -293,7 +293,7 @@
         author:"FEI",
         quote:"博物馆曲面外壳与主结构协同，形成连续的光影过渡带。",
         page:"PAGE 60",
-        year:"2025",
+        year:"25",
         tag:"Commissioned",
         tags:["facade","museum","curve"],
         cover:"assets/img/Architectural-Design/03/效果图 (1).webp",
@@ -320,7 +320,7 @@
         author:"FEI",
         quote:"交通枢纽总体的节点编排与流线组织，建立清晰的层级识别。",
         page:"PAGE 68",
-        year:"2025",
+        year:"25",
         tag:"Commissioned",
         tags:["diagram","masterplan","transport"],
         cover:"assets/img/Architectural-Design/04/效果图 (1).webp",
@@ -345,7 +345,7 @@
         author:"FEI",
         quote:"连续水平金属百叶构建外立面系统的当代公共建筑。",
         page:"PAGE 78",
-        year:"2025",
+        year:"25",
         tag:"Commissioned",
         tags:["site","mood","landscape"],
         cover:"assets/img/Architectural-Design/05/效果图 (1).webp",
@@ -374,7 +374,7 @@
         author:"FEI",
         quote:"沙漠气候下的绿色节能策略，围绕遮阳、通风与蓄热形成建筑秩序。",
         page:"PAGE 86",
-        year:"2025",
+        year:"25",
         tag:"Commissioned",
         tags:["tower","elevation","minimal"],
         cover:"assets/img/Architectural-Design/06/场景图 (7).webp",
@@ -401,7 +401,7 @@
     const stripsEl = document.getElementById('strips');
     const countEl = document.getElementById('count');
     const yearEl = document.getElementById('year');
-    yearEl.textContent = String(new Date().getFullYear());
+    yearEl.textContent = '25';
 
     // modal
     const modal = document.getElementById('modal');
@@ -467,7 +467,7 @@
             <div class="strip-mid">
               <div class="strip-author">${author}</div>
               <div class="strip-quote">${quote}</div>
-              <div class="strip-page"><span>${page}</span><span>${p.year || new Date().getFullYear()}</span></div>
+              <div class="strip-page"><span>${page}</span><span>${p.year || '25'}</span></div>
             </div>
 
             <div class="strip-thumb">

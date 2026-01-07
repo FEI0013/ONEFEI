@@ -590,6 +590,11 @@
       scroll-padding-left: 16px;
       scroll-padding-right: 16px;
       scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-x pan-y;
+    }
+    #portfolioScroll [data-category] {
+      touch-action: pan-x pan-y;
     }
     #portfolioScroll .portfolio-ticket {
       min-width: 82vw;
@@ -606,6 +611,42 @@
     }
     nav .nav-link {
       font-size: 12px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .section-enhanced {
+      opacity: 1;
+      transform: none;
+      justify-content: flex-start;
+    }
+    #home.section-enhanced {
+      justify-content: center;
+    }
+    section[id] {
+      opacity: 1;
+      transform: none;
+      filter: none;
+      transition: none;
+    }
+    .section-enhanced.section-animated {
+      animation: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .section-enhanced {
+      opacity: 1;
+      transform: none;
+    }
+    section[id] {
+      opacity: 1;
+      transform: none;
+      filter: none;
+      transition: none;
+    }
+    .section-enhanced.section-animated {
+      animation: none;
     }
   }
 </style>
@@ -3952,30 +3993,48 @@
     };
 
     const executeEffects = () => {
-      console.log('⚡ Executing effects...');
-      
+      console.log('??Executing effects...');
+
+      const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const isCoarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+      const isSmallScreen = window.matchMedia && window.matchMedia('(max-width: 1024px)').matches;
+      const reduceMotion = prefersReducedMotion || isCoarsePointer || isSmallScreen;
+      if (reduceMotion) {
+        document.documentElement.classList.add('reduce-motion');
+      }
+
       try {
-        // 第二步：设置动画触发器
-        console.log('📍 Setting up section animations...');
-        triggerSectionAnimations();
-        console.log('✅ Animation triggers set');
-        
-        // 第三步：其他效果
+        if (!reduceMotion) {
+          // ?????????????????
+          console.log('?? Setting up section animations...');
+          triggerSectionAnimations();
+          console.log('??Animation triggers set');
+        } else {
+          document.querySelectorAll('section[id]').forEach(section => {
+            section.classList.add('section-visible');
+          });
+        }
+
+        // ????????????
         animatePageLoad();
         animateCounters();
         addScanEffects();
         createScrollProgress();
         createMouseGlow();
-        addCardGlow();
-        createSectionScrollGlow();
-       
-          // 应用实验艺术翻页动画
-          console.log('🎨 Applying artistic page transitions...');
+        if (!reduceMotion) {
+          addCardGlow();
+          createSectionScrollGlow();
+        }
+
+        if (!reduceMotion) {
+          // ???????????????
+          console.log('?? Applying artistic page transitions...');
           applyPageTransitionEffects();
-        
-        console.log('✨ All effects initialized!');
+        }
+
+        console.log('??All effects initialized!');
       } catch (e) {
-        console.error('❌ Error in animation setup:', e);
+        console.error('??Error in animation setup:', e);
       }
     };
 
@@ -4220,6 +4279,11 @@
       const scroller = document.getElementById('portfolioScroll');
       if (!scroller) return;
 
+      const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const isCoarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+      const enableAutoScroll = !(prefersReducedMotion || isCoarsePointer);
+      const enableDrag = !isCoarsePointer;
+
       let isDown = false;
       let isDragging = false;
       let startX = 0;
@@ -4326,21 +4390,23 @@
         pauseAutoScroll(autoScrollResumeDelay);
       };
 
-      scroller.addEventListener('pointerdown', onPointerDown, true);
-      scroller.addEventListener('pointermove', onPointerMove, { passive: false });
-      scroller.addEventListener('pointerup', endDrag);
-      scroller.addEventListener('pointercancel', endDrag);
-      scroller.addEventListener('lostpointercapture', endDrag);
-      scroller.addEventListener('dragstart', (e) => {
-        e.preventDefault();
-      }, true);
-
-      scroller.addEventListener('click', (e) => {
-        if (Date.now() < blockClickUntil) {
+      if (enableDrag) {
+        scroller.addEventListener('pointerdown', onPointerDown, true);
+        scroller.addEventListener('pointermove', onPointerMove, { passive: false });
+        scroller.addEventListener('pointerup', endDrag);
+        scroller.addEventListener('pointercancel', endDrag);
+        scroller.addEventListener('lostpointercapture', endDrag);
+        scroller.addEventListener('dragstart', (e) => {
           e.preventDefault();
-          e.stopPropagation();
-        }
-      }, true);
+        }, true);
+
+        scroller.addEventListener('click', (e) => {
+          if (Date.now() < blockClickUntil) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        }, true);
+      }
 
       scroller.addEventListener('mouseenter', () => {
         isHover = true;
@@ -4393,7 +4459,9 @@
         card.classList.add('is-active');
       });
 
-      autoScroll();
+      if (enableAutoScroll) {
+        autoScroll();
+      }
     })();
   </script>
 
