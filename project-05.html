@@ -1,0 +1,486 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Project 05 · Future Sport Sunglasses · ONEFEI LAB</title>
+
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <style>
+    :root{
+      --ink: #e6e7e2;
+      --deep: #111111;
+      --steel: #2a2a2a;
+      --fog: #b8b8b0;
+      --accent: #8b8b82;
+      --glass: rgba(18, 18, 18, 0.7);
+      --line: rgba(184, 184, 176, 0.28);
+    }
+    *{box-sizing:border-box;}
+    body.page-project05{
+      font-family: var(--font-main);
+      background: radial-gradient(1200px 500px at 10% 10%, rgba(176,182,192,0.28), transparent 60%),
+                  radial-gradient(900px 700px at 90% 20%, rgba(54,58,64,0.38), transparent 55%),
+                  linear-gradient(180deg, #101214 0%, #171a1f 45%, #0e1013 100%);
+      color: #e6e7e2;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body.page-project05::before,
+    body.page-project05::after{
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body.page-project05::before{
+      background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.06), transparent 35%),
+                  radial-gradient(circle at 80% 10%, rgba(255,255,255,0.04), transparent 40%),
+                  radial-gradient(circle at 50% 80%, rgba(255,255,255,0.03), transparent 50%);
+      mix-blend-mode: screen;
+      opacity: 0.5;
+    }
+    body.page-project05::after{
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.18'/%3E%3C/svg%3E");
+      opacity: 0.2;
+    }
+    .page-wrapper{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 48px 120px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero{
+      display:grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 46px;
+      align-items: start;
+      padding: 36px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(20,22,26,0.86), rgba(30,32,36,0.68));
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+    .hero-copy{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+      padding: 10px 0;
+    }
+    .hero-eyebrow{
+      font-family: var(--font-main);
+      font-size: 12px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: rgba(230,231,226,0.7);
+    }
+    .hero-title{
+      font-size: clamp(2.4rem, 3.6vw, 3.4rem);
+      letter-spacing: 0.1em;
+      margin: 0;
+      text-transform: uppercase;
+    }
+    .hero-title span{
+      display:block;
+      font-size: clamp(1.1rem, 1.8vw, 1.6rem);
+      letter-spacing: 0.18em;
+      color: rgba(184,184,176,0.7);
+      margin-top: 12px;
+      font-family: var(--font-main);
+    }
+    .hero-desc{
+      font-size: 16px;
+      line-height: 1.75;
+      color: rgba(230,231,226,0.85);
+    }
+    .bilingual span{ display:block; }
+    .bilingual .en{
+      font-size: 0.92em;
+      color: rgba(230,231,226,0.7);
+      margin-top: 6px;
+    }
+    .hero-visual-stack{
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+      max-width: min(60vw, 720px);
+      justify-self: stretch;
+    }
+    .hero-visual{
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      min-width: 0;
+      aspect-ratio: 5 / 3;
+      width: 100%;
+      max-width: 100%;
+    }
+    .hero-visual img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+    }
+    .hero-meta{
+      display:flex;
+      flex-wrap: nowrap;
+      gap: 12px;
+      font-family: var(--font-main);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(184,184,176,0.8);
+      justify-content: center;
+    }
+    .hero-meta span{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(184,184,176,0.3);
+      background: rgba(20,22,26,0.65);
+    }
+    .section{
+      margin-top: 70px;
+    }
+    .section-title{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      margin-bottom: 26px;
+      gap: 24px;
+    }
+    .section-title h2{
+      font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+      margin: 0;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .section-title span{
+      font-family: var(--font-main);
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      color: rgba(184,184,176,0.6);
+    }
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .gallery figure{
+      margin: 0;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(184,184,176,0.22);
+      position: relative;
+      min-height: 200px;
+    }
+    .gallery img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+    }
+    .gallery .span-7{ grid-column: span 7; }
+    .gallery .span-5{ grid-column: span 5; }
+    .gallery .span-4{ grid-column: span 4; }
+    .gallery .span-6{ grid-column: span 6; }
+    .media-duo{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+    .media-card{
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(184,184,176,0.22);
+      background: rgba(22,24,28,0.6);
+    }
+    .media-card img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .footer-note{
+      margin-top: 80px;
+      padding: 28px 32px;
+      border-radius: 24px;
+      border: 1px solid rgba(184,184,176,0.22);
+      background: rgba(20,22,26,0.6);
+      display:flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px;
+      font-family: var(--font-main);
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(184,184,176,0.7);
+    }
+    .page-nav{
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 99;
+    }
+    .page-nav__btn{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid rgba(148,163,184,.35);
+      color: rgba(226,232,240,.9);
+      background: rgba(20,22,26,.6);
+      backdrop-filter: blur(8px);
+      transition: transform .2s ease, border-color .2s ease, color .2s ease;
+      font-family: var(--font-main);
+    }
+    .page-nav__btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(226,232,240,.75);
+      color: #fff;
+    }
+    @media (max-width: 980px){
+      .hero{ grid-template-columns: 1fr; }
+      .gallery{ grid-template-columns: repeat(6, minmax(0, 1fr)); }
+      .gallery .span-7,
+      .gallery .span-5,
+      .gallery .span-6,
+      .gallery .span-4{ grid-column: span 6; }
+      .media-duo{ grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px){
+      .page-wrapper{ padding: 40px 20px 120px; }
+      .hero{ padding: 24px; }
+      .hero-title{ letter-spacing: 0.06em; }
+      .hero-meta span{ font-size: 10px; }
+      .page-nav{
+        bottom: 14px;
+        left: 50%;
+        transform: translateX(-50%);
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body class="page-project05">
+  <header class="nav-header-enhanced">
+    <div class="top-inner">
+      <div class="top-brand">
+        <div class="k">ONEFEI · LAB</div>
+        <div class="t">Product Design</div>
+      </div>
+      <nav class="top-nav">
+        <a class="nav-link" href="index.html#portfolio-product">Home</a>
+        <a class="nav-link nav-active" href="project-01.html">Product</a>
+        <a class="nav-link" href="animation-xian.html">Motion</a>
+        <a class="nav-link" href="Architectural-Design.html">Architecture</a>
+        <a class="nav-link" href="web-design-01.html">Web</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-wrapper">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="hero-eyebrow">PORTFOLIO 05 · LAB-02</div>
+        <h1 class="hero-title">FUTURE SPORT SUNGLASSES<span>Vision Under Motion</span></h1>
+        <p class="hero-desc bilingual">
+          <span class="cn">围绕运动状态下的视野遮挡与佩戴稳定性，重构太阳镜的结构与防护逻辑。</span>
+          <span class="en">A study of visual occlusion and fit stability in motion, rethinking form and protection.</span>
+        </p>
+      </div>
+      <div class="hero-visual-stack">
+        <div class="hero-visual">
+          <img src="assets/img/lab-02/未来运动太阳眼镜主图2.webp" alt="Hero" />
+        </div>
+        <div class="hero-meta">
+          <span>ROLE · Product / Visual Designer</span>
+          <span>TYPE · Motion Vision Study</span>
+          <span>YEAR · 2025</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="problem">
+      <div class="section-title">
+        <h2>Problem & Research</h2>
+        <span>01 · Visual Occlusion</span>
+      </div>
+      <div class="gallery">
+        <figure class="span-6">
+          <img src="assets/img/lab-02/01-眼镜设计问题分析.webp" alt="Problem analysis" />
+        </figure>
+        <figure class="span-6">
+          <img src="assets/img/lab-02/01-眼镜问题简明图解.webp" alt="Problem diagram" />
+        </figure>
+        <figure class="span-6">
+          <img src="assets/img/lab-02/01-运动眼镜用户研究图.webp" alt="User research" />
+        </figure>
+        <figure class="span-6">
+          <img src="assets/img/lab-02/01-眼镜下的视觉体验.webp" alt="Visual experience" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="sketch">
+      <div class="section-title">
+        <h2>Sketch & Forming</h2>
+        <span>02 · Form Development</span>
+      </div>
+      <div class="gallery">
+        <figure class="span-4">
+          <img src="assets/img/lab-02/02-未来运动太阳镜设计草图.webp" alt="Sketch A" />
+        </figure>
+        <figure class="span-4">
+          <img src="assets/img/lab-02/02-未来运动太阳镜设计草图1.webp" alt="Sketch B" />
+        </figure>
+        <figure class="span-4">
+          <img src="assets/img/lab-02/02-未来感运动太阳镜- X光透视图.webp" alt="X-ray view" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="variant">
+      <div class="section-title">
+        <h2>Variants & Linework</h2>
+        <span>03 · Bio · Mech · Linear</span>
+      </div>
+      <div class="gallery">
+        <figure class="span-6">
+          <img src="assets/img/lab-02/03-未来感太阳镜线条雕刻-变体未来线条风格.webp" alt="Variant linear" />
+        </figure>
+        <figure class="span-6">
+          <img src="assets/img/lab-02/03-未来运动太阳镜设计图-变体机械风格.webp" alt="Variant mech" />
+        </figure>
+        <figure class="span-6">
+          <img src="assets/img/lab-02/03-未来感运动太阳镜设计-变体生物风格.webp" alt="Variant bio" />
+        </figure>
+        <figure class="span-6">
+          <img src="assets/img/lab-02/03-运动太阳镜设计草图.webp" alt="Variant sketch" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="product">
+      <div class="section-title">
+        <h2>Product & Material</h2>
+        <span>04 · Structure · Detail</span>
+      </div>
+      <div class="media-duo">
+        <div class="media-card">
+          <img src="assets/img/lab-02/04-未来运动太阳镜设计.webp" alt="Product design" />
+        </div>
+        <div class="media-card">
+          <img src="assets/img/lab-02/04-运动风护目镜水珠特写.webp" alt="Material detail" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="outputs">
+      <div class="section-title">
+        <h2>Outputs</h2>
+        <span>05 · 16:9 Set</span>
+      </div>
+      <div class="gallery">
+        <figure class="span-4">
+          <img src="assets/img/lab-02/05.webp" alt="Output 01" />
+        </figure>
+        <figure class="span-4">
+          <img src="assets/img/lab-02/05-1.webp" alt="Output 02" />
+        </figure>
+        <figure class="span-4">
+          <img src="assets/img/lab-02/05-2.webp" alt="Output 03" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="colorway">
+      <div class="section-title">
+        <h2>Product Colorway</h2>
+        <span>06 · Grey · White · Black</span>
+      </div>
+      <div class="gallery">
+        <figure class="span-4">
+          <img src="assets/img/lab-02/06-眼镜-灰色款.webp" alt="Grey colorway" />
+        </figure>
+        <figure class="span-4">
+          <img src="assets/img/lab-02/06-眼镜-白色款.webp" alt="White colorway" />
+        </figure>
+        <figure class="span-4">
+          <img src="assets/img/lab-02/06-眼镜-黑色款.webp" alt="Black colorway" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="effects">
+      <div class="section-title">
+        <h2>Generated Effects</h2>
+        <span>07 · Deployment Grid</span>
+      </div>
+      <div class="gallery">
+        <figure class="span-4">
+          <img src="assets/img/lab-02/07-1.webp" alt="Effect 01" />
+        </figure>
+        <figure class="span-4">
+          <img src="assets/img/lab-02/07-2.webp" alt="Effect 02" />
+        </figure>
+        <figure class="span-4">
+          <img src="assets/img/lab-02/07-3.webp" alt="Effect 03" />
+        </figure>
+        <figure class="span-4">
+          <img src="assets/img/lab-02/07-4.webp" alt="Effect 04" />
+        </figure>
+        <figure class="span-4">
+          <img src="assets/img/lab-02/07-5.webp" alt="Effect 05" />
+        </figure>
+        <figure class="span-4">
+          <img src="assets/img/lab-02/07-6.webp" alt="Effect 06" />
+        </figure>
+      </div>
+    </section>
+
+    <div class="footer-note">
+      <span>ONEFEI · LAB</span>
+      <span>LAB-02 · Future Sport Sunglasses</span>
+      <span>Vision · Fit · Motion</span>
+    </div>
+  </main>
+
+  <div class="page-nav" aria-label="Page navigation">
+    <a class="page-nav__btn" href="project-04.html">← 上一页</a>
+    <a class="page-nav__btn" href="animation-xian.html">下一页 →</a>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = document.querySelectorAll('.section');
+      if (!('IntersectionObserver' in window)) {
+        sections.forEach(section => section.classList.add('visible'));
+        return;
+      }
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { root: null, rootMargin: '-10% 0px -10% 0px', threshold: 0.1 });
+      sections.forEach(section => observer.observe(section));
+    });
+  </script>
+</body>
+</html>

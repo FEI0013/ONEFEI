@@ -1,0 +1,648 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Project 04 · Modular Mass · ONEFEI LAB</title>
+
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <style>
+    :root{
+      --ink: #e6e7e2;
+      --deep: #111111;
+      --steel: #2a2a2a;
+      --fog: #b8b8b0;
+      --accent: #8b8b82;
+      --glass: rgba(18, 18, 18, 0.7);
+      --line: rgba(184, 184, 176, 0.28);
+    }
+    *{box-sizing:border-box;}
+    body.page-project04{
+      font-family: var(--font-main);
+      background: radial-gradient(1200px 500px at 10% 10%, rgba(74,92,168,0.38), transparent 60%),
+                  radial-gradient(900px 700px at 90% 20%, rgba(24,24,34,0.5), transparent 55%),
+                  linear-gradient(180deg, #0c0f1b 0%, #141625 45%, #0b0c15 100%);
+      color: #e6e7e2;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body.page-project04::before,
+    body.page-project04::after{
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body.page-project04::before{
+      background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.06), transparent 35%),
+                  radial-gradient(circle at 80% 10%, rgba(255,255,255,0.04), transparent 40%),
+                  radial-gradient(circle at 50% 80%, rgba(255,255,255,0.03), transparent 50%);
+      mix-blend-mode: screen;
+      opacity: 0.5;
+    }
+    body.page-project04::after{
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.18'/%3E%3C/svg%3E");
+      opacity: 0.2;
+    }
+    .page-wrapper{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 48px 120px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero{
+      display:grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 46px;
+      align-items: start;
+      padding: 36px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(17,22,40,0.86), rgba(24,28,48,0.68));
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+    .hero-copy{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+      padding: 10px 0;
+    }
+    .hero-eyebrow{
+      font-family: var(--font-main);
+      font-size: 12px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: rgba(230,231,226,0.7);
+    }
+    .hero-title{
+      font-size: clamp(2.4rem, 3.6vw, 3.4rem);
+      letter-spacing: 0.1em;
+      margin: 0;
+      text-transform: uppercase;
+    }
+    .hero-title span{
+      display:block;
+      font-size: clamp(1.1rem, 1.8vw, 1.6rem);
+      letter-spacing: 0.18em;
+      color: rgba(184,184,176,0.7);
+      margin-top: 12px;
+      font-family: var(--font-main);
+    }
+    .hero-desc{
+      font-size: 16px;
+      line-height: 1.75;
+      color: rgba(230,231,226,0.85);
+    }
+    .bilingual span{
+      display: block;
+    }
+    .bilingual .en{
+      font-size: 0.92em;
+      color: rgba(230,231,226,0.7);
+      margin-top: 6px;
+    }
+    .hero-visual-stack{
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+      max-width: min(60vw, 720px);
+      justify-self: stretch;
+    }
+    .hero-visual{
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      min-width: 0;
+      aspect-ratio: 5 / 3;
+      width: 100%;
+      max-width: 100%;
+    }
+    .hero-visual img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+    }
+    .hero-meta{
+      display:flex;
+      flex-wrap: nowrap;
+      gap: 12px;
+      font-family: var(--font-main);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(184,184,176,0.8);
+      justify-content: center;
+    }
+    .hero-meta span{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(184,184,176,0.3);
+      background: rgba(18,22,40,0.65);
+    }
+    .section{
+      margin-top: 70px;
+    }
+    .section-title{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      margin-bottom: 26px;
+      gap: 24px;
+    }
+    .section-title h2{
+      font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+      margin: 0;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .section-title span{
+      font-family: var(--font-main);
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      color: rgba(184,184,176,0.6);
+    }
+    .section-subtitle{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      margin-top: 32px;
+      margin-bottom: 18px;
+      gap: 24px;
+    }
+    .section-subtitle h3{
+      font-size: 1.2rem;
+      margin: 0;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .section-subtitle span{
+      font-family: var(--font-main);
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      color: rgba(184,184,176,0.6);
+    }
+    .concept-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+    .concept-card{
+      border: 1px solid rgba(184,184,176,0.22);
+      padding: 24px;
+      border-radius: 22px;
+      background: rgba(18,22,42,0.7);
+      display:flex;
+      flex-direction:column;
+      gap: 14px;
+      min-height: 220px;
+    }
+    .concept-card h3{
+      font-size: 1.15rem;
+      margin: 0;
+      letter-spacing: 0.1em;
+    }
+    .concept-card p{
+      margin: 0;
+      line-height: 1.7;
+      font-size: 14px;
+      color: rgba(230,231,226,0.8);
+    }
+    .quote-callout{
+      font-size: 0.95rem;
+      font-style: italic;
+      color: #f1f1ea;
+      border-left: 2px solid rgba(184,184,176,0.6);
+      padding-left: 16px;
+      margin-top: 8px;
+    }
+    .media-duo{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+    .media-card{
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(184,184,176,0.22);
+      background: rgba(16,20,38,0.6);
+    }
+    .media-card img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .gallery figure{
+      margin: 0;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(184,184,176,0.22);
+      position: relative;
+      min-height: 200px;
+    }
+    .gallery img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+    }
+    .gallery .span-7{ grid-column: span 7; }
+    .gallery .span-5{ grid-column: span 5; }
+    .gallery .span-4{ grid-column: span 4; }
+    .gallery .span-6{ grid-column: span 6; }
+    .analysis-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .analysis-grid figure,
+    .analysis-grid .analysis-card{
+      margin:0;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(184,184,176,0.22);
+      background: rgba(16,20,38,0.6);
+    }
+    .analysis-grid img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+    }
+    .analysis-card{
+      padding: 20px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+      line-height: 1.6;
+    }
+    .analysis-card h4{
+      margin: 0;
+      font-size: 1.05rem;
+      letter-spacing: 0.1em;
+    }
+    .analysis-card p{
+      margin: 0;
+      font-size: 14px;
+      color: rgba(230,231,226,0.8);
+    }
+    .footer-note{
+      margin-top: 80px;
+      padding: 28px 32px;
+      border-radius: 24px;
+      border: 1px solid rgba(184,184,176,0.22);
+      background: rgba(16,20,38,0.6);
+      display:flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px;
+      font-family: var(--font-main);
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(184,184,176,0.7);
+    }
+    @media (max-width: 980px){
+      .hero{ grid-template-columns: 1fr; }
+      .concept-grid{ grid-template-columns: 1fr; }
+      .media-duo{ grid-template-columns: 1fr; }
+      .analysis-grid{ grid-template-columns: 1fr; }
+      .gallery{ grid-template-columns: repeat(6, minmax(0, 1fr)); }
+      .gallery .span-7,
+      .gallery .span-5,
+      .gallery .span-6,
+      .gallery .span-4{ grid-column: span 6; }
+    }
+    @media (max-width: 640px){
+      .page-wrapper{ padding: 40px 20px 120px; }
+      .hero{ padding: 24px; }
+      .hero-title{ letter-spacing: 0.06em; }
+      .hero-meta span{ font-size: 10px; }
+    }
+    .page-nav{
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 99;
+    }
+    .page-nav__btn{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid rgba(148,163,184,.35);
+      color: rgba(226,232,240,.9);
+      background: rgba(18,22,42,.6);
+      backdrop-filter: blur(8px);
+      transition: transform .2s ease, border-color .2s ease, color .2s ease;
+      font-family: var(--font-main);
+    }
+    .page-nav__btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(226,232,240,.75);
+      color: #fff;
+    }
+    @media (max-width: 640px){
+      .page-nav{
+        bottom: 14px;
+        left: 50%;
+        transform: translateX(-50%);
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body class="page-project04">
+  <header class="nav-header-enhanced">
+    <div class="top-inner">
+      <div class="top-brand">
+        <div class="k">ONEFEI · LAB</div>
+        <div class="t">Product Design</div>
+      </div>
+      <nav class="top-nav">
+        <a class="nav-link" href="index.html#portfolio-product">Home</a>
+        <a class="nav-link nav-active" href="project-01.html">Product</a>
+        <a class="nav-link" href="animation-xian.html">Motion</a>
+        <a class="nav-link" href="Architectural-Design.html">Architecture</a>
+        <a class="nav-link" href="web-design-01.html">Web</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-wrapper">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="hero-eyebrow">PORTFOLIO 04 · MODULAR MASS</div>
+        <h1 class="hero-title">MODULAR MASS / CONTROLLED FORCE<span>A STUDY OF MASS AND STRUCTURE</span></h1>
+        <p class="hero-desc bilingual">
+          <span class="cn">该项目研究在严格约束下，体量、结构与重复如何共存。</span>
+          <span class="en">This project explores how mass, structure, and repetition coexist under strict control.</span>
+          <span class="cn">对象保持不变，变化只来自力、空间、材料与系统逻辑。</span>
+          <span class="en">The object stays unchanged; only force, space, material, and system logic are allowed to shift.</span>
+        </p>
+      </div>
+      <div class="hero-visual-stack">
+        <div class="hero-visual">
+          <img src="assets/img/project04/产品场景展示 (1).webp" alt="Modular mass hero" />
+        </div>
+        <div class="hero-meta">
+          <span>ROLE · Product / Visual Designer</span>
+          <span>TYPE · Structural Study</span>
+          <span>YEAR · 2025</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <h2>Concept</h2>
+        <span>Fixed Object · Shifting Logics</span>
+      </div>
+      <div class="media-duo">
+        <div class="media-card">
+          <img src="assets/img/project04/产品场景展示 (2).webp" alt="Concept scene 01" />
+        </div>
+        <div class="media-card">
+          <img src="assets/img/project04/产品场景展示 (3).webp" alt="Concept scene 02" />
+        </div>
+      </div>
+      <div class="concept-grid" style="margin-top: 26px;">
+        <div class="concept-card">
+          <h3>Single Object</h3>
+          <p class="bilingual">
+            <span class="cn">椅子保持不变，允许变化的只有体量、力与场景。</span>
+            <span class="en">The chair remains unchanged. Only mass, force, and context are allowed to shift.</span>
+          </p>
+        </div>
+        <div class="concept-card">
+          <h3>Refusal of Variation</h3>
+          <p class="bilingual">
+            <span class="cn">拒绝柔性与选择，对象因此暴露自身边界。</span>
+            <span class="en">Flexibility is rejected. Choice is removed. The object reveals its limits.</span>
+          </p>
+        </div>
+        <div class="concept-card">
+          <h3>Controlled System</h3>
+          <p class="bilingual">
+            <span class="cn">重复、材料与空间逻辑取代叙事。</span>
+            <span class="en">Repetition, material, and spatial logic replace narrative.</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <h2>Method</h2>
+        <span>One Object · One Geometry</span>
+      </div>
+      <div class="concept-grid" style="margin-top: 26px;">
+        <div class="concept-card">
+          <h3>Strict Rule</h3>
+          <p class="bilingual">
+            <span class="cn">一个对象，一种几何，不再改造。</span>
+            <span class="en">One object. One geometry. No redesign.</span>
+          </p>
+        </div>
+        <div class="concept-card">
+          <h3>Allowed Shifts</h3>
+          <p class="bilingual">
+            <span class="cn">只允许场景、光线、重复与分析绘图系统变化。</span>
+            <span class="en">Spatial context, light behavior, repetition, and analytical drawing systems.</span>
+          </p>
+        </div>
+        <div class="concept-card">
+          <h3>Structural Investigation</h3>
+          <p class="bilingual">
+            <span class="cn">一致性让形式成为压力测试工具。</span>
+            <span class="en">Consistency turns form into an instrument of pressure.</span>
+          </p>
+        </div>
+      </div>
+      <div class="section-subtitle">
+        <h3>System & Repetition</h3>
+        <span>From Object to Unit</span>
+      </div>
+      <div class="gallery">
+        <figure class="span-4">
+          <img src="assets/img/project04/产品场景展示 (5).webp" alt="System scene 01" />
+        </figure>
+        <figure class="span-4">
+          <img src="assets/img/project04/产品场景展示 (6).webp" alt="System scene 02" />
+        </figure>
+        <figure class="span-4">
+          <img src="assets/img/project04/产品场景展示 (7).webp" alt="System scene 03" />
+        </figure>
+      </div>
+      <div class="section-subtitle">
+        <h3>Modeling Studies</h3>
+        <span>Mass · Geometry · Consistency</span>
+      </div>
+      <div class="gallery">
+        <figure class="span-4">
+          <img src="assets/img/project04/建模展示图 (1).webp" alt="Model study 01" />
+        </figure>
+        <figure class="span-4">
+          <img src="assets/img/project04/建模展示图 (2).webp" alt="Model study 02" />
+        </figure>
+        <figure class="span-4">
+          <img src="assets/img/project04/建模展示图 (3).webp" alt="Model study 03" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <h2>Mass & Structure</h2>
+        <span>Absorption · Constraint</span>
+      </div>
+      <div class="concept-grid" style="margin-top: 26px;">
+        <div class="concept-card">
+          <h3>Compressed Mass</h3>
+          <p class="bilingual">
+            <span class="cn">软包体量吸收光线，抵抗分节。</span>
+            <span class="en">The upholstered body absorbs light and resists articulation.</span>
+          </p>
+        </div>
+        <div class="concept-card">
+          <h3>Structural Discipline</h3>
+          <p class="bilingual">
+            <span class="cn">金属框架冷、连续且不可妥协。</span>
+            <span class="en">Metal frame stays cold, continuous, and non-negotiable.</span>
+          </p>
+        </div>
+        <div class="concept-card">
+          <h3>Oppositional Pair</h3>
+          <p class="bilingual">
+            <span class="cn">体量对约束，吸收对反射，重量对连续性。</span>
+            <span class="en">Mass vs constraint, absorption vs reflection, weight vs continuity.</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section">
+      <div class="section-title">
+        <h2>Drawing as Proof</h2>
+        <span>Force · Density · Time</span>
+      </div>
+      <div class="analysis-grid">
+        <figure>
+          <img src="assets/img/project04/手绘分析图 (1).webp" alt="Drawing analysis 01" />
+        </figure>
+        <figure>
+          <img src="assets/img/project04/手绘分析图 (2).webp" alt="Drawing analysis 02" />
+        </figure>
+        <figure>
+          <img src="assets/img/project04/手绘分析图 (3).webp" alt="Drawing analysis 03" />
+        </figure>
+        <figure>
+          <img src="assets/img/project04/手绘分析图 (4).webp" alt="Drawing analysis 04" />
+        </figure>
+        <figure>
+          <img src="assets/img/project04/手绘分析图 (5).webp" alt="Drawing analysis 05" />
+        </figure>
+        <figure>
+          <img src="assets/img/project04/手绘分析图 (6).webp" alt="Drawing analysis 06" />
+        </figure>
+        <div class="analysis-card">
+          <h4>Drawing as Pressure</h4>
+          <p class="bilingual">
+            <span class="cn">线条延展、断裂、叠加，记录力的流向、体量聚集、空间占用、模块秩序与时间一致性。</span>
+            <span class="en">Lines extend, break, overlap, and accumulate to record force flow, mass concentration, spatial occupation, modular order, and temporal consistency.</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <h2>Material Logic</h2>
+        <span>Behavior over Surface</span>
+      </div>
+      <div class="media-duo">
+        <div class="media-card">
+          <img src="assets/img/project04/建模展示图 (5).webp" alt="Material study 01" />
+        </div>
+        <div class="media-card">
+          <img src="assets/img/project04/建模展示图 (4).webp" alt="Material study 02" />
+        </div>
+      </div>
+      <div class="concept-grid" style="margin-top: 26px;">
+        <div class="concept-card">
+          <h3>Dense Textile</h3>
+          <p class="bilingual">
+            <span class="cn">材质密实、消光、反应缓慢。</span>
+            <span class="en">Matte, absorptive, and slow to respond.</span>
+          </p>
+        </div>
+        <div class="concept-card">
+          <h3>Reflective Metal</h3>
+          <p class="bilingual">
+            <span class="cn">金属具张力、连续且受控。</span>
+            <span class="en">Tensile, continuous, and disciplined.</span>
+          </p>
+        </div>
+        <div class="concept-card">
+          <h3>Structural Truth</h3>
+          <p class="bilingual">
+            <span class="cn">材料决定行为，不是装饰。</span>
+            <span class="en">Material decisions shape behavior, not decoration.</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer-note">
+      <span>ONEFEI · LAB</span>
+      <span>MODULAR MASS / CONTROLLED FORCE</span>
+      <span>A Study of Mass and Structure</span>
+    </div>
+  </main>
+
+  <div class="page-nav" aria-label="Page navigation">
+    <a class="page-nav__btn" href="project-03.html">← 上一页</a>
+    <a class="page-nav__btn" href="project-05.html">下一页 →</a>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = document.querySelectorAll('.section');
+      if (!('IntersectionObserver' in window)) {
+        sections.forEach(section => section.classList.add('visible'));
+        return;
+      }
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { root: null, rootMargin: '-10% 0px -10% 0px', threshold: 0.1 });
+      sections.forEach(section => observer.observe(section));
+    });
+  </script>
+</body>
+</html>
+
